@@ -1,13 +1,22 @@
-public class Pawn implements IPiece <Pawn>{
+public class Pawn implements IPiece{
 
-    @Override
-    public Team getTeam() {
-        return Team.BLACK
+    final Type type = Type.PAWN;
+    final Team team;
+    private Square position;
+    String icon = "pawn.png";
+
+    public Pawn(Team team){
+        this.team = team;
     }
 
     @Override
-    public Pawn getPiece() {
-        return ;
+    public Team getTeam() {
+        return null;
+    }
+
+    @Override
+    public Type getPiece() {
+        return null;
     }
 
     @Override
@@ -16,12 +25,12 @@ public class Pawn implements IPiece <Pawn>{
     }
 
     @Override
-    public int legalMoves() {
-        return 0;
+    public Move getLegalMoves() {
+        return null;
     }
 
     @Override
     public String getIcon() {
-        return null;
+        return icon;
     }
 }

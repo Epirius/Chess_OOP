@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="oblig2" />
+        <module name="Chess_OOP" />
       </profile>
     </annotationProcessing>
   </component>
