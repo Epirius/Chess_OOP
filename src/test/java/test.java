@@ -29,4 +29,37 @@ public class test {
         Pawn whitePawn = new Pawn(Team.WHITE);
         Assert.assertNotEquals(Type.QUEEN, whitePawn.type);
     }
+
+    @Test
+    public void createSquare(){
+        Square square = new Square(0);
+        Assert.assertEquals(0, square.getSquareId());
+    }
+
+    @Test
+    public void putPieceInSquare(){
+        Square square = new Square(0);
+
+        Queen queen = new Queen(Team.WHITE);
+        square.setPiece(queen);
+        Assert.assertEquals(queen, square.getPiece());
+
+        square.removePiece();
+        Assert.assertEquals(null, square.getPiece());
+
+        Pawn pawn = new Pawn(Team.WHITE);
+        square.setPiece(pawn);
+        Assert.assertEquals(pawn, square.getPiece());
+    }
+
+    @Test
+    public void createBoard(){
+        Board board = new Board();
+        Square square = board.getSquare(63);
+        Assert.assertEquals(63, square.getSquareId());
+
+        Queen queen = new Queen(Team.WHITE);
+        square.setPiece(queen);
+        Assert.assertEquals(queen, board.getPiece(63));
+    }
 }
