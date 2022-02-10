@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public enum Type {
     PAWN,
     ROOK,

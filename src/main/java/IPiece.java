@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public interface IPiece <PieceType> {
 
     // returns what team a piece is on

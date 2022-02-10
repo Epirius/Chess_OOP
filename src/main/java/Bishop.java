@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public class Bishop extends Piece{
 
     public Bishop(Team team) {

@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 import org.junit.Assert;
 import org.junit.Test;
 

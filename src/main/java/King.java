@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public class King extends Piece{
 
     public King(Team team) {

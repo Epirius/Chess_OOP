@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public class Pawn extends Piece{
 
 

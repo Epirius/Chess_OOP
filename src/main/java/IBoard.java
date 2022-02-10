@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public interface IBoard {
 
     // create a 8x8 board of squares.

@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public abstract class Piece implements IPiece{
     final Type type;
     final Team team;

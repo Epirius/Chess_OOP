@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public class Knight extends Piece{
 
     public Knight(Team team) {

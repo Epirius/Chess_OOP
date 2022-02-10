@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public class Square {
     private final int Id;
     private Piece piece;

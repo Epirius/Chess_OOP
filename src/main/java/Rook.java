@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public class Rook extends Piece{
 
     public Rook(Team team) {

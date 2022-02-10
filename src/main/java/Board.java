@@ -1,4 +1,7 @@
-import java.util.concurrent.ExecutionException;
+/**
+ * @author Felix Kaasa
+ */
+
 
 public class Board implements IBoard{
 

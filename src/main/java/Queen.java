@@ -1,3 +1,7 @@
+/**
+ * @author Felix Kaasa
+ */
+
 public class Queen extends Piece{
 
     public Queen(Team team) {
