@@ -5,105 +5,91 @@ import static java.lang.Math.min;
 
 public class DiagonalMoves {
 
-    // takes in a square, returns all diagonal squares in the form of a Move list
+    /**
+     * @param Id is the id number of a square (0-63)
+     * @param board object that holds all squares
+     * @return a list of Moves that start from ID, and ends in all diagonal squares.
+     */
     public static Move[] getDiagonalMoves(int Id, Board board) throws Exception {
-        Team team = board.getPiece(Id).team;
-        List<Integer> diagonalSquareId = new ArrayList<Integer>();
+        List<Integer> diagonalSquareId = findDiagonalSquares(Id, board);
+        int numberOfMoves = diagonalSquareId.size();
+        Move[] moves = new Move[numberOfMoves];
 
-        // calling a function in each direction that checks if the next square is empty or is an enemy.
-        // it returns a list of empty square and max 1 enemy square.
-        List<Integer> upRightMoves = upRight(Id, board, team);
-        if (upRightMoves.size() > 0){diagonalSquareId.addAll(upRightMoves);}
-
-        List<Integer> upLeftMoves = upLeft(Id, board, team);
-        if (upLeftMoves.size() > 0){diagonalSquareId.addAll(upLeftMoves);}
-
-        List<Integer> downRightMoves = downRight(Id, board, team);
-        if (downRightMoves.size() > 0){diagonalSquareId.addAll(downRightMoves);}
-
-        List<Integer> downLeftMoves = downLeft(Id, board, team);
-        if (downLeftMoves.size() > 0){diagonalSquareId.addAll(downLeftMoves);}
-
-
-        // converts the lists i got in the recursive calls to a Move[] array
-        // Move[] output = moves.toArray(new Move[moves.size()]); TODO: convert the list of ints into a list of moves and return that
-
-        //return  output;
-        return new Move[2]; //TODO delete this
-
-    }
-    private static List<Integer> upRight(int Id, Board board, Team team) throws Exception {
-        List<Integer> diagonalSquareId = new ArrayList<Integer>();
-        int x = IBoard.squareToCoordinates(Id)[0];
-        int y = IBoard.squareToCoordinates(Id)[1];
-        int lenFromRightEdge;
-        int lenFromTop = 7 - y;
-
-        //finds the length from the right edge.
-        if (y == 0){lenFromRightEdge = 7 - x;}
-        else {lenFromRightEdge = 7 - (x - ((y - 1) * 8));}
-
-        //checking each square along the diagonal, stop if the square is occupied
-        for (int i = 0; i < min(lenFromRightEdge, lenFromTop); i++) {
-            int currentSquare = Id + (9 * i);
-            if (board.getSquare(currentSquare).getPiece() == null){
-                diagonalSquareId.add(currentSquare);
-                continue;
-            }
-            if (board.getSquare(currentSquare).getPiece().team != team){
-                diagonalSquareId.add(currentSquare);
-                break;
-            }
-            break;
+        for (int i = 0; i < numberOfMoves; i++) {
+            int to = diagonalSquareId.get(i);
+            moves[i] = new Move(Id, to);
         }
-        return diagonalSquareId;
+
+        return moves;
     }
 
-    private static List<Integer> upLeft(int Id, Board board, Team team) throws Exception {
+    /**
+     * @param Id is the id number of a square (0-63)
+     * @param board object that holds all squares
+     * @return a list of integers corresponding to diagonal squares.
+     */
+    private static List<Integer> findDiagonalSquares(int Id, Board board) throws Exception {
         List<Integer> diagonalSquareId = new ArrayList<Integer>();
         int x = IBoard.squareToCoordinates(Id)[0];
         int y = IBoard.squareToCoordinates(Id)[1];
-        int lenFromLeftEdge;
+        Team team = board.getSquare(Id).getPiece().team;
+        
+        int lenFromRightEdge = 7 - x;
+        int lenFromLeftEdge = x;
         int lenFromTop = 7 - y;
-
-        //finds the length from the right edge.
-        if (y == 0){lenFromLeftEdge = x;}
-        else {lenFromLeftEdge = x - ((y - 1) * 8);}
-
-        //checking each square along the diagonal, stop if the square is occupied
-        for (int i = 0; i < min(lenFromLeftEdge, lenFromTop); i++) {
-            int currentSquare = Id + (7 * i);
-            if (board.getSquare(currentSquare).getPiece() == null){
-                diagonalSquareId.add(currentSquare);
-                continue;
-            }
-            if (board.getSquare(currentSquare).getPiece().team != team){
-                diagonalSquareId.add(currentSquare);
-                break;
-            }
-            break;
-        }
-        return diagonalSquareId;
-    }
-    private static List<Integer> downRight(int Id, Board board, Team team) throws Exception {
-        List<Integer> diagonalSquareId = new ArrayList<Integer>();
-        int x = IBoard.squareToCoordinates(Id)[0];
-        int y = IBoard.squareToCoordinates(Id)[1];
-        int lenFromRightEdge;
         int lenFromBottom = y;
 
-        //finds the length from the right edge.
-        if (y == 0){lenFromRightEdge = 7 - x;}
-        else {lenFromRightEdge = 7 - (x - ((y - 1) * 8));}
-
-        //checking each square along the diagonal, stop if the square is occupied
-        for (int i = 0; i < min(lenFromRightEdge, lenFromBottom); i++) {
-            int currentSquare = Id - (7 * i);
-            if (board.getSquare(currentSquare).getPiece() == null){
+        // down and to the right
+        for (int i = 1; i < min(lenFromRightEdge, lenFromBottom) + 1; i++) {
+            int step = -7;
+            int currentSquare = Id + (step * i);
+            if (board.getSquare(currentSquare).getPiece() == null) {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team){
+            if (board.getSquare(currentSquare).getPiece().team != team) {
+                diagonalSquareId.add(currentSquare);
+                break;
+            }
+            break;
+        }
+        // down and to the left
+        for (int i = 1; i < min(lenFromLeftEdge, lenFromBottom) + 1; i++) {
+            int step = -9;
+            int currentSquare = Id + (step * i);
+            if (board.getSquare(currentSquare).getPiece() == null) {
+                diagonalSquareId.add(currentSquare);
+                continue;
+            }
+            if (board.getSquare(currentSquare).getPiece().team != team) {
+                diagonalSquareId.add(currentSquare);
+                break;
+            }
+            break;
+        }
+        // up and to the left
+        for (int i = 1; i < min(lenFromLeftEdge, lenFromTop) + 1; i++) {
+            int step = 7;
+            int currentSquare = Id + (step * i);
+            if (board.getSquare(currentSquare).getPiece() == null) {
+                diagonalSquareId.add(currentSquare);
+                continue;
+            }
+            if (board.getSquare(currentSquare).getPiece().team != team) {
+                diagonalSquareId.add(currentSquare);
+                break;
+            }
+            break;
+        }
+        // up and to the right
+        for (int i = 1; i < min(lenFromRightEdge, lenFromTop) + 1; i++) {
+            int step = 9;
+            int currentSquare = Id + (step * i);
+            if (board.getSquare(currentSquare).getPiece() == null) {
+                diagonalSquareId.add(currentSquare);
+                continue;
+            }
+            if (board.getSquare(currentSquare).getPiece().team != team) {
                 diagonalSquareId.add(currentSquare);
                 break;
             }
@@ -111,30 +97,11 @@ public class DiagonalMoves {
         }
         return diagonalSquareId;
     }
-    private static List<Integer> downLeft(int Id, Board board, Team team) throws Exception {
-        List<Integer> diagonalSquareId = new ArrayList<Integer>();
-        int x = IBoard.squareToCoordinates(Id)[0];
-        int y = IBoard.squareToCoordinates(Id)[1];
-        int lenFromLeftEdge;
-        int lenFromBottom = y;
 
-        //finds the length from the right edge.
-        if (y == 0){lenFromLeftEdge = x;}
-        else {lenFromLeftEdge = x - ((y - 1) * 8);}
-
-        //checking each square along the diagonal, stop if the square is occupied
-        for (int i = 0; i < min(lenFromLeftEdge, lenFromBottom); i++) {
-            int currentSquare = Id - (9 * i);
-            if (board.getSquare(currentSquare).getPiece() == null){
-                diagonalSquareId.add(currentSquare);
-                continue;
-            }
-            if (board.getSquare(currentSquare).getPiece().team != team){
-                diagonalSquareId.add(currentSquare);
-                break;
-            }
-            break;
-        }
-        return diagonalSquareId;
+    // NB: this is used for testing only, should not be used in the normal program.
+    public static List<Integer> testingDiagonal(int Id) throws Exception {
+        Board board = new Board();
+        board.getSquare(Id).setPiece(new Queen(Team.WHITE));
+        return findDiagonalSquares(Id, board);
     }
 }

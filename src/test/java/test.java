@@ -34,6 +34,62 @@ public class test {
     }
 
     @Test
+    public void createKing(){
+        King whiteKing = new King(Team.WHITE);
+        Assert.assertEquals(Team.WHITE, whiteKing.team);
+        Assert.assertEquals(Type.KING, whiteKing.type);
+
+        King blackKing = new King(Team.BLACK);
+        Assert.assertEquals(Team.BLACK, blackKing.team);
+        Assert.assertEquals(Type.KING, blackKing.type);
+
+        Pawn whitePawn = new Pawn(Team.WHITE);
+        Assert.assertNotEquals(Type.KING, whitePawn.type);
+    }
+
+    @Test
+    public void createKnight(){
+        Knight whiteKnight = new Knight(Team.WHITE);
+        Assert.assertEquals(Team.WHITE, whiteKnight.team);
+        Assert.assertEquals(Type.KNIGHT, whiteKnight.type);
+
+        Knight blackKnight = new Knight(Team.BLACK);
+        Assert.assertEquals(Team.BLACK, blackKnight.team);
+        Assert.assertEquals(Type.KNIGHT, blackKnight.type);
+
+        Pawn whitePawn = new Pawn(Team.WHITE);
+        Assert.assertNotEquals(Type.KNIGHT, whitePawn.type);
+    }
+
+    @Test
+    public void createBishop(){
+        Bishop whiteBishop = new Bishop(Team.WHITE);
+        Assert.assertEquals(Team.WHITE, whiteBishop.team);
+        Assert.assertEquals(Type.BISHOP, whiteBishop.type);
+
+        Bishop blackBishop = new Bishop(Team.BLACK);
+        Assert.assertEquals(Team.BLACK, blackBishop.team);
+        Assert.assertEquals(Type.BISHOP, blackBishop.type);
+
+        Pawn whitePawn = new Pawn(Team.WHITE);
+        Assert.assertNotEquals(Type.BISHOP, whitePawn.type);
+    }
+
+    @Test
+    public void createRook(){
+        Rook whiteRook = new Rook(Team.WHITE);
+        Assert.assertEquals(Team.WHITE, whiteRook.team);
+        Assert.assertEquals(Type.ROOK, whiteRook.type);
+
+        Rook blackRook = new Rook(Team.BLACK);
+        Assert.assertEquals(Team.BLACK, blackRook.team);
+        Assert.assertEquals(Type.ROOK, blackRook.type);
+
+        Pawn whitePawn = new Pawn(Team.WHITE);
+        Assert.assertNotEquals(Type.ROOK, whitePawn.type);
+    }
+
+    @Test
     public void createSquare(){
         Square square = new Square(0);
         Assert.assertEquals(0, square.getSquareId());
@@ -86,16 +142,23 @@ public class test {
     @Test
     public void emptySquareReturnsNull(){
         Board board = new Board();
-        Assert.assertEquals(null, board.getSquare(0).getPiece());
+        Assert.assertNull(board.getSquare(0).getPiece());
 
     }
 
-    /*
     @Test
-    public void testingUpRight() throws Exception {
-        Board board = new Board();
-        List<Integer> l = DiagonalMoves.upRight(0, board, Team.WHITE);
-        System.out.println(l);
+    public void testingDiagonal() throws Exception {
+        List<Integer> l = DiagonalMoves.testingDiagonal(19);
+        int[] ints = {12, 5, 10, 1, 26, 33, 40, 28, 37, 46, 55};
+        List<Integer> test =  Arrays.stream(ints).boxed().toList();
+        Assert.assertEquals(test, l);
     }
-     */
+
+    @Test
+    public void testingCreatingMove(){
+        Move move = new Move(2,6);
+        int[] test = new int[]{2,6};
+        Assert.assertEquals(test[0], move.getMove()[0]);
+        Assert.assertEquals(test[1], move.getMove()[1]);
+    }
 }
