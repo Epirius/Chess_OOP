@@ -1,8 +1,7 @@
-public class Pawn extends Piece{
+public class Queen extends Piece{
 
-
-    public Pawn(Team team) {
-        super(team, Type.PAWN);
+    public Queen(Team team) {
+        super(team, Type.QUEEN);
     }
 
     @Override

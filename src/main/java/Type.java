@@ -4,5 +4,6 @@ public enum Type {
     KNIGHT,
     BISHOP,
     QUEEN,
-    KING;
+    KING,
+    EMPTY;
 }
