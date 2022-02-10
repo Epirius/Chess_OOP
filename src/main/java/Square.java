@@ -15,6 +15,7 @@ public class Square {
     }
 
     Piece getPiece(){
+        if (this.piece == null){ return null;}
         return this.piece;
     }
 

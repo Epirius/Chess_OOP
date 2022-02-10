@@ -2,6 +2,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class test {
     @Test
@@ -68,7 +69,7 @@ public class test {
     @Test
     public void squareToCoords() throws Exception {
         Board board = new Board();
-        int[] coord = board.squareToCoordinates(16);
+        int[] coord = IBoard.squareToCoordinates(16);
         int[] test = new int[]{0,2};
         Assert.assertEquals(Arrays.toString(test), Arrays.toString(coord));
     }
@@ -77,10 +78,24 @@ public class test {
     public void coordsToSquare(){
         Board board = new Board();
         int[] coord = new int[]{1,1};
-        int square = board.coordinatesToSquare(coord);
+        int square = IBoard.coordinatesToSquare(coord);
         Assert.assertEquals(9, square);
         Assert.assertEquals(square, board.getSquare(square).getSquareId());
+    }
 
+    @Test
+    public void emptySquareReturnsNull(){
+        Board board = new Board();
+        Assert.assertEquals(null, board.getSquare(0).getPiece());
 
     }
+
+    /*
+    @Test
+    public void testingUpRight() throws Exception {
+        Board board = new Board();
+        List<Integer> l = DiagonalMoves.upRight(0, board, Team.WHITE);
+        System.out.println(l);
+    }
+     */
 }

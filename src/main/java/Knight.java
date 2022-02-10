@@ -5,7 +5,7 @@ public class Knight extends Piece{
     }
 
     @Override
-    public Move[] getPossibleMoves() {
-
+    public Move[] getPossibleMoves()  {
+        return new Move[0];
     }
 }
