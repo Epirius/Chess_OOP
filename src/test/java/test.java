@@ -1,6 +1,8 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class test {
     @Test
     public void createPawn(){
@@ -61,5 +63,24 @@ public class test {
         Queen queen = new Queen(Team.WHITE);
         square.setPiece(queen);
         Assert.assertEquals(queen, board.getPiece(63));
+    }
+
+    @Test
+    public void squareToCoords() throws Exception {
+        Board board = new Board();
+        int[] coord = board.squareToCoordinates(16);
+        int[] test = new int[]{0,2};
+        Assert.assertEquals(Arrays.toString(test), Arrays.toString(coord));
+    }
+
+    @Test
+    public void coordsToSquare(){
+        Board board = new Board();
+        int[] coord = new int[]{1,1};
+        int square = board.coordinatesToSquare(coord);
+        Assert.assertEquals(9, square);
+        Assert.assertEquals(square, board.getSquare(square).getSquareId());
+
+
     }
 }
