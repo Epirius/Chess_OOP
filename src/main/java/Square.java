@@ -1,14 +1,24 @@
 public class Square {
     private final int Id;
-    private IPiece piece;
+    private Piece piece;
 
     public Square(int Id){
         this.Id = Id;
     }
 
-    //IPiece getPiece(){}
-    //void setPiece(Piece piece){}
-    int getSquareID(){
+    int getSquareId(){
         return this.Id;
+    }
+
+    void setPiece(Piece piece){
+        this.piece = piece;
+    }
+
+    Piece getPiece(){
+        return this.piece;
+    }
+
+    public void removePiece(){
+        piece = null;
     }
 }
