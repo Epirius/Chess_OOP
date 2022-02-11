@@ -33,7 +33,7 @@ public class PlussMoves {
         for (int i = 1; i < lenFromBottom + 1; i++) {
             int step = -8;
             int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).getPiece() == null) {
+            if (board.getSquare(currentSquare).isEmpty()) {
                 plussSquareId.add(currentSquare);
                 continue;
             }
@@ -48,7 +48,7 @@ public class PlussMoves {
         for (int i = 1; i < lenFromLeftEdge + 1; i++) {
             int step = -1;
             int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).getPiece() == null) {
+            if (board.getSquare(currentSquare).isEmpty()) {
                 plussSquareId.add(currentSquare);
                 continue;
             }
@@ -63,7 +63,7 @@ public class PlussMoves {
         for (int i = 1; i < lenFromRightEdge + 1; i++) {
             int step = 1;
             int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).getPiece() == null) {
+            if (board.getSquare(currentSquare).isEmpty()) {
                 plussSquareId.add(currentSquare);
                 continue;
             }
@@ -78,7 +78,7 @@ public class PlussMoves {
         for (int i = 1; i < lenFromTop + 1; i++) {
             int step = 8;
             int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).getPiece() == null) {
+            if (board.getSquare(currentSquare).isEmpty()) {
                 plussSquareId.add(currentSquare);
                 continue;
             }

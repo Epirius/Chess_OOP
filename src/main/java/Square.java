@@ -23,6 +23,11 @@ public class Square {
         return this.piece;
     }
 
+    boolean isEmpty(){
+        if (this.piece == null){ return true;}
+        return false;
+    }
+
     public void removePiece(){
         piece = null;
     }

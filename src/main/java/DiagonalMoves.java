@@ -47,7 +47,7 @@ public class DiagonalMoves {
         for (int i = 1; i < min(lenFromRightEdge, lenFromBottom) + 1; i++) {
             int step = -7;
             int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).getPiece() == null) {
+            if (board.getSquare(currentSquare).isEmpty()) {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }
@@ -61,7 +61,7 @@ public class DiagonalMoves {
         for (int i = 1; i < min(lenFromLeftEdge, lenFromBottom) + 1; i++) {
             int step = -9;
             int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).getPiece() == null) {
+            if (board.getSquare(currentSquare).isEmpty()) {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }
@@ -75,7 +75,7 @@ public class DiagonalMoves {
         for (int i = 1; i < min(lenFromLeftEdge, lenFromTop) + 1; i++) {
             int step = 7;
             int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).getPiece() == null) {
+            if (board.getSquare(currentSquare).isEmpty()) {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }
@@ -89,7 +89,7 @@ public class DiagonalMoves {
         for (int i = 1; i < min(lenFromRightEdge, lenFromTop) + 1; i++) {
             int step = 9;
             int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).getPiece() == null) {
+            if (board.getSquare(currentSquare).isEmpty()) {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }

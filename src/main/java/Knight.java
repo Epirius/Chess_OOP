@@ -19,7 +19,7 @@ public class Knight extends Piece{
 
         for (int step : steps){
             if (position + step > 63 || position + step < 0){continue;}
-            if (board.getSquare(position + step).getPiece() != null &&
+            if (!board.getSquare(position + step).isEmpty() &&
                     board.getSquare(position + step).getPiece().team == team){continue;} // friendly piece blocking
 
             //checking if out of bounds

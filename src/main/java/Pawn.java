@@ -31,10 +31,10 @@ public class Pawn extends Piece{
             if (team == Team.BLACK && y - 1 != newY){continue;}
             moves.add(new Move(position, position + step));
         }
-        if (board.getSquare(position + directionOfStep).getPiece() == null){
+        if (board.getSquare(position + directionOfStep).isEmpty()){
             moves.add(new Move(position, position + directionOfStep));
         }
-        if (board.getSquare(position + directionOfStep * 2).getPiece() == null){
+        if (board.getSquare(position + directionOfStep * 2).isEmpty()){
             if (team == Team.WHITE && y == startRow) {
                 moves.add(new Move(position, position + directionOfStep * 2));
             }
