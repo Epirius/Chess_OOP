@@ -344,4 +344,45 @@ public class test {
         Assert.assertEquals(new Move(22, 31), t2.get(1));
         Assert.assertEquals(new Move(22, 30), t2.get(2));
     }
+
+    @Test
+    public void testBlackPawnMovement(){
+        Board board = new Board();
+
+        Pawn p1 = new Pawn(Team.BLACK);
+        Pawn p5 = new Pawn(Team.WHITE);
+        Pawn p6 = new Pawn(Team.WHITE);
+
+        board.getSquare(51).setPiece(p1);
+        List<Move> t1 = p1.getPossibleMoves(51, board);
+        Assert.assertEquals(new Move(51, 43), t1.get(0));
+        Assert.assertEquals(new Move(51, 35), t1.get(1));
+        Assert.assertEquals(2, t1.size());
+        board.getSquare(35).setPiece(p5);
+        t1 = p1.getPossibleMoves(51, board);
+        Assert.assertEquals(1, t1.size());
+        Assert.assertEquals(new Move(51, 43), t1.get(0));
+        board.getSquare(43).setPiece(p6);
+        t1 = p1.getPossibleMoves(51, board);
+        Assert.assertEquals(0, t1.size());
+
+        Pawn p2 = new Pawn(Team.BLACK);
+        board.getSquare(46).setPiece(p2);
+        List<Move> t2 = p2.getPossibleMoves(46, board);
+        Assert.assertEquals(new Move(46, 38), t2.get(0));
+        Assert.assertEquals(1, t2.size());
+
+
+        Pawn p3 = new Pawn(Team.WHITE);
+        Pawn p4 = new Pawn(Team.WHITE);
+        board.getSquare(39).setPiece(p3);
+        t2 = p2.getPossibleMoves(46, board);
+        Assert.assertEquals(2, t2.size());
+        Assert.assertEquals(new Move(46, 39), t2.get(0));
+        board.getSquare(37).setPiece(p4);
+        t2 = p2.getPossibleMoves(46, board);
+        Assert.assertEquals(3, t2.size());
+        Assert.assertEquals(new Move(46, 37), t2.get(0));
+        Assert.assertEquals(new Move(46, 38), t2.get(2));
+    }
 }
