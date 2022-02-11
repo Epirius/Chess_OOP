@@ -16,9 +16,17 @@ public interface IBoard {
     // takes in a square id, and returns the piece that is on that square.
     Piece getPiece(int squareId);
 
+    /**
+     * moves a piece from one square to another.
+     * @param move takes in a LEGAL! move.
+     */
     public void doMove(Move move);
 
-    // takes in the id of a square and returns an int list with x,y coordinates (from 0,0 to 7,7)
+    /**
+     * converts id to coordinates
+     * @param Id int from 0 to 63
+     * @return coordinates from 0,0 to 7,7
+     */
     static int[] squareToCoordinates(int Id){
         int x;
         int y;
@@ -34,7 +42,11 @@ public interface IBoard {
         return null;
     }
 
-    // takes in a in list with x,y coordinates (from 0,0 to 7,7) and return the id of the square.
+    /**
+     * converts coordinates to id
+     * @param coordinates from 0,0 to 7,7
+     * @return int from 0 to 63
+     */
     static int coordinatesToSquare(int[] coordinates) {
         int x = coordinates[0];
         int y = coordinates[1];
