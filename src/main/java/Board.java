@@ -69,7 +69,6 @@ public class Board implements IBoard{
         }
         squares[to].setPiece(movingPiece);
         squares[from].removePiece();
-
     }
     private void kill(int Id){
         // TODO do something with points here
