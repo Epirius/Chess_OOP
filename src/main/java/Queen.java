@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -15,9 +13,9 @@ public class Queen extends Piece{
 
     @Override
     public List<Move> getPossibleMoves(int position, Board board){
-        List<Move> output = new ArrayList<Move>();
-        output.addAll(PlussMoves.getPlussMoves(position, board));
-        output.addAll(DiagonalMoves.getDiagonalMoves(position, board));
+        Set<Move> setWithoutDuplicates = new LinkedHashSet<>(PlussMoves.getPlussMoves(position, board));
+        setWithoutDuplicates.addAll(DiagonalMoves.getDiagonalMoves(position, board));
+        List<Move> output = new ArrayList<>(setWithoutDuplicates);
         return output;
     }
 }

@@ -10,3 +10,4 @@ king
 queen
 bishop
 rook
+knight

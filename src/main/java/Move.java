@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 /**
  * @author Felix Kaasa
  */
@@ -18,7 +20,7 @@ public class Move {
     }
 
 
-
+    //the two constructors below are used by the king to track castling.
     public Move(int from, int to, boolean castle){
         this.from = from;
         this.to = to;
@@ -35,4 +37,17 @@ public class Move {
         return new int[]{from, to};
     }
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Move move = (Move) o;
+        return from == move.from && to == move.to && castle == move.castle;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(from, to, castle);
+    }
 }

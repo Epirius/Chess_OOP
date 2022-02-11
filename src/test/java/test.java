@@ -1,13 +1,11 @@
+import org.junit.Assert;
+import org.junit.Test;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Felix Kaasa
  */
-
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class test {
     @Test
@@ -305,7 +303,14 @@ public class test {
         List<Move> t1 = whiteKing.getPossibleMoves(0, board);
         Assert.assertEquals(8, t1.get(0).to);
         Assert.assertEquals(9, t1.get(1).to);
-        System.out.println(t1.size());
         Assert.assertTrue(t1.size() == 2);
+    }
+
+    @Test
+    public void testQueenMovement(){
+        Queen whiteQueen = new Queen(Team.WHITE);
+        Board board = new Board();
+        board.getSquare(10).setPiece(whiteQueen);
+        whiteQueen.getPossibleMoves(10, board);
     }
 }

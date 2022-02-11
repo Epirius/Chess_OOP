@@ -21,11 +21,11 @@ public class King extends Piece{
 
         for (int step : steps){
             if (position + step > 63 || position + step < 0){continue;}
-            int newY = IBoard.squareToCoordinates(position + step)[1];
             if (board.getSquare(position + step).getPiece() != null &&
                     board.getSquare(position + step).getPiece().team == team){continue;} // friendly piece blocking
 
             //checking if out of bounds
+            int newY = IBoard.squareToCoordinates(position + step)[1];
             if (step > 1 && (y + 1 != newY || y == 7)){continue;} // moving up
             if (step < -1 && (y - 1 != newY || y == 0)){continue;} // moving down
             if ((step == -1 || step == 1) && y != newY){continue;} // moving sideways

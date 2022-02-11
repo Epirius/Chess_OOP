@@ -12,8 +12,6 @@ public class Rook extends Piece{
     }
 
     @Override
-    public List<Move> getPossibleMoves(int position, Board board) {
-        return PlussMoves.getPlussMoves(position, board);
-    }
+    public List<Move> getPossibleMoves(int position, Board board) {return PlussMoves.getPlussMoves(position, board);}
 
 }
