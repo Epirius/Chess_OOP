@@ -6,8 +6,9 @@ handle castling:
 
 
 get possible moves implemented so far:
-king
+king (need work with castling)
 queen
 bishop
 rook
 knight
+pawn (need work with en passant)

@@ -307,10 +307,41 @@ public class test {
     }
 
     @Test
-    public void testQueenMovement(){
-        Queen whiteQueen = new Queen(Team.WHITE);
+    public void testWhitePawnMovement(){
         Board board = new Board();
-        board.getSquare(10).setPiece(whiteQueen);
-        whiteQueen.getPossibleMoves(10, board);
+
+        Pawn p1 = new Pawn(Team.WHITE);
+        Pawn p5 = new Pawn(Team.BLACK);
+        Pawn p6 = new Pawn(Team.BLACK);
+        board.getSquare(11).setPiece(p1);
+        List<Move> t1 = p1.getPossibleMoves(11, board);
+        Assert.assertEquals(new Move(11, 19), t1.get(0));
+        Assert.assertEquals(new Move(11, 27), t1.get(1));
+        Assert.assertEquals(2, t1.size());
+        board.getSquare(27).setPiece(p5);
+        t1 = p1.getPossibleMoves(11, board);
+        Assert.assertEquals(1, t1.size());
+        Assert.assertEquals(new Move(11, 19), t1.get(0));
+        board.getSquare(19).setPiece(p6);
+        t1 = p1.getPossibleMoves(11, board);
+        Assert.assertEquals(0, t1.size());
+
+        Pawn p2 = new Pawn(Team.WHITE);
+        board.getSquare(22).setPiece(p2);
+        List<Move> t2 = p2.getPossibleMoves(22, board);
+        Assert.assertEquals(new Move(22, 30), t2.get(0));
+        Assert.assertEquals(1, t2.size());
+
+        Pawn p3 = new Pawn(Team.BLACK);
+        Pawn p4 = new Pawn(Team.BLACK);
+        board.getSquare(29).setPiece(p3);
+        t2 = p2.getPossibleMoves(22, board);
+        Assert.assertEquals(2, t2.size());
+        Assert.assertEquals(new Move(22, 29), t2.get(0));
+        board.getSquare(31).setPiece(p4);
+        t2 = p2.getPossibleMoves(22, board);
+        Assert.assertEquals(3, t2.size());
+        Assert.assertEquals(new Move(22, 31), t2.get(1));
+        Assert.assertEquals(new Move(22, 30), t2.get(2));
     }
 }
