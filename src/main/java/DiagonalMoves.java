@@ -14,14 +14,14 @@ public class DiagonalMoves {
      * @param board object that holds all squares
      * @return a list of Moves that start from ID, and ends in all diagonal squares.
      */
-    public static Move[] getDiagonalMoves(int Id, Board board) throws Exception {
+    public static List<Move> getDiagonalMoves(int Id, Board board){
         List<Integer> diagonalSquareId = findDiagonalSquares(Id, board);
         int numberOfMoves = diagonalSquareId.size();
-        Move[] moves = new Move[numberOfMoves];
+        List<Move> moves = new ArrayList<Move>();
 
         for (int i = 0; i < numberOfMoves; i++) {
             int to = diagonalSquareId.get(i);
-            moves[i] = new Move(Id, to);
+            moves.add(new Move(Id, to));
         }
 
         return moves;
@@ -32,7 +32,7 @@ public class DiagonalMoves {
      * @param board object that holds all squares
      * @return a list of integers corresponding to diagonal squares.
      */
-    private static List<Integer> findDiagonalSquares(int Id, Board board) throws Exception {
+    private static List<Integer> findDiagonalSquares(int Id, Board board){
         List<Integer> diagonalSquareId = new ArrayList<Integer>();
         int x = IBoard.squareToCoordinates(Id)[0];
         int y = IBoard.squareToCoordinates(Id)[1];
@@ -103,7 +103,7 @@ public class DiagonalMoves {
     }
 
     // NB: this is used for testing only, should not be used in the normal program.
-    public static List<Integer> testingDiagonal(int Id) throws Exception {
+    public static List<Integer> testingDiagonal(int Id){
         Board board = new Board();
         board.getSquare(Id).setPiece(new Queen(Team.WHITE));
         return findDiagonalSquares(Id, board);

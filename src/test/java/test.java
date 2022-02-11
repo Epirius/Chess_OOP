@@ -159,6 +159,14 @@ public class test {
     }
 
     @Test
+    public void testingPluss() throws Exception {
+        List<Integer> l = PlussMoves.testingPluss(19);
+        int[] ints = {11, 3, 18, 17, 16, 20, 21, 22, 23, 27, 35, 43, 51, 59};
+        List<Integer> test =  Arrays.stream(ints).boxed().toList();
+        Assert.assertEquals(test, l);
+    }
+
+    @Test
     public void testingCreatingMove(){
         Move move = new Move(2,6);
         int[] test = new int[]{2,6};

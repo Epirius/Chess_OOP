@@ -17,11 +17,10 @@ public interface IBoard {
     Piece getPiece(int squareId);
 
     // takes in the id of a square and returns a int list with x,y coordinates (from 0,0 to 7,7)
-    static int[] squareToCoordinates(int Id) throws Exception {
+    static int[] squareToCoordinates(int Id){
         int x;
         int y;
 
-        if (Id < 0 || Id > 63) {throw new Exception("something went wrong with converting square id to coordinates!: square was out of bounds");}
         if (0 <= Id && Id < 8){
             x = Id;
             y = 1;
@@ -35,13 +34,12 @@ public interface IBoard {
                 return  new int[]{x, y};
             }
         }
-        throw new Exception("something went wrong with converting square id to coordinates!");
     }
 
     // takes in a in list with x,y coordinates (from 0,0 to 7,7) and return the id of the square.
-    static int coordinatesToSquare(int[] coords) {
-        int x = coords[0];
-        int y = coords[1];
+    static int coordinatesToSquare(int[] coordinates) {
+        int x = coordinates[0];
+        int y = coordinates[1];
         int id = x + (y * 8);
         return id;
     }

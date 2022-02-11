@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Felix Kaasa
  */
@@ -5,7 +8,6 @@
 public abstract class Piece implements IPiece{
     final Type type;
     final Team team;
-    private Square position;
 
     public Piece(Team team, Type type){
         this.team = team;
@@ -22,16 +24,19 @@ public abstract class Piece implements IPiece{
         return type;
     }
 
-    @Override
-    public abstract Move[] getPossibleMoves();
 
     @Override
-    public Move[] getLegalMoves() {
-        return new Move[0]; //TODO
+    public List<Move> getLegalMoves() {
+        return new ArrayList<Move>(); //TODO
     }
 
     @Override
     public void move() {
+        //TODO
+    }
+
+    @Override
+    public void kill() {
         //TODO
     }
 }

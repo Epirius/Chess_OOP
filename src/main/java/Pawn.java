@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Felix Kaasa
  */
@@ -10,7 +13,7 @@ public class Pawn extends Piece{
     }
 
     @Override
-    public Move[] getPossibleMoves() {
-        return new Move[0];
+    public List<Move> getPossibleMoves(int position, Board board) {
+        return new ArrayList<Move>();
     }
 }

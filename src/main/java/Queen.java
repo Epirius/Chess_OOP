@@ -1,3 +1,8 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Stream;
+
 /**
  * @author Felix Kaasa
  */
@@ -9,7 +14,10 @@ public class Queen extends Piece{
     }
 
     @Override
-    public Move[] getPossibleMoves() {
-        return new Move[0];
+    public List<Move> getPossibleMoves(int position, Board board){
+        List<Move> output = new ArrayList<Move>();
+        output.addAll(PlussMoves.getPlussMoves(position, board));
+        output.addAll(DiagonalMoves.getDiagonalMoves(position, board));
+        return output;
     }
 }
