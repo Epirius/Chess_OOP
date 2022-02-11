@@ -16,17 +16,12 @@ public interface IBoard {
     // takes in a square id, and returns the piece that is on that square.
     Piece getPiece(int squareId);
 
-    // takes in the id of a square and returns a int list with x,y coordinates (from 0,0 to 7,7)
+    // takes in the id of a square and returns an int list with x,y coordinates (from 0,0 to 7,7)
     static int[] squareToCoordinates(int Id){
         int x;
         int y;
 
-        if (0 <= Id && Id < 8){
-            x = Id;
-            y = 1;
-            return  new int[]{x, y};
-        }
-        for (int i = 2; i < 8; i++) {
+        for (int i = 0; i < 8; i++) {
             int calculation = Id - (8 * i);
             if (calculation >= 0 && calculation < 8){
                 x = calculation;
@@ -34,6 +29,7 @@ public interface IBoard {
                 return  new int[]{x, y};
             }
         }
+        return null;
     }
 
     // takes in a in list with x,y coordinates (from 0,0 to 7,7) and return the id of the square.
