@@ -5,6 +5,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -172,5 +173,139 @@ public class test {
         int[] test = new int[]{2,6};
         Assert.assertEquals(test[0], move.getMove()[0]);
         Assert.assertEquals(test[1], move.getMove()[1]);
+    }
+
+    @Test
+    public void testKingEdgeMovement(){
+        Board board = new Board();
+        King k1 = new King(Team.WHITE);
+        King k2 = new King(Team.WHITE);
+        King k3 = new King(Team.WHITE);
+        King k4 = new King(Team.WHITE);
+        King k5 = new King(Team.WHITE);
+        King k6 = new King(Team.WHITE);
+        King k7 = new King(Team.WHITE);
+        King k8 = new King(Team.WHITE);
+        King k9 = new King(Team.WHITE);
+
+        k1.setCastleKingSideToFalse();
+        k1.setCastleQueenSideToFalse();
+        k2.setCastleKingSideToFalse();
+        k2.setCastleQueenSideToFalse();
+        k3.setCastleKingSideToFalse();
+        k3.setCastleQueenSideToFalse();
+        k4.setCastleKingSideToFalse();
+        k4.setCastleQueenSideToFalse();
+        k5.setCastleKingSideToFalse();
+        k5.setCastleQueenSideToFalse();
+        k6.setCastleKingSideToFalse();
+        k6.setCastleQueenSideToFalse();
+        k7.setCastleKingSideToFalse();
+        k7.setCastleQueenSideToFalse();
+        k8.setCastleKingSideToFalse();
+        k8.setCastleQueenSideToFalse();
+        k9.setCastleKingSideToFalse();
+        k9.setCastleQueenSideToFalse();
+
+        board.getSquare(0).setPiece(k1);
+        board.getSquare(7).setPiece(k2);
+        board.getSquare(56).setPiece(k3);
+        board.getSquare(63).setPiece(k4);
+        board.getSquare(3).setPiece(k5);
+        board.getSquare(39).setPiece(k6);
+        board.getSquare(32).setPiece(k7);
+        board.getSquare(59).setPiece(k8);
+        board.getSquare(35).setPiece(k9);
+
+        List<Move> t1 = k1.getPossibleMoves(0, board);
+        List<Move> t2 = k2.getPossibleMoves(7, board);
+        List<Move> t3 = k3.getPossibleMoves(56, board);
+        List<Move> t4 = k4.getPossibleMoves(63, board);
+        List<Move> t5 = k5.getPossibleMoves(3, board);
+        List<Move> t6 = k6.getPossibleMoves(39, board);
+        List<Move> t7 = k7.getPossibleMoves(32, board);
+        List<Move> t8 = k8.getPossibleMoves(59, board);
+        List<Move> t9 = k9.getPossibleMoves(35, board);
+
+        Assert.assertEquals(1, t1.get(0).to);
+        Assert.assertEquals(8, t1.get(1).to);
+        Assert.assertEquals(9, t1.get(2).to);
+        Assert.assertTrue(t1.size() == 3);
+
+        Assert.assertEquals(6, t2.get(0).to);
+        Assert.assertEquals(14, t2.get(1).to);
+        Assert.assertEquals(15, t2.get(2).to);
+        Assert.assertTrue(t2.size() == 3);
+
+        Assert.assertEquals(49, t3.get(0).to);
+        Assert.assertEquals(48, t3.get(1).to);
+        Assert.assertEquals(57, t3.get(2).to);
+        Assert.assertTrue(t3.size() == 3);
+
+        Assert.assertEquals(55, t4.get(0).to);
+        Assert.assertEquals(54, t4.get(1).to);
+        Assert.assertEquals(62, t4.get(2).to);
+        Assert.assertTrue(t4.size() == 3);
+
+        Assert.assertEquals(2, t5.get(0).to);
+        Assert.assertEquals(4, t5.get(1).to);
+        Assert.assertEquals(10, t5.get(2).to);
+        Assert.assertEquals(11, t5.get(3).to);
+        Assert.assertEquals(12, t5.get(4).to);
+        Assert.assertTrue(t5.size() == 5);
+
+        Assert.assertEquals(31, t6.get(0).to);
+        Assert.assertEquals(30, t6.get(1).to);
+        Assert.assertEquals(38, t6.get(2).to);
+        Assert.assertEquals(46, t6.get(3).to);
+        Assert.assertEquals(47, t6.get(4).to);
+        Assert.assertTrue(t6.size() == 5);
+
+        Assert.assertEquals(25, t7.get(0).to);
+        Assert.assertEquals(24, t7.get(1).to);
+        Assert.assertEquals(33, t7.get(2).to);
+        Assert.assertEquals(40, t7.get(3).to);
+        Assert.assertEquals(41, t7.get(4).to);
+        Assert.assertTrue(t7.size() == 5);
+
+        Assert.assertEquals(52, t8.get(0).to);
+        Assert.assertEquals(51, t8.get(1).to);
+        Assert.assertEquals(50, t8.get(2).to);
+        Assert.assertEquals(58, t8.get(3).to);
+        Assert.assertEquals(60, t8.get(4).to);
+        Assert.assertTrue(t8.size() == 5);
+
+        Assert.assertEquals(28, t9.get(0).to);
+        Assert.assertEquals(27, t9.get(1).to);
+        Assert.assertEquals(26, t9.get(2).to);
+        Assert.assertEquals(34, t9.get(3).to);
+        Assert.assertEquals(36, t9.get(4).to);
+        Assert.assertEquals(42, t9.get(5).to);
+        Assert.assertEquals(43, t9.get(6).to);
+        Assert.assertEquals(44, t9.get(7).to);
+        Assert.assertTrue(t9.size() == 8);
+
+
+    }
+
+    @Test
+    public void testKingBlockedMovement(){
+        Board board = new Board();
+        King whiteKing = new King(Team.WHITE);
+        Knight whiteKnight = new Knight(Team.WHITE);
+        Knight blackKnight = new Knight(Team.BLACK);
+        whiteKing.setCastleKingSideToFalse();
+        whiteKing.setCastleQueenSideToFalse();
+
+
+        board.getSquare(0).setPiece(whiteKing);
+        board.getSquare(1).setPiece(whiteKnight);
+        board.getSquare(8).setPiece(blackKnight);
+
+        List<Move> t1 = whiteKing.getPossibleMoves(0, board);
+        Assert.assertEquals(8, t1.get(0).to);
+        Assert.assertEquals(9, t1.get(1).to);
+        System.out.println(t1.size());
+        Assert.assertTrue(t1.size() == 2);
     }
 }
