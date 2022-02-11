@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class test {
+
     @Test
     public void createPawn(){
         Pawn whitePawn = new Pawn(Team.WHITE);
@@ -126,7 +127,7 @@ public class test {
     }
 
     @Test
-    public void squareToCoords() throws Exception {
+    public void squareToCoords() {
         Board board = new Board();
         int[] coord = IBoard.squareToCoordinates(16);
         int[] test = new int[]{0,2};
@@ -150,7 +151,7 @@ public class test {
     }
 
     @Test
-    public void testingDiagonal() throws Exception {
+    public void testingDiagonal() {
         List<Integer> l = DiagonalMoves.testingDiagonal(19);
         int[] ints = {12, 5, 10, 1, 26, 33, 40, 28, 37, 46, 55};
         List<Integer> test =  Arrays.stream(ints).boxed().toList();
@@ -158,7 +159,7 @@ public class test {
     }
 
     @Test
-    public void testingPluss() throws Exception {
+    public void testingPluss() {
         List<Integer> l = PlussMoves.testingPluss(19);
         int[] ints = {11, 3, 18, 17, 16, 20, 21, 22, 23, 27, 35, 43, 51, 59};
         List<Integer> test =  Arrays.stream(ints).boxed().toList();
@@ -384,5 +385,37 @@ public class test {
         Assert.assertEquals(3, t2.size());
         Assert.assertEquals(new Move(46, 37), t2.get(0));
         Assert.assertEquals(new Move(46, 38), t2.get(2));
+    }
+
+    @Test
+    public void  testPlacePiece(){
+        for (Team team : Team.values()) {
+            Board board = new Board();
+            board.getSquare(0).setPiece(new Pawn(team));
+            board.getSquare(1).setPiece(new Rook(team));
+            board.getSquare(2).setPiece(new Knight(team));
+            board.getSquare(3).setPiece(new Bishop(team));
+            board.getSquare(4).setPiece(new Queen(team));
+            board.getSquare(5).setPiece(new King(team));
+
+            Assert.assertTrue(board.getSquare(0).getPiece().team == team);
+            Assert.assertTrue(board.getSquare(1).getPiece().team == team);
+            Assert.assertTrue(board.getSquare(2).getPiece().team == team);
+            Assert.assertTrue(board.getSquare(3).getPiece().team == team);
+            Assert.assertTrue(board.getSquare(4).getPiece().team == team);
+            Assert.assertTrue(board.getSquare(5).getPiece().team == team);
+
+            Assert.assertTrue(board.getSquare(0).getPiece().type == Type.PAWN);
+            Assert.assertTrue(board.getSquare(1).getPiece().type == Type.ROOK);
+            Assert.assertTrue(board.getSquare(2).getPiece().type == Type.KNIGHT);
+            Assert.assertTrue(board.getSquare(3).getPiece().type == Type.BISHOP);
+            Assert.assertTrue(board.getSquare(4).getPiece().type == Type.QUEEN);
+            Assert.assertTrue(board.getSquare(5).getPiece().type == Type.KING);
+        }
+    }
+
+    @Test
+    public void testBoardInit(){
+        Board board = new Board();
     }
 }
