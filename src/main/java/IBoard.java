@@ -16,6 +16,8 @@ public interface IBoard {
     // takes in a square id, and returns the piece that is on that square.
     Piece getPiece(int squareId);
 
+    public void doMove(Move move);
+
     // takes in the id of a square and returns an int list with x,y coordinates (from 0,0 to 7,7)
     static int[] squareToCoordinates(int Id){
         int x;

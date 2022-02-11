@@ -21,11 +21,6 @@ public interface IPiece {
     */
     List<Move> getLegalMoves();
 
-    // Move the piece from current square to another
-    void move();
-
-    void kill();
-
 
 
 }

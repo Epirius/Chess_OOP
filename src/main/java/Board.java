@@ -58,4 +58,25 @@ public class Board implements IBoard{
         return squares[squareId].getPiece();
     }
 
+    @Override
+    public void doMove(Move move) {
+        int from = move.getMove()[0];
+        int to = move.getMove()[1];
+        Piece movingPiece = squares[from].getPiece();
+
+        if (!squares[to].isEmpty()){
+            kill(to);
+        }
+        squares[to].setPiece(movingPiece);
+        squares[from].removePiece();
+
+    }
+    private void kill(int Id){
+        // TODO do something with points here
+        Piece deathRowPiece = squares[Id].getPiece();
+        List<Piece> teamList = (Team.WHITE == deathRowPiece.team ? whitePieces : blackPieces);
+        teamList.remove(deathRowPiece);
+        squares[Id].removePiece();
+    }
+
 }

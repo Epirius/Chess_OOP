@@ -29,14 +29,4 @@ public abstract class Piece implements IPiece{
     public List<Move> getLegalMoves() {
         return new ArrayList<Move>(); //TODO
     }
-
-    @Override
-    public void move() {
-        //TODO
-    }
-
-    @Override
-    public void kill() {
-        //TODO
-    }
 }
