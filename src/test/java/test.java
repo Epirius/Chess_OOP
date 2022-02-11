@@ -417,5 +417,58 @@ public class test {
     @Test
     public void testBoardInit(){
         Board board = new Board();
+        Assert.assertTrue(board.getSquare(0).getPiece().type == Type.ROOK);
+        Assert.assertTrue(board.getSquare(1).getPiece().type == Type.KNIGHT);
+        Assert.assertTrue(board.getSquare(2).getPiece().type == Type.BISHOP);
+        Assert.assertTrue(board.getSquare(3).getPiece().type == Type.QUEEN);
+        Assert.assertTrue(board.getSquare(4).getPiece().type == Type.KING);
+        Assert.assertTrue(board.getSquare(5).getPiece().type == Type.BISHOP);
+        Assert.assertTrue(board.getSquare(6).getPiece().type == Type.KNIGHT);
+        Assert.assertTrue(board.getSquare(7).getPiece().type == Type.ROOK);
+
+        Assert.assertTrue(board.getSquare(56).getPiece().type == Type.ROOK);
+        Assert.assertTrue(board.getSquare(57).getPiece().type == Type.KNIGHT);
+        Assert.assertTrue(board.getSquare(58).getPiece().type == Type.BISHOP);
+        Assert.assertTrue(board.getSquare(59).getPiece().type == Type.QUEEN);
+        Assert.assertTrue(board.getSquare(60).getPiece().type == Type.KING);
+        Assert.assertTrue(board.getSquare(61).getPiece().type == Type.BISHOP);
+        Assert.assertTrue(board.getSquare(62).getPiece().type == Type.KNIGHT);
+        Assert.assertTrue(board.getSquare(63).getPiece().type == Type.ROOK);
+
+        for (int i = 0; i < 8; i++) {
+            Assert.assertTrue(board.getSquare(i + 8).getPiece().type == Type.PAWN);
+            Assert.assertTrue(board.getSquare(i + 48).getPiece().type == Type.PAWN);
+        }
+
+    }
+
+    @Test
+    public void testDoMove(){
+        Board board = new Board();
+        Queen q1 = new Queen(Team.BLACK);
+        board.getSquare(30).setPiece(q1);
+        List<Move> moves = q1.getPossibleMoves(30, board);
+        board.doMove(moves.get(0));
+        Assert.assertEquals(q1, board.getSquare(22).getPiece());
+        Assert.assertTrue(board.getSquare(30).isEmpty());
+    }
+
+    @Test
+    public void testAllQueenMoves(){
+        Board board = new Board();
+        Queen q1 = new Queen(Team.BLACK);
+        board.getSquare(30).setPiece(q1);
+        List<Move> moves = q1.getPossibleMoves(30, board);
+        int[] test = new int[]{22, 14, 6, 29, 28, 27, 26, 25, 24, 31, 38, 46, 54, 62, 23, 21, 12, 3, 37, 44, 51, 58, 39};
+        for (int i = 0; i < test.length; i++) {
+            boolean t = test[i] == moves.get(i).to;
+            if (!t){System.out.println(test[i]);}
+            Assert.assertEquals(test[i], moves.get(i).to);
+        }
+    }
+
+    @Test
+    public void testDoMoveAndKill(){
+
     }
 }
