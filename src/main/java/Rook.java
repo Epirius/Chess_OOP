@@ -13,6 +13,7 @@ public class Rook extends Piece{
 
     @Override
     public List<Move> getPossibleMoves(int position, Board board) {
-        return new ArrayList<Move>();
+        return PlussMoves.getPlussMoves(position, board);
     }
+
 }

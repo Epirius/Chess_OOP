@@ -13,6 +13,6 @@ public class Bishop extends Piece{
 
     @Override
     public List<Move> getPossibleMoves(int position, Board board) {
-        return new ArrayList<Move>();
+        return DiagonalMoves.getDiagonalMoves(position, board);
     }
 }
