@@ -31,9 +31,11 @@ public class Pawn extends Piece{
             if (team == Team.BLACK && y - 1 != newY){continue;}
             moves.add(new Move(position, position + step));
         }
+        // one step
         if (board.getSquare(position + directionOfStep).isEmpty()){
             moves.add(new Move(position, position + directionOfStep));
         }
+        // two steps as the first move
         if (board.getSquare(position + directionOfStep * 2).isEmpty()){
             if (team == Team.WHITE && y == startRow) {
                 moves.add(new Move(position, position + directionOfStep * 2));
@@ -42,6 +44,33 @@ public class Pawn extends Piece{
                 moves.add(new Move(position, position + directionOfStep * 2));
             }
         }
+
+        // En passant
+        if (board.moveHistory.size() > 0) {
+            Move lastMove = board.moveHistory.peek();
+            int lastMoveFrom = lastMove.getMove()[0];
+            int lastMoveFromY = IBoard.squareToCoordinates(lastMoveFrom)[1]; // y coordinate.
+            int lastMoveTo = lastMove.getMove()[1];
+            Piece lastMovePiece = board.getSquare(lastMoveTo).getPiece();
+            if (team == Team.WHITE && lastMovePiece.team == Team.BLACK && lastMovePiece.type == Type.PAWN && y == 4) {
+                if (position + 17 == lastMoveFrom && position + 1 == lastMoveTo && lastMoveFromY == y + 2) {
+                    moves.add(new Move(position, position + 9, position + 1));
+                }
+                if (position + 15 == lastMoveFrom && position - 1 == lastMoveTo && lastMoveFromY == y + 2) {
+                    moves.add(new Move(position, position + 7, position - 1));
+                }
+            }
+            if (team == Team.BLACK && lastMovePiece.team == Team.WHITE && lastMovePiece.type == Type.PAWN && y == 3) {
+                if (position - 17 == lastMoveFrom && position - 1 == lastMoveTo && lastMoveFromY == y - 2) {
+                    moves.add(new Move(position, position - 9, position - 1));
+                }
+                if (position - 15 == lastMoveFrom && position + 1 == lastMoveTo && lastMoveFromY == y - 2) {
+                    moves.add(new Move(position, position - 7, position + 1));
+                }
+            }
+        }
+
+
         return moves;
     }
 }

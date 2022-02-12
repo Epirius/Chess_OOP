@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 /**
  * @author Felix Kaasa
@@ -11,10 +12,17 @@ public class Board implements IBoard{
     private final Square[] squares = new Square[64];
     private List<Piece> whitePieces = new ArrayList<>();
     private List<Piece> blackPieces = new ArrayList<>();
+    public Stack<Move> moveHistory = new Stack<>();
 
     public Board(){
         createBoard();
         initBoard();
+    }
+
+    // creating a board without pieces, used for testing.
+    public Board(boolean initialize){
+        createBoard();
+        if (initialize){ initBoard();}
     }
 
     @Override
@@ -67,9 +75,12 @@ public class Board implements IBoard{
         if (!squares[to].isEmpty()){
             kill(to);
         }
+        if (move.enPassant){kill(move.enPassantPosition);}
         squares[to].setPiece(movingPiece);
         squares[from].removePiece();
+        moveHistory.add(move);
     }
+
     private void kill(int Id){
         // TODO do something with points here
         Piece deathRowPiece = squares[Id].getPiece();

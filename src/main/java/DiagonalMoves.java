@@ -51,7 +51,7 @@ public class DiagonalMoves {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team) {
+            else if (board.getSquare(currentSquare).getPiece().team != team) {
                 diagonalSquareId.add(currentSquare);
                 break;
             }
@@ -65,7 +65,7 @@ public class DiagonalMoves {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team) {
+            else if (board.getSquare(currentSquare).getPiece().team != team) {
                 diagonalSquareId.add(currentSquare);
                 break;
             }
@@ -79,7 +79,7 @@ public class DiagonalMoves {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team) {
+            else if (board.getSquare(currentSquare).getPiece().team != team) {
                 diagonalSquareId.add(currentSquare);
                 break;
             }
@@ -93,7 +93,7 @@ public class DiagonalMoves {
                 diagonalSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team) {
+            else if (board.getSquare(currentSquare).getPiece().team != team) {
                 diagonalSquareId.add(currentSquare);
                 break;
             }
@@ -104,7 +104,7 @@ public class DiagonalMoves {
 
     // NB: this is used for testing only, should not be used in the normal program.
     public static List<Integer> testingDiagonal(int Id){
-        Board board = new Board();
+        Board board = new Board(false);
         board.getSquare(Id).setPiece(new Queen(Team.WHITE));
         return findDiagonalSquares(Id, board);
     }

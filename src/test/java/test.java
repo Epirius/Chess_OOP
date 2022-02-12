@@ -117,7 +117,7 @@ public class test {
 
     @Test
     public void createBoard(){
-        Board board = new Board();
+        Board board = new Board(false);
         Square square = board.getSquare(63);
         Assert.assertEquals(63, square.getSquareId());
 
@@ -128,7 +128,7 @@ public class test {
 
     @Test
     public void squareToCoords() {
-        Board board = new Board();
+        Board board = new Board(false);
         int[] coord = IBoard.squareToCoordinates(16);
         int[] test = new int[]{0,2};
         Assert.assertEquals(Arrays.toString(test), Arrays.toString(coord));
@@ -136,7 +136,7 @@ public class test {
 
     @Test
     public void coordsToSquare(){
-        Board board = new Board();
+        Board board = new Board(false);
         int[] coord = new int[]{1,1};
         int square = IBoard.coordinatesToSquare(coord);
         Assert.assertEquals(9, square);
@@ -145,7 +145,7 @@ public class test {
 
     @Test
     public void emptySquareReturnsNull(){
-        Board board = new Board();
+        Board board = new Board(false);
         Assert.assertNull(board.getSquare(0).getPiece());
 
     }
@@ -176,7 +176,7 @@ public class test {
 
     @Test
     public void testKingEdgeMovement(){
-        Board board = new Board();
+        Board board = new Board(false);
         King k1 = new King(Team.WHITE);
         King k2 = new King(Team.WHITE);
         King k3 = new King(Team.WHITE);
@@ -289,7 +289,7 @@ public class test {
 
     @Test
     public void testKingBlockedMovement(){
-        Board board = new Board();
+        Board board = new Board(false);
         King whiteKing = new King(Team.WHITE);
         Knight whiteKnight = new Knight(Team.WHITE);
         Knight blackKnight = new Knight(Team.BLACK);
@@ -309,7 +309,7 @@ public class test {
 
     @Test
     public void testWhitePawnMovement(){
-        Board board = new Board();
+        Board board = new Board(false);
 
         Pawn p1 = new Pawn(Team.WHITE);
         Pawn p5 = new Pawn(Team.BLACK);
@@ -348,7 +348,7 @@ public class test {
 
     @Test
     public void testBlackPawnMovement(){
-        Board board = new Board();
+        Board board = new Board(false);
 
         Pawn p1 = new Pawn(Team.BLACK);
         Pawn p5 = new Pawn(Team.WHITE);
@@ -390,7 +390,7 @@ public class test {
     @Test
     public void  testPlacePiece(){
         for (Team team : Team.values()) {
-            Board board = new Board();
+            Board board = new Board(false);
             board.getSquare(0).setPiece(new Pawn(team));
             board.getSquare(1).setPiece(new Rook(team));
             board.getSquare(2).setPiece(new Knight(team));
@@ -444,7 +444,7 @@ public class test {
 
     @Test
     public void testDoMove(){
-        Board board = new Board();
+        Board board = new Board(false);
         Queen q1 = new Queen(Team.BLACK);
         board.getSquare(30).setPiece(q1);
         List<Move> moves = q1.getPossibleMoves(30, board);
@@ -455,7 +455,7 @@ public class test {
 
     @Test
     public void testAllQueenMoves(){
-        Board board = new Board();
+        Board board = new Board(false);
         Queen q1 = new Queen(Team.BLACK);
         board.getSquare(30).setPiece(q1);
         List<Move> moves = q1.getPossibleMoves(30, board);
@@ -469,6 +469,60 @@ public class test {
 
     @Test
     public void testDoMoveAndKill(){
+        Board board = new Board(false);
+        Queen q1 = new Queen(Team.BLACK);
+        Queen q2 = new Queen(Team.WHITE);
+        board.getSquare(0).setPiece(q1);
+        board.getSquare(1).setPiece(q2);
 
+        Assert.assertEquals(q1, board.getSquare(0).getPiece());
+        Assert.assertEquals(q2, board.getSquare(1).getPiece());
+
+        board.doMove(new Move(0,1));
+
+        Assert.assertTrue(board.getSquare(0).isEmpty());
+        Assert.assertEquals(q1, board.getSquare(1).getPiece());
+
+        board.doMove(new Move(1,0));
+
+        Assert.assertTrue(board.getSquare(1).isEmpty());
+        Assert.assertEquals(q1, board.getSquare(0).getPiece());
+    }
+
+    @Test
+    public void testEnPassant(){
+        Board board = new Board(false);
+        Pawn p1 = new Pawn(Team.WHITE);
+        Pawn p2 = new Pawn(Team.BLACK);
+
+        board.getSquare(35).setPiece(p1);
+        board.getSquare(52).setPiece(p2);
+        board.doMove(new Move(52, 36));
+        Move attack = new Move(35, 44, 36);
+        Assert.assertTrue(p1.getPossibleMoves(35, board).contains(attack));
+
+        board.doMove(attack);
+        Assert.assertTrue(board.getSquare(35).isEmpty());
+        Assert.assertTrue(board.getSquare(36).isEmpty());
+        Assert.assertTrue(board.getSquare(52).isEmpty());
+        Assert.assertEquals(p1, board.getSquare(44).getPiece());
+        //todo test left side en passant
+        //---------------------------------------------------------
+
+        Pawn p3 = new Pawn(Team.WHITE);
+        Pawn p4 = new Pawn(Team.BLACK);
+
+        board.getSquare(12).setPiece(p3);
+        board.getSquare(27).setPiece(p4);
+        board.doMove(new Move(12, 28));
+        Move attack2 = new Move(27, 20, 28);
+        Assert.assertTrue(p4.getPossibleMoves(27, board).contains(attack2));
+
+        board.doMove(attack2);
+        Assert.assertTrue(board.getSquare(12).isEmpty());
+        Assert.assertTrue(board.getSquare(27).isEmpty());
+        Assert.assertTrue(board.getSquare(28).isEmpty());
+        Assert.assertEquals(p4, board.getSquare(20).getPiece());
+        //todo test left side en passant
     }
 }

@@ -8,6 +8,8 @@ public class Move {
     public final int from;
     public final int to;
     private boolean castle = false;
+    boolean enPassant = false;
+    public int enPassantPosition;
 
     public Move(int from, int to){
         this.from = from;
@@ -20,7 +22,7 @@ public class Move {
     }
 
 
-    //the two constructors below are used by the king to track castling.
+    //these two constructors below are used by the king to track castling.
     public Move(int from, int to, boolean castle){
         this.from = from;
         this.to = to;
@@ -31,6 +33,21 @@ public class Move {
         this.from = IBoard.coordinatesToSquare(from);
         this.to = IBoard.coordinatesToSquare(to);
         this.castle = castle;
+    }
+
+    // these two constructors below are used for en passant.
+    public Move(int from, int to, int enPassant){
+        this.from = from;
+        this.to = to;
+        this.enPassant = true;
+        this.enPassantPosition = enPassant;
+    }
+
+    public Move(int[] from, int[] to, int[] enPassant){
+        this.from = IBoard.coordinatesToSquare(from);
+        this.to = IBoard.coordinatesToSquare(to);
+        this.enPassant = true;
+        this.enPassantPosition = IBoard.coordinatesToSquare(enPassant);
     }
 
     public int[] getMove(){

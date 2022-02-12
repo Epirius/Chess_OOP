@@ -37,7 +37,7 @@ public class PlussMoves {
                 plussSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team) {
+            else if (board.getSquare(currentSquare).getPiece().team != team) {
                 plussSquareId.add(currentSquare);
                 break;
             }
@@ -52,7 +52,7 @@ public class PlussMoves {
                 plussSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team) {
+            else if (board.getSquare(currentSquare).getPiece().team != team) {
                 plussSquareId.add(currentSquare);
                 break;
             }
@@ -67,7 +67,7 @@ public class PlussMoves {
                 plussSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team) {
+            else if (board.getSquare(currentSquare).getPiece().team != team) {
                 plussSquareId.add(currentSquare);
                 break;
             }
@@ -82,7 +82,7 @@ public class PlussMoves {
                 plussSquareId.add(currentSquare);
                 continue;
             }
-            if (board.getSquare(currentSquare).getPiece().team != team) {
+            else if (board.getSquare(currentSquare).getPiece().team != team) {
                 plussSquareId.add(currentSquare);
                 break;
             }
@@ -93,7 +93,7 @@ public class PlussMoves {
 
     // NB: this is used for testing only, should not be used in the normal program.
     public static List<Integer> testingPluss(int Id){
-        Board board = new Board();
+        Board board = new Board(false);
         board.getSquare(Id).setPiece(new Queen(Team.WHITE));
         return findPlussSquares(Id, board);
     }
