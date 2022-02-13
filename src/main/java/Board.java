@@ -136,6 +136,7 @@ public class Board implements IBoard{
             if (move.from == king && threatSquares.contains(move.to)){
                 illegalMoves.add(move);
             }
+
             // checking if king is attacked by a piece, and the move does not kill that piece.
             if (kingInCheck.size() == 1 && move.to != kingInCheck.get(0).from && move.to != king){
                 // if the attacking piece is not a queen rook or bishop:
@@ -143,10 +144,10 @@ public class Board implements IBoard{
                 if (!(attacker == Type.QUEEN || attacker == Type.ROOK || attacker == Type.BISHOP)){
                     // then we can't block.
                     illegalMoves.add(move);
-                } else if (!squaresBetween(king, kingInCheck.get(0).from, this).contains(move.to)){
+                } /*else if (!squaresBetween(king, kingInCheck.get(0).from, this).contains(this.getSquare(move.to))){
                     // if you can block but didn't:
                     illegalMoves.add(move);
-                }
+                }*/ //TODO REMOVE COMMENT
             }
             // checking for double check.
             if (kingInCheck.size() > 1){
@@ -164,12 +165,14 @@ public class Board implements IBoard{
         if (king == 4 ) {
             // King side
             if (threatSquares.contains(4) || threatSquares.contains(5) || threatSquares.contains(6) ||
-                    !kingPiece.castleKingSide || squaresBetween(4, 7, this).size() != 2) {
+                    !kingPiece.castleKingSide || this.getSquare(5).getPiece() != null ||
+                    this.getSquare(6).getPiece() != null) {
                 illegalMoves.add(new Move(4, 6, true));
             }
             // Queen side
             if (threatSquares.contains(4) || threatSquares.contains(3) || threatSquares.contains(2) ||
-                    !kingPiece.castleQueenSide || squaresBetween(0, 4, this).size() != 3) {
+                    !kingPiece.castleQueenSide || this.getSquare(2).getPiece() != null ||
+                    this.getSquare(3).getPiece() != null) {
                 illegalMoves.add(new Move(4, 2, true));
             }
         }
@@ -178,12 +181,14 @@ public class Board implements IBoard{
         if (king == 60 ) {
             // King side
             if (threatSquares.contains(60) || threatSquares.contains(61) || threatSquares.contains(62) ||
-                    !kingPiece.castleKingSide || squaresBetween(60, 63, this).size() != 2) {
+                    !kingPiece.castleKingSide || this.getSquare(61).getPiece() != null ||
+                    this.getSquare(62).getPiece() != null) {
                 illegalMoves.add(new Move(60, 62, true));
             }
             // Queen side
             if (threatSquares.contains(4) || threatSquares.contains(3) || threatSquares.contains(2) ||
-                    !kingPiece.castleQueenSide || squaresBetween(56, 60, this).size() != 3) {
+                    !kingPiece.castleQueenSide || this.getSquare(58).getPiece() != null ||
+                    this.getSquare(59).getPiece() != null) {
                 illegalMoves.add(new Move(60, 58, true));
             }
         }
@@ -194,7 +199,7 @@ public class Board implements IBoard{
     // helper function only used in getLegalMoves()
     private Piece getKing(){
         List<Piece> teamList = (currentPlayerIsWhite ? whitePieces : blackPieces);
-        Piece king;
+        Piece king = null;
         for (Piece piece : teamList){
             if (piece.type == Type.KING){king = piece;}
         }
@@ -204,12 +209,17 @@ public class Board implements IBoard{
     // helper function only used in getLegalMoves()
     private Piece getKing(Team team){
         List<Piece> teamList = (team == Team.WHITE ? whitePieces : blackPieces);
-        Piece king;
+        Piece king = null;
         for (Piece piece : teamList){
             if (piece.type == Type.KING){king = piece;}
         }
         return king;
     }
+
+    /*
+    private List<Square> squaresBetween(){
+
+    }*/
 }
 
 

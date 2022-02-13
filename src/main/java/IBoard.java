@@ -1,3 +1,5 @@
+import java.util.List;
+
 /**
  * @author Felix Kaasa
  */
@@ -22,6 +24,7 @@ public interface IBoard {
      */
     public void doMove(Move move);
 
+    public List<Move> getLegalMoves();
 
     /**
      * converts id to coordinates

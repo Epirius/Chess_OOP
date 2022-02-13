@@ -548,6 +548,7 @@ public class test {
     }
      */
 
+    /*
     @Test
     public void testSquaresBetween(){
         Board board = new Board(false);
@@ -557,6 +558,5 @@ public class test {
         board.getSquare(3).setPiece(q);
         List<Square> test1 = squaresBetween(0, 7, board);
         Assert.assertEquals(0, test1.size());
-
-    }
+    }*/
 }

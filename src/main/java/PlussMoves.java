@@ -25,7 +25,7 @@ public class PlussMoves {
      * @param target is the square we are searching for
      * @return list of integers
      */
-    public static List<Integer> getPlussSquareLine(int Id, int target){
+    public static List<Integer> getPlussLine(int Id, int target){
         int x = IBoard.squareToCoordinates(Id)[0];
         int y = IBoard.squareToCoordinates(Id)[1];
         Board board = new Board(false);
@@ -33,13 +33,13 @@ public class PlussMoves {
         board.getSquare(Id).setPiece(pawn);
 
         List<Integer> directionDown = checkDirection(y, -8, Id, board);
-        if (directionDown.contains(target)){return directionDown;};
+        if (directionDown.contains(target)){return directionDown;}
         List<Integer> directionLeft =checkDirection(x, -1, Id, board);
-        if (directionLeft.contains(target)){return directionLeft;};
+        if (directionLeft.contains(target)){return directionLeft;}
         List<Integer> directionRight = checkDirection(7 - x, 1, Id, board);
-        if (directionRight.contains(target)){return directionRight;};
+        if (directionRight.contains(target)){return directionRight;}
         List<Integer> directionUp =checkDirection(7 - y, 8, Id, board);
-        if (directionUp.contains(target)){return directionUp;};
+        if (directionUp.contains(target)){return directionUp;}
         return new ArrayList<Integer>();
     }
 
