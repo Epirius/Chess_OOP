@@ -18,11 +18,35 @@ public class PlussMoves {
         return moves;
     }
 
+    /**
+     * checks in each direction from Id. if the target is in the same line as Id, it returns a list of square id's from id to the edge of the board in that line.
+     * if target is not in any direction, it returns an empty list.
+     * @param Id is the square we search from
+     * @param target is the square we are searching for
+     * @return list of integers
+     */
+    public static List<Integer> getPlussSquareLine(int Id, int target){
+        int x = IBoard.squareToCoordinates(Id)[0];
+        int y = IBoard.squareToCoordinates(Id)[1];
+        Board board = new Board(false);
+        Pawn pawn = new Pawn(Team.WHITE);
+        board.getSquare(Id).setPiece(pawn);
+
+        List<Integer> directionDown = checkDirection(y, -8, Id, board);
+        if (directionDown.contains(target)){return directionDown;};
+        List<Integer> directionLeft =checkDirection(x, -1, Id, board);
+        if (directionLeft.contains(target)){return directionLeft;};
+        List<Integer> directionRight = checkDirection(7 - x, 1, Id, board);
+        if (directionRight.contains(target)){return directionRight;};
+        List<Integer> directionUp =checkDirection(7 - y, 8, Id, board);
+        if (directionUp.contains(target)){return directionUp;};
+        return new ArrayList<Integer>();
+    }
+
     private static List<Integer> findPlussSquares(int Id, Board board){
         List<Integer> plussSquareId = new ArrayList<Integer>();
         int x = IBoard.squareToCoordinates(Id)[0];
         int y = IBoard.squareToCoordinates(Id)[1];
-        Team team = board.getSquare(Id).getPiece().team;
 
         int lenFromRightEdge = 7 - x;
         int lenFromLeftEdge = x;
@@ -30,65 +54,32 @@ public class PlussMoves {
         int lenFromBottom = y;
 
         // down
-        for (int i = 1; i < lenFromBottom + 1; i++) {
-            int step = -8;
-            int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).isEmpty()) {
-                plussSquareId.add(currentSquare);
-                continue;
-            }
-            else if (board.getSquare(currentSquare).getPiece().team != team) {
-                plussSquareId.add(currentSquare);
-                break;
-            }
-            break;
-        }
-
+        plussSquareId.addAll(checkDirection(lenFromBottom, -8, Id, board));
         // left
-        for (int i = 1; i < lenFromLeftEdge + 1; i++) {
-            int step = -1;
-            int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).isEmpty()) {
-                plussSquareId.add(currentSquare);
-                continue;
-            }
-            else if (board.getSquare(currentSquare).getPiece().team != team) {
-                plussSquareId.add(currentSquare);
-                break;
-            }
-            break;
-        }
-
+        plussSquareId.addAll(checkDirection(lenFromLeftEdge, -1, Id, board));
         // right
-        for (int i = 1; i < lenFromRightEdge + 1; i++) {
-            int step = 1;
-            int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).isEmpty()) {
-                plussSquareId.add(currentSquare);
-                continue;
-            }
-            else if (board.getSquare(currentSquare).getPiece().team != team) {
-                plussSquareId.add(currentSquare);
-                break;
-            }
-            break;
-        }
-
+        plussSquareId.addAll(checkDirection(lenFromRightEdge, 1, Id, board));
         // up
-        for (int i = 1; i < lenFromTop + 1; i++) {
-            int step = 8;
+        plussSquareId.addAll(checkDirection(lenFromTop, 8, Id, board));
+        return plussSquareId;
+    }
+
+    private static List<Integer> checkDirection(int lenFromEdge, int step, int Id, Board board) {
+        List<Integer> output = new ArrayList<>();
+        Team team = board.getSquare(Id).getPiece().team;
+        for (int i = 1; i < lenFromEdge + 1; i++) {
             int currentSquare = Id + (step * i);
             if (board.getSquare(currentSquare).isEmpty()) {
-                plussSquareId.add(currentSquare);
+                output.add(currentSquare);
                 continue;
             }
             else if (board.getSquare(currentSquare).getPiece().team != team) {
-                plussSquareId.add(currentSquare);
+                output.add(currentSquare);
                 break;
             }
             break;
         }
-        return plussSquareId;
+        return output;
     }
 
     // NB: this is used for testing only, should not be used in the normal program.
