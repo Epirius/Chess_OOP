@@ -28,6 +28,31 @@ public class DiagonalMoves {
     }
 
     /**
+     * checks in each direction from Id. if the target is in the same line as Id, it returns a list of square id's from (exclusive) id to the edge of the board in that line.
+     * if target is not in any direction, it returns an empty list.
+     * @param Id is the square we search from
+     * @param target is the square we are searching for
+     * @return list of integers
+     */
+    public static List<Integer> getDiagonalLine(int Id, int target){
+        int x = IBoard.squareToCoordinates(Id)[0];
+        int y = IBoard.squareToCoordinates(Id)[1];
+        Board board = new Board(false);
+        Pawn pawn = new Pawn(Team.WHITE);
+        board.getSquare(Id).setPiece(pawn);
+
+        List<Integer> directionDownRight = checkDirection(7 - x, y, -7, Id, board);
+        if (directionDownRight.contains(target)){return directionDownRight;}
+        List<Integer> directionDownLeft = checkDirection(x, y, -9, Id, board);
+        if (directionDownLeft.contains(target)){return directionDownLeft;}
+        List<Integer> directionUpLeft = checkDirection(x, 7 - y, 7, Id, board);
+        if (directionUpLeft.contains(target)){return directionUpLeft;}
+        List<Integer> directionUpRight = checkDirection(7 - x, 7 - y, 9, Id, board);
+        if (directionUpRight.contains(target)){return directionUpRight;}
+        return new ArrayList<Integer>();
+    }
+
+    /**
      * @param Id is the id number of a square (0-63)
      * @param board object that holds all squares
      * @return a list of integers corresponding to diagonal squares.
@@ -36,7 +61,6 @@ public class DiagonalMoves {
         List<Integer> diagonalSquareId = new ArrayList<Integer>();
         int x = IBoard.squareToCoordinates(Id)[0];
         int y = IBoard.squareToCoordinates(Id)[1];
-        Team team = board.getSquare(Id).getPiece().team;
         
         int lenFromRightEdge = 7 - x;
         int lenFromLeftEdge = x;
@@ -44,62 +68,32 @@ public class DiagonalMoves {
         int lenFromBottom = y;
 
         // down and to the right
-        for (int i = 1; i < min(lenFromRightEdge, lenFromBottom) + 1; i++) {
-            int step = -7;
-            int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).isEmpty()) {
-                diagonalSquareId.add(currentSquare);
-                continue;
-            }
-            else if (board.getSquare(currentSquare).getPiece().team != team) {
-                diagonalSquareId.add(currentSquare);
-                break;
-            }
-            break;
-        }
+        diagonalSquareId.addAll(checkDirection(lenFromRightEdge, lenFromBottom, -7, Id, board));
         // down and to the left
-        for (int i = 1; i < min(lenFromLeftEdge, lenFromBottom) + 1; i++) {
-            int step = -9;
-            int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).isEmpty()) {
-                diagonalSquareId.add(currentSquare);
-                continue;
-            }
-            else if (board.getSquare(currentSquare).getPiece().team != team) {
-                diagonalSquareId.add(currentSquare);
-                break;
-            }
-            break;
-        }
+        diagonalSquareId.addAll(checkDirection(lenFromLeftEdge, lenFromBottom, -9, Id, board));
         // up and to the left
-        for (int i = 1; i < min(lenFromLeftEdge, lenFromTop) + 1; i++) {
-            int step = 7;
-            int currentSquare = Id + (step * i);
-            if (board.getSquare(currentSquare).isEmpty()) {
-                diagonalSquareId.add(currentSquare);
-                continue;
-            }
-            else if (board.getSquare(currentSquare).getPiece().team != team) {
-                diagonalSquareId.add(currentSquare);
-                break;
-            }
-            break;
-        }
+        diagonalSquareId.addAll(checkDirection(lenFromLeftEdge, lenFromTop, 7, Id, board));
         // up and to the right
-        for (int i = 1; i < min(lenFromRightEdge, lenFromTop) + 1; i++) {
-            int step = 9;
+        diagonalSquareId.addAll(checkDirection(lenFromRightEdge, lenFromTop, 9, Id, board));
+        return diagonalSquareId;
+    }
+
+    private static List<Integer> checkDirection(int lenFromHorizontalEdge, int lenFromVerticalEdge, int step, int Id, Board board) {
+        List<Integer> output = new ArrayList<>();
+        Team team = board.getSquare(Id).getPiece().team;
+        for (int i = 1; i < min(lenFromHorizontalEdge, lenFromVerticalEdge) + 1; i++) {
             int currentSquare = Id + (step * i);
             if (board.getSquare(currentSquare).isEmpty()) {
-                diagonalSquareId.add(currentSquare);
+                output.add(currentSquare);
                 continue;
             }
             else if (board.getSquare(currentSquare).getPiece().team != team) {
-                diagonalSquareId.add(currentSquare);
+                output.add(currentSquare);
                 break;
             }
             break;
         }
-        return diagonalSquareId;
+        return output;
     }
 
     // NB: this is used for testing only, should not be used in the normal program.
