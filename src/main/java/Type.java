@@ -8,6 +8,5 @@ public enum Type {
     KNIGHT,
     BISHOP,
     QUEEN,
-    KING,
-    EMPTY;
+    KING;
 }

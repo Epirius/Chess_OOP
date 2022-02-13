@@ -8,6 +8,7 @@ import java.util.List;
 public abstract class Piece implements IPiece{
     final Type type;
     final Team team;
+    private int position;
 
     public Piece(Team team, Type type){
         this.team = team;
@@ -24,6 +25,15 @@ public abstract class Piece implements IPiece{
         return type;
     }
 
+    @Override
+    public int getPosition(){
+        return position;
+    }
+
+    @Override
+    public void setPosition(int Id){
+        this.position = Id;
+    }
 
     @Override
     public List<Move> getLegalMoves() {

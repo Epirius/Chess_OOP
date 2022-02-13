@@ -6,8 +6,8 @@ import java.util.List;
  */
 
 public class King extends Piece{
-    private boolean castleKingSide = true;
-    private boolean castleQueenSide = true;
+    public boolean castleKingSide = true;
+    public boolean castleQueenSide = true;
 
     public King(Team team) {
         super(team, Type.KING);

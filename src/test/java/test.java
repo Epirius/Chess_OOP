@@ -525,4 +525,38 @@ public class test {
         Assert.assertEquals(p4, board.getSquare(20).getPiece());
         //todo test left side en passant
     }
+
+    /*
+    @Test
+    public void testGetPossibleMoves(){
+        Board board = new Board();
+        List<Move> moves = board.getPossibleMoves();
+        Assert.assertEquals(22, moves.size());
+        moves.remove(new Move(4,6,true));
+        moves.remove(new Move(4,2,true));
+        for (int i = 8; i < 16; i++) {
+            moves.remove(new Move(i,i+8));
+            moves.remove(new Move(i,i+16));
+        }
+        Assert.assertEquals(4, moves.size());
+        moves.remove(new Move(1,16));
+        moves.remove(new Move(1,18));
+        moves.remove(new Move(6,21));
+        moves.remove(new Move(6,23));
+        Assert.assertEquals(0, moves.size());
+
+    }
+     */
+
+    @Test
+    public void testSquaresBetween(){
+        Board board = new Board(false);
+        List<Square> test = squaresBetween(0, 7, board);
+        Assert.assertEquals(5, test.size());
+        Queen q = new Queen(Team.WHITE);
+        board.getSquare(3).setPiece(q);
+        List<Square> test1 = squaresBetween(0, 7, board);
+        Assert.assertEquals(0, test1.size());
+
+    }
 }

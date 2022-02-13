@@ -12,6 +12,9 @@ public interface IPiece {
     // returns the type of chess piece it is
     Type getPiece();
 
+    int getPosition();
+    void setPosition(int Id);
+
     // This returns all moves for a piece as if it was the only piece on the board.
     List<Move> getPossibleMoves(int position, Board board);
 
