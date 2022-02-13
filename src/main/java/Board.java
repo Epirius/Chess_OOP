@@ -144,10 +144,10 @@ public class Board implements IBoard{
                 if (!(attacker == Type.QUEEN || attacker == Type.ROOK || attacker == Type.BISHOP)){
                     // then we can't block.
                     illegalMoves.add(move);
-                } /*else if (!squaresBetween(king, kingInCheck.get(0).from, this).contains(this.getSquare(move.to))){
+                } else if (!squaresBetween(king, kingInCheck.get(0).from, this).contains(this.getSquare(move.to))){
                     // if you can block but didn't:
                     illegalMoves.add(move);
-                }*/ //TODO REMOVE COMMENT
+                }
             }
             // checking for double check.
             if (kingInCheck.size() > 1){
@@ -216,10 +216,10 @@ public class Board implements IBoard{
         return king;
     }
 
-    /*
-    private List<Square> squaresBetween(){
 
-    }*/
+    private List<Square> squaresBetween(){
+        //TODO
+    }
 }
 
 
