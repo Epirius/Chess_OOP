@@ -43,7 +43,7 @@ public interface IBoard {
                 return  new int[]{x, y};
             }
         }
-        return null;
+        throw new IndexOutOfBoundsException();
     }
 
     /**
