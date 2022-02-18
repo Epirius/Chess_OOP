@@ -526,6 +526,12 @@ public class test {
         //todo test left side en passant
     }
 
+    @Test
+    public void testSquaresBetween(){
+        //need to test if board.squaresBetween works
+        Assert.assertEquals(false, true);
+    }
+
     /*
     @Test
     public void testGetPossibleMoves(){

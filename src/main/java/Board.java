@@ -144,7 +144,7 @@ public class Board implements IBoard{
                 if (!(attacker == Type.QUEEN || attacker == Type.ROOK || attacker == Type.BISHOP)){
                     // then we can't block.
                     illegalMoves.add(move);
-                } else if (!squaresBetween(king, kingInCheck.get(0).from, this).contains(this.getSquare(move.to))){
+                } else if (!squaresBetween(king, kingInCheck.get(0).from).contains(this.getSquare(move.to))){
                     // if you can block but didn't:
                     illegalMoves.add(move);
                 }
@@ -217,8 +217,28 @@ public class Board implements IBoard{
     }
 
 
-    private List<Square> squaresBetween(){
-        //TODO
+    /**
+     *
+     * @param Id
+     * @param target
+     * @return a list of squares between two square Id's, returns empty if they are not on the same line.
+     */
+    private List<Square> squaresBetween(int Id, int target){
+        List<Square> squares = new ArrayList<>();
+        List<Integer> line;
+        List<Integer> diagonal = DiagonalMoves.getDiagonalLine(Id, target);
+        List<Integer> pluss = PlussMoves.getPlussLine(Id, target);
+        if (diagonal.size() > 0){line = diagonal;}
+        else if (pluss.size() > 0){line = pluss;}
+        else {return new ArrayList<Square>();}
+
+        int targetIndex = line.indexOf(target);
+        for (int i = 0; i < targetIndex; i++) {
+            squares.add(this.getSquare(line.get(i)));
+        }
+        return squares;
+
+
     }
 }
 

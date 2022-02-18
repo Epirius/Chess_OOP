@@ -21,7 +21,7 @@ public enum Direction {
         if (directionId > 1 && currentSquareY + 1 == newSquareY){return currentSquare + directionId;}
         else if (directionId < 2 && directionId > -2 && currentSquareY == newSquareY){return  currentSquare + directionId;}
         else if (directionId < -1 && currentSquareY -1 == newSquareY){return  currentSquare + directionId;}
-        else {throw new IndexOutOfBoundsException();}
+        else {throw new IndexOutOfBoundsException("current y is: " + currentSquareY + "| new y is: " + newSquareY);}
 
 
     }
