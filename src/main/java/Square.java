@@ -19,7 +19,7 @@ public class Square {
     }
 
     Piece getPiece(){
-        if (this.piece == null){ return null;}
+        if (this.isEmpty()){ return null;}
         return this.piece;
     }
 
