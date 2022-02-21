@@ -39,4 +39,6 @@ public abstract class Piece implements IPiece{
     public List<Move> getLegalMoves() {
         return new ArrayList<Move>(); //TODO
     }
+
+    //TODO maybe move move() to this class?
 }

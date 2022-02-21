@@ -11,7 +11,7 @@ public class Board implements IBoard{
     private List<Piece> whitePieces = new ArrayList<>();
     private List<Piece> blackPieces = new ArrayList<>();
     public Stack<Move> moveHistory = new Stack<>();
-    private boolean currentPlayerIsWhite = true;
+    private boolean currentPlayerIsWhite = true; // TODO move to Model
 
 
     public Board(){
@@ -70,6 +70,7 @@ public class Board implements IBoard{
 
     @Override
     public void doMove(Move move) {
+        // TODO move to Model maybe??
         int from = move.getMove()[0];
         int to = move.getMove()[1];
         Piece movingPiece = squares[from].getPiece();
@@ -86,6 +87,7 @@ public class Board implements IBoard{
     }
 
     private void kill(int Id){
+        // TODO move to Model maybe ??
         // TODO do something with points here
         Piece deathRowPiece = squares[Id].getPiece();
         List<Piece> teamList = (Team.WHITE == deathRowPiece.team ? whitePieces : blackPieces);
@@ -94,6 +96,7 @@ public class Board implements IBoard{
     }
 
     private List<Move> getPossibleMoves(){
+        // TODO move to Model
         List<Piece> teamList = (currentPlayerIsWhite ? whitePieces : blackPieces);
         List<Move> allPossibleMoves = new ArrayList<>();
         for (Piece piece : teamList){
@@ -103,6 +106,7 @@ public class Board implements IBoard{
     }
 
     private List<Move> getPossibleThreats(){
+        // TODO move to Model
         List<Piece> enemyList = (currentPlayerIsWhite ? blackPieces : whitePieces);
         List<Move> allThreatMoves = new ArrayList<>();
         for (Piece piece : enemyList){
@@ -116,6 +120,7 @@ public class Board implements IBoard{
      * @return List<Move>
      */
     public List<Move> getLegalMoves(){
+        // TODO move to Model
         List<Move> moves = getPossibleMoves();
         List<Move> threats = getPossibleThreats();
         List<Integer> threatSquares = new ArrayList<>();
