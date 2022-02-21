@@ -1,5 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -527,11 +529,22 @@ public class test {
         //todo test left side en passant
     }
 
+    /*
     @Test
     public void testSquaresBetween(){
-        //need to test if board.squaresBetween works
-        Assert.assertEquals(false, true);
+        Board board = new Board();
+        Assert.assertEquals(6, board.squaresBetween(3, 59).size());
+        Assert.assertEquals(6, board.squaresBetween(59, 3).size());
+        Assert.assertEquals(4, board.squaresBetween(24, 29).size());
+        Assert.assertEquals(4, board.squaresBetween(29, 24).size());
+        Assert.assertEquals(3, board.squaresBetween(0, 36).size());
+        Assert.assertEquals(3, board.squaresBetween(36, 0).size());
+        Assert.assertEquals(5, board.squaresBetween(7, 49).size());
+        Assert.assertEquals(5, board.squaresBetween(49, 7).size());
+        Assert.assertEquals(0, board.squaresBetween(0, 26).size());
+        Assert.assertEquals(0, board.squaresBetween(0, 41).size());
     }
+     */
 
     /*
     @Test
