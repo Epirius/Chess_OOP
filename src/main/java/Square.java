@@ -6,17 +6,11 @@ public class Square {
     private final int Id;
     private Piece piece;
 
-    public Square(int Id){
-        this.Id = Id;
-    }
+    public Square(int Id){this.Id = Id;}
 
-    int getSquareId(){
-        return this.Id;
-    }
+    int getSquareId(){return this.Id;}
 
-    void setPiece(Piece piece){
-        this.piece = piece;
-    }
+    void setPiece(Piece piece){this.piece = piece;}
 
     Piece getPiece(){
         if (this.isEmpty()){ return null;}
@@ -28,7 +22,5 @@ public class Square {
         return false;
     }
 
-    public void removePiece(){
-        piece = null;
-    }
+    public void removePiece(){this.piece = null;}
 }
