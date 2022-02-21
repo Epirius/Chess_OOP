@@ -17,12 +17,18 @@ public class Board implements IBoard{
     private boolean currentPlayerIsWhite = true; // TODO move to Model.Model
 
 
+    /**
+     * The normal constructor for Board
+     */
     public Board(){
         createBoard();
         initBoard();
     }
 
-    // creating a board without pieces, used for testing.
+    /**
+     * alternative constructor used for testing.
+     * @param initialize -if true: same as the normal constructor. if false: creates an empty board.
+     */
     public Board(boolean initialize){
         createBoard();
         if (initialize){ initBoard();}
@@ -54,9 +60,9 @@ public class Board implements IBoard{
         for (int i = 0; i < 8; i++) {whitePieces.add(new Pawn(Team.WHITE));}
 
         for (int i = 0; i < 16; i++) {
-            squares[i].setPiece(whitePieces.get(i));
+            getSquare(i).setPiece(whitePieces.get(i));
             whitePieces.get(i).setPosition(i);
-            squares[i + 48].setPiece(blackPieces.get(i));
+            getSquare(i + 48).setPiece(blackPieces.get(i));
             blackPieces.get(i).setPosition(i + 48);
         }
     }
@@ -68,7 +74,7 @@ public class Board implements IBoard{
 
     @Override
     public Piece getPiece(int squareId) {
-        return squares[squareId].getPiece();
+        return getSquare(squareId).getPiece();
     }
 
     @Override
@@ -76,14 +82,14 @@ public class Board implements IBoard{
         // TODO move to Model.Model maybe??
         int from = move.getMove()[0];
         int to = move.getMove()[1];
-        Piece movingPiece = squares[from].getPiece();
+        Piece movingPiece = getSquare(from).getPiece();
 
-        if (!squares[to].isEmpty()){
+        if (!getSquare(to).isEmpty()){
             kill(to);
         }
         if (move.enPassant){kill(move.enPassantPosition);}
-        squares[to].setPiece(movingPiece);
-        squares[from].removePiece();
+        getSquare(to).setPiece(movingPiece);
+        getSquare(from).removePiece();
         movingPiece.setPosition(to);
         moveHistory.add(move);
         currentPlayerIsWhite = !currentPlayerIsWhite;
@@ -92,10 +98,10 @@ public class Board implements IBoard{
     private void kill(int Id){
         // TODO move to Model.Model maybe ??
         // TODO do something with points here
-        Piece deathRowPiece = squares[Id].getPiece();
+        Piece deathRowPiece = getSquare(Id).getPiece();
         List<Piece> teamList = (Team.WHITE == deathRowPiece.team ? whitePieces : blackPieces);
         teamList.remove(deathRowPiece);
-        squares[Id].removePiece();
+        getSquare(Id).removePiece();
     }
 
     private List<Move> getPossibleMoves(){
