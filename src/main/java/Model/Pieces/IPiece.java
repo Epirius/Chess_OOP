@@ -1,3 +1,10 @@
+package Model.Pieces;
+
+import Model.Board;
+import Model.Move;
+import Model.Team;
+import Model.Type;
+
 import java.util.List;
 
 /**

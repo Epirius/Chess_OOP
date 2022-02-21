@@ -1,4 +1,7 @@
-import java.util.ArrayList;
+package Model.Pieces;
+
+import Model.*;
+
 import java.util.List;
 
 /**

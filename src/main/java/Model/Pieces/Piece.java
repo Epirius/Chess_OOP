@@ -1,3 +1,9 @@
+package Model.Pieces;
+
+import Model.Move;
+import Model.Team;
+import Model.Type;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,8 +12,8 @@ import java.util.List;
  */
 
 public abstract class Piece implements IPiece{
-    final Type type;
-    final Team team;
+    public final Type type;
+    public final Team team;
     private int position;
 
     public Piece(Team team, Type type){

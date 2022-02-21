@@ -1,6 +1,9 @@
-/**
+package Model; /**
  * @author Felix Kaasa
  */
+
+import Model.Pieces.Pawn;
+import Model.Pieces.Queen;
 
 import java.util.ArrayList;
 import java.util.List;

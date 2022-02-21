@@ -1,3 +1,6 @@
+package Model;
+
+import Model.Pieces.*;
 import java.util.*;
 
 /**
@@ -11,7 +14,7 @@ public class Board implements IBoard{
     private List<Piece> whitePieces = new ArrayList<>();
     private List<Piece> blackPieces = new ArrayList<>();
     public Stack<Move> moveHistory = new Stack<>();
-    private boolean currentPlayerIsWhite = true; // TODO move to Model
+    private boolean currentPlayerIsWhite = true; // TODO move to Model.Model
 
 
     public Board(){
@@ -70,7 +73,7 @@ public class Board implements IBoard{
 
     @Override
     public void doMove(Move move) {
-        // TODO move to Model maybe??
+        // TODO move to Model.Model maybe??
         int from = move.getMove()[0];
         int to = move.getMove()[1];
         Piece movingPiece = squares[from].getPiece();
@@ -87,7 +90,7 @@ public class Board implements IBoard{
     }
 
     private void kill(int Id){
-        // TODO move to Model maybe ??
+        // TODO move to Model.Model maybe ??
         // TODO do something with points here
         Piece deathRowPiece = squares[Id].getPiece();
         List<Piece> teamList = (Team.WHITE == deathRowPiece.team ? whitePieces : blackPieces);
@@ -96,7 +99,7 @@ public class Board implements IBoard{
     }
 
     private List<Move> getPossibleMoves(){
-        // TODO move to Model
+        // TODO move to Model.Model
         List<Piece> teamList = (currentPlayerIsWhite ? whitePieces : blackPieces);
         List<Move> allPossibleMoves = new ArrayList<>();
         for (Piece piece : teamList){
@@ -106,7 +109,7 @@ public class Board implements IBoard{
     }
 
     private List<Move> getPossibleThreats(){
-        // TODO move to Model
+        // TODO move to Model.Model
         List<Piece> enemyList = (currentPlayerIsWhite ? blackPieces : whitePieces);
         List<Move> allThreatMoves = new ArrayList<>();
         for (Piece piece : enemyList){
@@ -117,10 +120,10 @@ public class Board implements IBoard{
 
     /**
      * finds all legal move for the current player.
-     * @return List<Move>
+     * @return List<Model.Move>
      */
     public List<Move> getLegalMoves(){
-        // TODO move to Model
+        // TODO move to Model.Model
         List<Move> moves = getPossibleMoves();
         List<Move> threats = getPossibleThreats();
         List<Integer> threatSquares = new ArrayList<>();
@@ -168,13 +171,13 @@ public class Board implements IBoard{
         King kingPiece = (King) this.getKing();
         // WHITE
         if (king == 4 ) {
-            // King side
+            // Model.Pieces.King side
             if (threatSquares.contains(4) || threatSquares.contains(5) || threatSquares.contains(6) ||
                     !kingPiece.castleKingSide || this.getSquare(5).getPiece() != null ||
                     this.getSquare(6).getPiece() != null) {
                 illegalMoves.add(new Move(4, 6, true));
             }
-            // Queen side
+            // Model.Pieces.Queen side
             if (threatSquares.contains(4) || threatSquares.contains(3) || threatSquares.contains(2) ||
                     !kingPiece.castleQueenSide || this.getSquare(2).getPiece() != null ||
                     this.getSquare(3).getPiece() != null) {
@@ -184,13 +187,13 @@ public class Board implements IBoard{
 
         // BLACK
         if (king == 60 ) {
-            // King side
+            // Model.Pieces.King side
             if (threatSquares.contains(60) || threatSquares.contains(61) || threatSquares.contains(62) ||
                     !kingPiece.castleKingSide || this.getSquare(61).getPiece() != null ||
                     this.getSquare(62).getPiece() != null) {
                 illegalMoves.add(new Move(60, 62, true));
             }
-            // Queen side
+            // Model.Pieces.Queen side
             if (threatSquares.contains(4) || threatSquares.contains(3) || threatSquares.contains(2) ||
                     !kingPiece.castleQueenSide || this.getSquare(58).getPiece() != null ||
                     this.getSquare(59).getPiece() != null) {

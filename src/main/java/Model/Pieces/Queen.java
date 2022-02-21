@@ -1,5 +1,8 @@
+package Model.Pieces;
+
+import Model.*;
+
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * @author Felix Kaasa
