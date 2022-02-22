@@ -8,7 +8,6 @@ import java.util.List;
 import static java.lang.Math.min;
 
 public class getLines {
-    //TODO merge diagonal and pluss moves into this file.
 
     /**
      * This method gives all possible moves a piece could take in a diagonal or straight line.

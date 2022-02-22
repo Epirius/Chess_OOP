@@ -16,9 +16,7 @@ public class Queen extends Piece{
 
     @Override
     public List<Move> getPossibleMoves(int position, Board board){
-        Set<Move> setWithoutDuplicates = new LinkedHashSet<>(PlussMoves.getPlussMoves(position, board));
-        setWithoutDuplicates.addAll(DiagonalMoves.getDiagonalMoves(position, board));
-        List<Move> output = new ArrayList<>(setWithoutDuplicates);
+        List<Move> output = getLines.getMoves(position, board, true, true);
         return output;
     }
 }

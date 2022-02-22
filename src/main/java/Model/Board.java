@@ -14,6 +14,7 @@ public class Board implements IBoard{
     protected List<Piece> whitePieces = new ArrayList<>();
     protected List<Piece> blackPieces = new ArrayList<>();
     public Stack<Move> moveHistory = new Stack<>();
+    private boolean currentPlayerIsWhite = true;
 
 
 
@@ -104,6 +105,10 @@ public class Board implements IBoard{
         getSquare(Id).removePiece();
     }
 
+    public boolean isCurrentPlayerIsWhite(){
+        return currentPlayerIsWhite;
+    }
+
     /**
      *
      * @param Id
@@ -112,12 +117,8 @@ public class Board implements IBoard{
      */
     protected List<Square> squaresBetween(int Id, int target){
         List<Square> squares = new ArrayList<>();
-        List<Integer> line;
-        List<Integer> diagonal = DiagonalMoves.getDiagonalLine(Id, target);
-        List<Integer> pluss = PlussMoves.getPlussLine(Id, target);
-        if (diagonal.size() > 0){line = diagonal;}
-        else if (pluss.size() > 0){line = pluss;}
-        else {return new ArrayList<Square>();}
+        List<Integer> line = getLines.getLine(Id, target);
+        if (line.size() == 0){return new ArrayList<Square>();}
 
         int targetIndex = line.indexOf(target);
         for (int i = 0; i < targetIndex; i++) {

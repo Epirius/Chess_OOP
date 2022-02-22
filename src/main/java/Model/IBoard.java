@@ -28,8 +28,6 @@ public interface IBoard {
      */
     public void doMove(Move move);
 
-    public List<Move> getLegalMoves();
-
     /**
      * converts id to coordinates
      * @param Id int from 0 to 63

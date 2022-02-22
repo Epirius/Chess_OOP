@@ -9,16 +9,13 @@ import java.util.List;
 public class Model {
     //TODO move some stuff from Model.Board to this file
     private Board board = new Board();
-    private boolean currentPlayerIsWhite = true; // TODO move to Model.Model
+
 
 
     /////////////////////////////////////////////////////////////////////////////////////
 
-    protected void changeCurrentPlayer(){currentPlayerIsWhite = !currentPlayerIsWhite;}
-
     private List<Move> getPossibleMoves(){
-        // TODO move to Model.Model
-        List<Piece> teamList = (currentPlayerIsWhite ? board.whitePieces : board.blackPieces);
+        List<Piece> teamList = (board.isCurrentPlayerIsWhite() ? board.whitePieces : board.blackPieces);
         List<Move> allPossibleMoves = new ArrayList<>();
         for (Piece piece : teamList){
             allPossibleMoves.addAll(piece.getPossibleMoves(piece.getPosition(), board));
@@ -27,8 +24,7 @@ public class Model {
     }
 
     private List<Move> getPossibleThreats(){
-        // TODO move to Model.Model
-        List<Piece> enemyList = (currentPlayerIsWhite ? board.blackPieces : board.whitePieces);
+        List<Piece> enemyList = (board.isCurrentPlayerIsWhite() ? board.blackPieces : board.whitePieces);
         List<Move> allThreatMoves = new ArrayList<>();
         for (Piece piece : enemyList){
             allThreatMoves.addAll(piece.getPossibleMoves(piece.getPosition(), board));
@@ -41,14 +37,13 @@ public class Model {
      * @return List<Model.Move>
      */
     public List<Move> getLegalMoves(){
-        // TODO move to Model.Model
         List<Move> moves = getPossibleMoves();
         List<Move> threats = getPossibleThreats();
         List<Integer> threatSquares = new ArrayList<>();
         for (Move move : threats){ threatSquares.add(move.to);}
         List<Move> illegalMoves = new ArrayList<>();
         List<Move> kingInCheck = new ArrayList<>();
-        int king = (currentPlayerIsWhite ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
+        int king = (board.isCurrentPlayerIsWhite() ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
 
         // checking if king is attacked.
         for (Move threat : threats){
@@ -124,7 +119,7 @@ public class Model {
 
     // helper function only used in getLegalMoves()
     private Piece getKing(){
-        List<Piece> teamList = (currentPlayerIsWhite ? board.whitePieces : board.blackPieces);
+        List<Piece> teamList = (board.isCurrentPlayerIsWhite() ? board.whitePieces : board.blackPieces);
         Piece king = null;
         for (Piece piece : teamList){
             if (piece.type == Type.KING){king = piece;}

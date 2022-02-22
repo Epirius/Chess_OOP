@@ -94,6 +94,7 @@ public class testBoard {
         Assert.assertEquals(square, board.getSquare(square).getSquareId());
     }
 
+    /*
     @Test
     public void testingDiagonal() {
         List<Integer> l = DiagonalMoves.testingDiagonal(19);
@@ -109,6 +110,7 @@ public class testBoard {
         List<Integer> test =  Arrays.stream(ints).boxed().toList();
         Assert.assertEquals(test, l);
     }
+     */
 
 
 }

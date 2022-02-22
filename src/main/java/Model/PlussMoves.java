@@ -1,3 +1,6 @@
+// TODO delete this file
+
+/*
 package Model;
 
 import Model.Pieces.Pawn;
@@ -9,6 +12,7 @@ import java.util.List;
 /**
  * @author Felix Kaasa
  */
+/*
 public class PlussMoves {
     public static List<Move> getPlussMoves(int Id, Board board){
         List<Integer> plussSquareId = findPlussSquares(Id, board);
@@ -30,6 +34,7 @@ public class PlussMoves {
      * @param target is the square we are searching for
      * @return list of integers
      */
+/*
     public static List<Integer> getPlussLine(int Id, int target){
         int x = IBoard.squareToCoordinates(Id)[0];
         int y = IBoard.squareToCoordinates(Id)[1];
@@ -94,3 +99,4 @@ public class PlussMoves {
         return findPlussSquares(Id, board);
     }
 }
+*/
