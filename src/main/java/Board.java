@@ -70,7 +70,7 @@ public class Board implements IBoard{
 
     @Override
     public void doMove(Move move) {
-        // TODO move to Model maybe??
+        // TODO move to Model maybe?? maybe not?
         int from = move.getMove()[0];
         int to = move.getMove()[1];
         Piece movingPiece = squares[from].getPiece();
@@ -89,9 +89,9 @@ public class Board implements IBoard{
     private void kill(int Id){
         // TODO move to Model maybe ??
         // TODO do something with points here
-        Piece deathRowPiece = squares[Id].getPiece();
-        List<Piece> teamList = (Team.WHITE == deathRowPiece.team ? whitePieces : blackPieces);
-        teamList.remove(deathRowPiece);
+        Piece deadPiece = squares[Id].getPiece();
+        List<Piece> teamList = (Team.WHITE == deadPiece.team ? whitePieces : blackPieces);
+        teamList.remove(deadPiece);
         squares[Id].removePiece();
     }
 
