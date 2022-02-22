@@ -10,10 +10,10 @@ public enum Direction {
     SOUTHEAST(-7),
     SOUTHWEST(-9);
 
-    final int directionId;
+    public final int direction;
 
     private Direction(int directionIdd){
-        this.directionId = directionIdd;
+        this.direction = directionIdd;
     }
 
 
@@ -23,14 +23,14 @@ public enum Direction {
      * @return new square in a direction.
      */
     public int getDirection(int currentSquare){
-        if ( currentSquare + directionId > 63 || currentSquare + directionId < 0){throw new IndexOutOfBoundsException("current square " + currentSquare + " + " + directionId + " = " + (currentSquare + directionId) + " which is out of bounds.");}
+        if ( currentSquare + direction > 63 || currentSquare + direction < 0){throw new IndexOutOfBoundsException("current square " + currentSquare + " + " + direction + " = " + (currentSquare + direction) + " which is out of bounds.");}
 
         int currentSquareY = IBoard.squareToCoordinates(currentSquare)[1];
-        int newSquareY = IBoard.squareToCoordinates(currentSquare + directionId)[1];
+        int newSquareY = IBoard.squareToCoordinates(currentSquare + direction)[1];
 
-        if (directionId > 1 && currentSquareY + 1 == newSquareY){return currentSquare + directionId;}
-        else if (directionId < 2 && directionId > -2 && currentSquareY == newSquareY){return  currentSquare + directionId;}
-        else if (directionId < -1 && currentSquareY -1 == newSquareY){return  currentSquare + directionId;}
+        if (direction > 1 && currentSquareY + 1 == newSquareY){return currentSquare + direction;}
+        else if (direction < 2 && direction > -2 && currentSquareY == newSquareY){return  currentSquare + direction;}
+        else if (direction < -1 && currentSquareY -1 == newSquareY){return  currentSquare + direction;}
         else {throw new IndexOutOfBoundsException("current y is: " + currentSquareY + " new y is: " + newSquareY + " which it should not be");}
     }
 }

@@ -1,4 +1,4 @@
-import Model.Model;
+import Model.*;
 
 /**
  * @author Felix Kaasa
