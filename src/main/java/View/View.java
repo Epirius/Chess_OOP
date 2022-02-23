@@ -1,17 +1,32 @@
 package View;
 
 import Main.Constants;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.ImageObserver;
 
 public class View extends JComponent {
 
+    public View(){
 
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int rawX = e.getX();
+                int rawY = e.getY();
+
+                //checking if the x and y coordinates of the mouse is over the squares of the board.
+                boolean xInBounds = rawX > Constants.boardOffset && rawX < Constants.boardOffset + Constants.squareSize * 8;
+                boolean yInBounds = rawY > Constants.boardOffset && rawY < Constants.boardOffset + Constants.squareSize * 8;
+                if (!xInBounds || !yInBounds) {return;}
+
+                //converting the x and y coordinates of the mouse to a int of the square it is over.
+                int square = rawCoordsToSquare(rawX, rawY);
+                System.out.println(square);
+            }
+        });
+    }
 
 
     @Override
@@ -19,23 +34,6 @@ public class View extends JComponent {
         super.paint(g);
         boardLayer(g);
         pieceLayer(g);
-
-
-        this.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
-                int rawX = e.getX();
-                int rawY = e.getY();
-
-                //checking if the x and y coordinates of the mouse is over the squares of the board.
-                boolean xInBounds = rawX > Constants.boardOffset && rawX < Constants.boardOffset + Constants.squareSize * 8;
-                boolean yInBounds = rawY > Constants.boardOffset && rawY < Constants.boardOffset + Constants.squareSize * 8;
-                if (!xInBounds && !yInBounds) {return;}
-
-                //converting the x and y coordinates of the mouse to a int of the square it is over.
-                int square = rawCoordsToSquare(rawX, rawY);
-                System.out.println(square);
-            }
-        });
     }
 
     /**
