@@ -1,3 +1,7 @@
+package Model;
+
+import Model.Pieces.Piece;
+
 /**
  * @author Felix Kaasa
  */
@@ -12,12 +16,12 @@ public class Square {
 
     void setPiece(Piece piece){this.piece = piece;}
 
-    Piece getPiece(){
+    public Piece getPiece(){
         if (this.isEmpty()){ return null;}
         return this.piece;
     }
 
-    boolean isEmpty(){
+    public boolean isEmpty(){
         if (this.piece == null){ return true;}
         return false;
     }

@@ -1,3 +1,7 @@
+package Model.Pieces;
+
+import Model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +19,7 @@ public class Knight extends Piece{
     public List<Move> getPossibleMoves(int position, Board board) {
         List<Move> moves = new ArrayList<>();
         int y = IBoard.squareToCoordinates(position)[1];
-        int[] steps = new int[]{-17, -15, -10, -6, 6, 10, 15, 17}; // all the directions a Knight can move
+        int[] steps = new int[]{-17, -15, -10, -6, 6, 10, 15, 17}; // all the directions a Model.Pieces.Knight can move
 
         for (int step : steps){
             if (position + step > 63 || position + step < 0){continue;}

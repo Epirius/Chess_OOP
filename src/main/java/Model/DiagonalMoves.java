@@ -1,6 +1,11 @@
-/**
+// TODO delete this file
+/*
+package Model; /**
  * @author Felix Kaasa
  */
+/*
+import Model.Pieces.Pawn;
+import Model.Pieces.Queen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +19,7 @@ public class DiagonalMoves {
      * @param board object that holds all squares
      * @return a list of Moves that start from ID, and ends in all diagonal squares.
      */
+/*
     public static List<Move> getDiagonalMoves(int Id, Board board){
         List<Integer> diagonalSquareId = findDiagonalSquares(Id, board);
         int numberOfMoves = diagonalSquareId.size();
@@ -34,6 +40,7 @@ public class DiagonalMoves {
      * @param target is the square we are searching for
      * @return list of integers
      */
+/*
     public static List<Integer> getDiagonalLine(int Id, int target){
         int x = IBoard.squareToCoordinates(Id)[0];
         int y = IBoard.squareToCoordinates(Id)[1];
@@ -57,6 +64,7 @@ public class DiagonalMoves {
      * @param board object that holds all squares
      * @return a list of integers corresponding to diagonal squares.
      */
+/*
     private static List<Integer> findDiagonalSquares(int Id, Board board){
         List<Integer> diagonalSquareId = new ArrayList<Integer>();
         int x = IBoard.squareToCoordinates(Id)[0];
@@ -103,3 +111,5 @@ public class DiagonalMoves {
         return findDiagonalSquares(Id, board);
     }
 }
+
+ */

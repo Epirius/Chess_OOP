@@ -1,3 +1,7 @@
+package Model;
+
+import Model.Pieces.Piece;
+
 import java.util.List;
 
 /**
@@ -23,8 +27,6 @@ public interface IBoard {
      * @param move takes in a LEGAL! move.
      */
     public void doMove(Move move);
-
-    public List<Move> getLegalMoves();
 
     /**
      * converts id to coordinates
