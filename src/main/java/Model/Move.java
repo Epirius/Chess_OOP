@@ -62,10 +62,10 @@ public class Move {
 
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Move move = (Move) o;
+    public boolean equals(Object that) {
+        if (this == that) return true;
+        if (that == null || getClass() != that.getClass()) return false;
+        Move move = (Move) that;
         return from == move.from && to == move.to && castle == move.castle;
     }
 

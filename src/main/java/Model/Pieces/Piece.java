@@ -43,6 +43,7 @@ public abstract class Piece implements IPiece{
 
     @Override
     public List<Move> getLegalMoves() {
+        System.out.println("getLegalMoves have not been implemented!!!!! (Piece.java)");
         return new ArrayList<Move>(); //TODO
     }
 
