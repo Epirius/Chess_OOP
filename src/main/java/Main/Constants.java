@@ -26,16 +26,31 @@ public final class Constants {
     public static  BufferedImage queenW;
     public static  BufferedImage kingW;
 
+    public static  BufferedImage pawnB;
+    public static  BufferedImage rookB;
+    public static  BufferedImage knightB;
+    public static  BufferedImage bishopB;
+    public static  BufferedImage queenB;
+    public static  BufferedImage kingB;
+
     static {
         try {
-            pawnW = ImageIO.read(new File("/images/pawnW.png"));
-            rookW = ImageIO.read(new File("/images/rookW.png"));
-            knightW = ImageIO.read(new File("/images/knightW.png"));
-            bishopW = ImageIO.read(new File("/images/bishopW.png"));
-            queenW = ImageIO.read(new File("/images/queenW.png"));
-            kingW = ImageIO.read(new File("/images/kingW.png"));
+            pawnW = ImageIO.read(new File("./images/pawnW.png"));
+            rookW = ImageIO.read(new File("./images/rookW.png"));
+            knightW = ImageIO.read(new File("./images/knightW.png"));
+            bishopW = ImageIO.read(new File("./images/bishopW.png"));
+            queenW = ImageIO.read(new File("./images/queenW.png"));
+            kingW = ImageIO.read(new File("./images/kingW.png"));
+
+            pawnB = ImageIO.read(new File("./images/pawnB.png"));
+            rookB = ImageIO.read(new File("./images/rookB.png"));
+            knightB = ImageIO.read(new File("./images/knightB.png"));
+            bishopB = ImageIO.read(new File("./images/bishopB.png"));
+            queenB = ImageIO.read(new File("./images/queenB.png"));
+            kingB = ImageIO.read(new File("./images/kingB.png"));
         } catch (IOException e) {
             e.printStackTrace();
+            System.out.println("The piece images were not loaded in properly.");
         }
     }
 

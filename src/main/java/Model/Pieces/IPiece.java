@@ -1,8 +1,6 @@
 package Model.Pieces;
 
-import Model.Move;
-import Model.Team;
-import Model.Type;
+import Model.*;
 
 import java.util.List;
 
