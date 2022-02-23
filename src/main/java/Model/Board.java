@@ -132,7 +132,7 @@ public class Board implements IBoard{
      */
     protected List<Square> squaresBetween(int squareId, int target){
         List<Square> squares = new ArrayList<>();
-        List<Integer> line = getLines.getLine(squareId, target);
+        List<Integer> line = GetLines.getLine(squareId, target);
         if (line.size() == 0){return new ArrayList<Square>();}
 
         int targetIndex = line.indexOf(target);

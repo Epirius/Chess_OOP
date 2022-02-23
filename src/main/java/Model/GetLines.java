@@ -7,7 +7,7 @@ import java.util.List;
 
 import static java.lang.Math.min;
 
-public class getLines {
+public class GetLines {
 
     /**
      * This method gives all possible moves a piece could take in a diagonal or straight line.

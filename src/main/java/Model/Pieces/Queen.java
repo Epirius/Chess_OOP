@@ -16,7 +16,7 @@ public class Queen extends Piece{
 
     @Override
     public List<Move> getPossibleMoves(int position, Board board){
-        List<Move> output = getLines.getMoves(position, board, true, true);
+        List<Move> output = GetLines.getMoves(position, board, true, true);
         return output;
     }
 }
