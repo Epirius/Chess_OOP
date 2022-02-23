@@ -96,6 +96,10 @@ public class Board implements IBoard{
         currentPlayerIsWhite = !currentPlayerIsWhite;
     }
 
+    /**
+     * handles the removal of a captured piece
+     * @param Id id of the square with the captured piece
+     */
     private void kill(int Id){
         // TODO move to Model.Model maybe ??
         // TODO do something with points here
@@ -110,14 +114,25 @@ public class Board implements IBoard{
     }
 
     /**
-     *
-     * @param Id
+     * checks if a square is occupied by a friendly piece.
+     * @param squareId Id of the square with the piece to be checked.
+     * @return returns true if piece is friendly.
+     */
+    public boolean isSquareFriendly(int squareId){
+        if (isCurrentPlayerIsWhite() && getPiece(squareId).team == Team.WHITE){return true;}
+        else if (!isCurrentPlayerIsWhite() && getPiece(squareId).team == Team.BLACK){return true;}
+        return false;
+    }
+
+    /**
+     * used to get the squares between two squares.
+     * @param squareId
      * @param target
      * @return a list of squares between two square Id's, returns empty if they are not on the same line.
      */
-    protected List<Square> squaresBetween(int Id, int target){
+    protected List<Square> squaresBetween(int squareId, int target){
         List<Square> squares = new ArrayList<>();
-        List<Integer> line = getLines.getLine(Id, target);
+        List<Integer> line = getLines.getLine(squareId, target);
         if (line.size() == 0){return new ArrayList<Square>();}
 
         int targetIndex = line.indexOf(target);

@@ -1,61 +1,77 @@
 package Controller;
 
-import Model.Board;
-import Model.Team;
-import View.View;
+import Model.Model;
+import Model.Move;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Felix Kaasa
  */
 public class Controller {
-    private Integer[] clickHandler = new Integer[2];
-    Board board;
-    View view;
+    private Integer[] clickHolder = new Integer[2];
+    private List<Move> selectedLegalMoves = new ArrayList<>();
+    Model model;
 
-    public Controller(Board board, View view){
-        System.out.println("set up...");
-        this.board = board;
-        this.view = view;
-        this.clickHandler[0] = null;
-        this.clickHandler[1] = null;
+    public Controller(Model model){
+        this.model = model;
+
+        this.clickHolder[0] = null;
+        this.clickHolder[1] = null;
     }
 
     /**
-     * The view will send user clicks to this method.
+     * Handles clicks sendt from View.
      * @param clickedSquare an int corresponding to the ID of the square that was clicked on.
      */
     public void handleClicks(int clickedSquare){
-        if (this.clickHandler[0] == null){
+        if (clickHolder[0] == null){
 
             // reset clickHandler
-            this.clickHandler[1] = null;
+            clickHolder[1] = null;
 
             //if the first click is on a friendly piece.
-            if ((board.isCurrentPlayerIsWhite() && board.getPiece(clickedSquare).team == Team.WHITE) || (!board.isCurrentPlayerIsWhite() && board.getPiece(clickedSquare).team == Team.BLACK)){
-                this.clickHandler[0] = clickedSquare;
+            if (model.isSquareFriendly(clickedSquare)){
+                clickHolder[0] = clickedSquare;
             }
-
-            // if (clickedSquare in moves[0]
-            //      find all legal moves and display them. TODO
+            updateSelectedLegalMoves(clickHolder[0]);
         }
         // if the player clicks on the same square two times.
-        else if (this.clickHandler[0] == clickedSquare){
-            this.clickHandler[0] = null;
-            this.clickHandler[1] = null;
-            // remove display of legal moves TODO
+        else if (clickHolder[0] == clickedSquare){
+            clickHolder[0] = null;
+            clickHolder[1] = null;
+            selectedLegalMoves.clear();
         }
-        // if the player is clicking on a second square different then the first
-        else if (this.clickHandler[0] != null && this.clickHandler[0] != clickedSquare){
-            // remove display of legal moves TODO
+        // if the player is clicking on a second square different from the first
+        else if (clickHolder[0] != null && clickHolder[0] != clickedSquare){
+            clickHolder[1] = clickedSquare;
+            selectedLegalMoves.clear();
 
-            // if ( this.clickHandler[0] and clickedSquare make a valid move)
-            //      create() the move and send it to Model TODO
-            //      this.clickHandler[0] = null;
-            //      this.clickHandler[1] = null;
-            // else
-            //      this.clickHandler[0] = clickedSquare;
-            //      this.clickHandler[1] = null;
-            //      update display of legal moves TODO
+            // if clickHandler[0] and clickHandler[0] make a valid move
+            if (model.getLegalMoves().contains(new Move(clickHolder[0], clickHolder[1]))){
+                createMove(new Move(clickHolder[0], clickHolder[1]));
+                clickHolder[0] = null;
+                clickHolder[1] = null;
+            }
+            else{
+                clickHolder[0] = clickHolder[1];
+                clickHolder[1] = null;
+                updateSelectedLegalMoves(clickHolder[0]);
+            }
         }
+    }
+
+    private void updateSelectedLegalMoves(int selectedSquare) {
+        for (Move move : model.getLegalMoves()){
+            if (move.from == selectedSquare){
+                // if the selected square has legal moves, update the list of selected legal moves.
+                selectedLegalMoves.add(move);
+            }
+        }
+    }
+
+    private void createMove(Move move){
+        System.out.println("Move: " + move.from + ", " + move.to);
     }
 }

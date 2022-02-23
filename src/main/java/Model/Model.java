@@ -11,7 +11,6 @@ public class Model {
     private Board board = new Board();
 
 
-
     /////////////////////////////////////////////////////////////////////////////////////
 
     private List<Move> getPossibleMoves(){
@@ -34,7 +33,7 @@ public class Model {
 
     /**
      * finds all legal move for the current player.
-     * @return List<Model.Move>
+     * @return List<Move>
      */
     public List<Move> getLegalMoves(){
         List<Move> moves = getPossibleMoves();
@@ -84,13 +83,13 @@ public class Model {
         King kingPiece = (King) getKing();
         // WHITE
         if (king == 4 ) {
-            // Model.Pieces.King side
+            // King side
             if (threatSquares.contains(4) || threatSquares.contains(5) || threatSquares.contains(6) ||
                     !kingPiece.castleKingSide || board.getSquare(5).getPiece() != null ||
                     board.getSquare(6).getPiece() != null) {
                 illegalMoves.add(new Move(4, 6, true));
             }
-            // Model.Pieces.Queen side
+            // Queen side
             if (threatSquares.contains(4) || threatSquares.contains(3) || threatSquares.contains(2) ||
                     !kingPiece.castleQueenSide || board.getSquare(2).getPiece() != null ||
                     board.getSquare(3).getPiece() != null) {
@@ -100,13 +99,13 @@ public class Model {
 
         // BLACK
         if (king == 60 ) {
-            // Model.Pieces.King side
+            // King side
             if (threatSquares.contains(60) || threatSquares.contains(61) || threatSquares.contains(62) ||
                     !kingPiece.castleKingSide || board.getSquare(61).getPiece() != null ||
                     board.getSquare(62).getPiece() != null) {
                 illegalMoves.add(new Move(60, 62, true));
             }
-            // Model.Pieces.Queen side
+            // Queen side
             if (threatSquares.contains(4) || threatSquares.contains(3) || threatSquares.contains(2) ||
                     !kingPiece.castleQueenSide || board.getSquare(58).getPiece() != null ||
                     board.getSquare(59).getPiece() != null) {
@@ -136,5 +135,10 @@ public class Model {
         }
         return king;
     }
+
+    /**
+     * helper function to pass info from board to controller.
+     */
+    public boolean isSquareFriendly(int squareId){return board.isSquareFriendly(squareId);}
 
 }

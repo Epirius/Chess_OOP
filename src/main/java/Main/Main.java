@@ -1,5 +1,6 @@
 package Main;
 
+import Controller.Controller;
 import Model.*;
 import View.View;
 import javax.swing.*;
@@ -11,9 +12,12 @@ import java.awt.*;
  */
 public class Main {
     public static void main(String[] args) {
-        Model model = new Model();
-
         JComponent view = new View();
+        Model model = new Model();
+        Controller controller = new Controller(model);
+
+
+
 
         JFrame frame = new JFrame("Chess - Felix");
         frame.setContentPane(view);
