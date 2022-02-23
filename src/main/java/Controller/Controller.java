@@ -72,6 +72,19 @@ public class Controller {
     }
 
     private void createMove(Move move){
+        //TODO
         System.out.println("Move: " + move.from + ", " + move.to);
+    }
+
+    /**
+     * get squares that are legal after the user has clicked on a square
+     * @return int[] of legal squares
+     */
+    public List<Integer> getLegalSquares(){
+        List<Integer> squares = new ArrayList<>();
+        for (Move move : selectedLegalMoves){
+            squares.add(move.to);
+        }
+        return squares;
     }
 }

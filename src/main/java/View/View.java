@@ -34,6 +34,7 @@ public class View extends JComponent {
         super.paint(g);
         boardLayer(g);
         pieceLayer(g);
+        //TODO show legal squares: getLegalSquares()
     }
 
     /**
