@@ -8,10 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.List;
 
 public class View extends JComponent {
     Controller controller;
+    List<Integer> legalSquares = new ArrayList<>();
 
     public View(Controller controller){
         this.controller = controller;
@@ -30,6 +32,7 @@ public class View extends JComponent {
                 int square = rawCoordsToSquare(rawX, rawY);
                 System.out.println(square);
                 controller.handleClicks(square);
+                legalSquares = controller.getLegalSquares();
 
             }
         });
@@ -96,7 +99,7 @@ public class View extends JComponent {
         }
 
         // draw legal squares.
-        List<Integer> legalSquares = controller.getLegalSquares();
+        //List<Integer> legalSquares = controller.getLegalSquares();
         if (legalSquares.size() > 0) {
             for (Integer i : legalSquares) {
                 // convert the square into coordinates. NB!! 0,0 is at bottom left.
