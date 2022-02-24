@@ -3,6 +3,7 @@ package Controller;
 import Model.Model;
 import Model.Move;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +14,16 @@ public class Controller {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
     Model model;
+    JComponent view;
 
-    public Controller(Model model){
-        this.model = model;
-
+    public Controller(){
         this.clickHolder[0] = null;
         this.clickHolder[1] = null;
+    }
+
+    public void setModelAndView(Model model, JComponent view){
+        this.model = model;
+        this.view = view;
     }
 
     /**
@@ -34,8 +39,9 @@ public class Controller {
             //if the first click is on a friendly piece.
             if (model.isSquareFriendly(clickedSquare)){
                 clickHolder[0] = clickedSquare;
+                updateSelectedLegalMoves(clickHolder[0]);
             }
-            updateSelectedLegalMoves(clickHolder[0]);
+
         }
         // if the player clicks on the same square two times.
         else if (clickHolder[0] == clickedSquare){

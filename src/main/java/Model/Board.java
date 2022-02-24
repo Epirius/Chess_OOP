@@ -119,6 +119,7 @@ public class Board implements IBoard{
      * @return returns true if piece is friendly.
      */
     public boolean isSquareFriendly(int squareId){
+        if (getSquare(squareId).isEmpty()){return false;}
         if (isCurrentPlayerIsWhite() && getPiece(squareId).team == Team.WHITE){return true;}
         else if (!isCurrentPlayerIsWhite() && getPiece(squareId).team == Team.BLACK){return true;}
         return false;

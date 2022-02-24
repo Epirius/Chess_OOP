@@ -12,9 +12,10 @@ import java.awt.*;
  */
 public class Main {
     public static void main(String[] args) {
-        JComponent view = new View();
+        Controller controller = new Controller();
         Model model = new Model();
-        Controller controller = new Controller(model);
+        JComponent view = new View(controller);
+        controller.setModelAndView(model, view);
 
 
 
