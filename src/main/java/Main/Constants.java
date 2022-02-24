@@ -17,6 +17,8 @@ public final class Constants {
     public static final Color colorBackground = new Color(90, 94, 89);
     public static final Color colorDarkSquare = new Color(21, 29, 36);
     public static final Color colorLightSquare = new Color(237, 132, 99);
+    public static final Color colorHighlightSquare = new Color(213, 248, 147, 175);
+
 
     // Images
     public static  BufferedImage pawnW;
