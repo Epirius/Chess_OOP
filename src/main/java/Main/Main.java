@@ -5,6 +5,7 @@ import Model.*;
 import View.View;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 
 /**
@@ -26,8 +27,10 @@ public class Main {
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-
         frame.setVisible(true);
+
+        BufferedImage icon = Constants.knightB;
+        frame.setIconImage(icon);
 
 
     }

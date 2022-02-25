@@ -94,23 +94,4 @@ public class testBoard {
         Assert.assertEquals(square, board.getSquare(square).getSquareId());
     }
 
-    /*
-    @Test
-    public void testingDiagonal() {
-        List<Integer> l = DiagonalMoves.testingDiagonal(19);
-        int[] ints = {12, 5, 10, 1, 26, 33, 40, 28, 37, 46, 55};
-        List<Integer> test =  Arrays.stream(ints).boxed().toList();
-        Assert.assertEquals(test, l);
-    }
-
-    @Test
-    public void testingPluss() {
-        List<Integer> l = PlussMoves.testingPluss(19);
-        int[] ints = {11, 3, 18, 17, 16, 20, 21, 22, 23, 27, 35, 43, 51, 59};
-        List<Integer> test =  Arrays.stream(ints).boxed().toList();
-        Assert.assertEquals(test, l);
-    }
-     */
-
-
 }

@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Model;
 import Model.Move;
+import Model.Pieces.Piece;
+import View.ViewPiece;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -92,5 +94,13 @@ public class Controller {
             squares.add(move.to);
         }
         return squares;
+    }
+
+    public List<ViewPiece> getPiecesOnTheBoard(){
+        List<ViewPiece> output = new ArrayList<>();
+        for (Piece piece : model.getAllPieces()){
+            output.add(new ViewPiece(piece.getPiece(), piece.getTeam(), piece.getPosition()));
+        }
+        return output;
     }
 }

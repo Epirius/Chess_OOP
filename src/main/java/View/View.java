@@ -20,20 +20,24 @@ public class View extends JComponent {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                int rawX = e.getX();
-                int rawY = e.getY();
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    int rawX = e.getX();
+                    int rawY = e.getY();
 
-                //checking if the x and y coordinates of the mouse is over the squares of the board.
-                boolean xInBounds = rawX > Constants.boardOffset && rawX < Constants.boardOffset + Constants.squareSize * 8;
-                boolean yInBounds = rawY > Constants.boardOffset && rawY < Constants.boardOffset + Constants.squareSize * 8;
-                if (!xInBounds || !yInBounds) {return;}
+                    //checking if the x and y coordinates of the mouse is over the squares of the board.
+                    boolean xInBounds = rawX > Constants.boardOffset && rawX < Constants.boardOffset + Constants.squareSize * 8;
+                    boolean yInBounds = rawY > Constants.boardOffset && rawY < Constants.boardOffset + Constants.squareSize * 8;
+                    if (!xInBounds || !yInBounds) {
+                        return;
+                    }
 
-                //converting the x and y coordinates of the mouse to a int of the square it is over.
-                int square = rawCoordsToSquare(rawX, rawY);
-                System.out.println(square);
-                controller.handleClicks(square);
-                legalSquares = controller.getLegalSquares();
-
+                    //converting the x and y coordinates of the mouse to a int of the square it is over.
+                    int square = rawCoordsToSquare(rawX, rawY);
+                    System.out.println(square);
+                    controller.handleClicks(square);
+                    legalSquares = controller.getLegalSquares();
+                    repaint();
+                }
             }
         });
     }
@@ -44,7 +48,6 @@ public class View extends JComponent {
         super.paintComponent(g);
         boardLayer(g);
         pieceLayer(g);
-        //TODO show legal squares: getLegalSquares()
     }
 
     /**
@@ -115,10 +118,21 @@ public class View extends JComponent {
     }
 
     public void pieceLayer(Graphics g){
-        // TODO this needs to be changed
         JLayeredPane piecePane = new JLayeredPane();
-        JLabel piece1 = new JLabel(new ImageIcon(Constants.rookW));
-        add(piece1);
-        g.drawImage(Constants.rookW, 100, 100, piecePane);
+        List<ViewPiece> pieces = controller.getPiecesOnTheBoard();
+
+        for (ViewPiece piece : pieces){
+            int[] coords = inverseSquareToCoords(piece.position);
+            int x = Constants.boardOffset + Constants.squareSize * coords[0];
+            int y = Constants.boardOffset + Constants.squareSize * coords[1];
+
+            int xOffset = x + Math.floorDiv(Constants.squareSize, 2) - Math.floorDiv(piece.image.getWidth(), 2);
+            int yOffset = y + Math.floorDiv(Constants.squareSize, 2) - Math.floorDiv(piece.image.getHeight(), 2);
+            if (piece.type == Type.PAWN){
+                yOffset = y + Math.floorDiv(Constants.squareSize, 6);
+            }
+
+            g.drawImage(piece.image, xOffset, yOffset, piecePane);
+        }
     }
 }

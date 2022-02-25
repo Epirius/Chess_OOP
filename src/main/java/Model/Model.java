@@ -2,6 +2,7 @@ package Model;
 
 import Model.Pieces.King;
 import Model.Pieces.Piece;
+import View.ViewPiece;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,5 +141,16 @@ public class Model {
      * helper function to pass info from board to controller.
      */
     public boolean isSquareFriendly(int squareId){return board.isSquareFriendly(squareId);}
+
+    /**
+     *
+     * @return returns a list of all current pieces on the board
+     */
+    public List<Piece> getAllPieces(){
+        List<Piece> output = new ArrayList<>();
+        output.addAll(board.blackPieces);
+        output.addAll(board.whitePieces);
+        return output;
+    }
 
 }
