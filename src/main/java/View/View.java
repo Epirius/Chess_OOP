@@ -33,7 +33,7 @@ public class View extends JComponent {
 
                     //converting the x and y coordinates of the mouse to a int of the square it is over.
                     int square = rawCoordsToSquare(rawX, rawY);
-                    System.out.println(square);
+                    System.out.println(square); // TODO DELETE
                     controller.handleClicks(square);
                     legalSquares = controller.getLegalSquares();
                     repaint();
@@ -106,7 +106,6 @@ public class View extends JComponent {
         if (legalSquares.size() > 0) {
             for (Integer i : legalSquares) {
                 // convert the square into coordinates. NB!! 0,0 is at bottom left.
-                System.out.println(i + "-----");
                 int[] legalSquare = inverseSquareToCoords(i);
                 int x = boardOffset + squareSize * legalSquare[0];
                 int y = boardOffset + squareSize * legalSquare[1];
