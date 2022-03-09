@@ -1,13 +1,13 @@
 package Model;
 
+import Controller.IMovable;
 import Model.Pieces.King;
 import Model.Pieces.Piece;
-import View.ViewPiece;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model {
+public class Model implements IMovable {
     //TODO move some stuff from Model.Board to this file
     private Board board = new Board();
 
@@ -32,17 +32,17 @@ public class Model {
         return allThreatMoves;
     }
 
-    /**
-     * finds all legal move for the current player.
-     * @return List<Move>
-     */
+
+    @Override
     public List<Move> getLegalMoves(){
         List<Move> moves = getPossibleMoves();
         List<Move> threats = getPossibleThreats();
-        List<Integer> threatSquares = new ArrayList<>();
-        for (Move move : threats){ threatSquares.add(move.to);}
         List<Move> illegalMoves = new ArrayList<>();
         List<Move> kingInCheck = new ArrayList<>();
+        List<Integer> threatSquares = new ArrayList<>();
+
+        for (Move move : threats){ threatSquares.add(move.to);}
+
         int king = (board.isCurrentPlayerIsWhite() ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
 
         // checking if king is attacked.
@@ -56,18 +56,21 @@ public class Model {
             // checking if the king is moving into an attacked square.
             if (move.from == king && threatSquares.contains(move.to)){
                 illegalMoves.add(move);
+                continue;
             }
 
             // checking if king is attacked by a piece, and the move does not kill that piece.
-            if (kingInCheck.size() == 1 && move.to != kingInCheck.get(0).from && move.to != king){
+            if (kingInCheck.size() == 1 && move.to != kingInCheck.get(0).from && move.from != king){
                 // if the attacking piece is not a queen rook or bishop:
                 Type attacker = board.getSquare(kingInCheck.get(0).from).getPiece().type;
                 if (!(attacker == Type.QUEEN || attacker == Type.ROOK || attacker == Type.BISHOP)){
                     // then we can't block.
                     illegalMoves.add(move);
+                    continue;
                 } else if (!board.squaresBetween(king, kingInCheck.get(0).from).contains(board.getSquare(move.to))){
                     // if you can block but didn't:
                     illegalMoves.add(move);
+                    continue;
                 }
             }
             // checking for double check.
@@ -142,15 +145,18 @@ public class Model {
      */
     public boolean isSquareFriendly(int squareId){return board.isSquareFriendly(squareId);}
 
-    /**
-     *
-     * @return returns a list of all current pieces on the board
-     */
+
+    @Override
     public List<Piece> getAllPieces(){
         List<Piece> output = new ArrayList<>();
         output.addAll(board.blackPieces);
         output.addAll(board.whitePieces);
         return output;
+    }
+
+    @Override
+    public void doMove(Move move) {
+        board.doMove(move);
     }
 
 }

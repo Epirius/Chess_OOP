@@ -16,10 +16,10 @@ public class Main {
     public static void main(String[] args) {
 
         Model model = new Model();
-        //JComponent view = new View(controller);
         View view = new View();
         Controller controller = new Controller(model, view);
-        //controller.setModelAndView(model, view);
+        view.setDrawable(controller);
+
 
 
         JFrame frame = new JFrame("Chess - Felix");

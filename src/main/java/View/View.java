@@ -1,6 +1,6 @@
 package View;
 
-import Controller.IClickable;
+import Controller.Controller;
 import Main.Constants;
 import Model.*;
 
@@ -9,11 +9,16 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class View extends JComponent implements IClickable {
+public class View extends JComponent {
     List<Integer> legalSquares = new ArrayList<>();
+    Controller controller;
 
     public View(){
 
+    }
+
+    public void setDrawable(Controller controller){
+        this.controller = controller;
     }
 
 
@@ -24,10 +29,13 @@ public class View extends JComponent implements IClickable {
         pieceLayer(g);
     }
 
+    /*
     @Override
     public void setLegalSquares(List<Integer> legalSquares){
         this.legalSquares = legalSquares;
     }
+
+     */
 
     /**
      * converts a square id to coordinates with 0,0 at TOP LEFT.
@@ -66,7 +74,7 @@ public class View extends JComponent implements IClickable {
         }
 
         // draw legal squares.
-        //List<Integer> legalSquares = controller.getLegalSquares();
+        legalSquares = controller.getLegalSquares();
         if (legalSquares.size() > 0) {
             for (Integer i : legalSquares) {
                 // convert the square into coordinates. NB!! 0,0 is at bottom left.

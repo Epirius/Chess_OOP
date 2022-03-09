@@ -3,7 +3,10 @@ package Controller;
 import Main.Constants;
 import Model.Model;
 import Model.Move;
+import Model.Pieces.Piece;
 import View.View;
+import View.ViewPiece;
+import View.IDrawable;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ import java.util.List;
 /**
  * @author Felix Kaasa
  */
-public class Controller extends MouseAdapter {
+public class Controller extends MouseAdapter implements IDrawable {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
     Model model;
@@ -43,7 +46,6 @@ public class Controller extends MouseAdapter {
             int square = rawCoordsToSquare(rawX, rawY);
             System.out.println(square); // TODO delete this line
             handleClicks(square);
-            view.setLegalSquares(getLegalSquares());
             view.repaint();
         }
     }
@@ -76,9 +78,9 @@ public class Controller extends MouseAdapter {
             clickHolder[1] = clickedSquare;
             selectedLegalMoves.clear();
 
-            // if clickHandler[0] and clickHandler[0] make a valid move
+            // if clickHandler[0] and clickHandler[1] make a valid move
             if (model.getLegalMoves().contains(new Move(clickHolder[0], clickHolder[1]))){
-                createMove(new Move(clickHolder[0], clickHolder[1]));
+                createMove(clickHolder[0], clickHolder[1]);
                 clickHolder[0] = null;
                 clickHolder[1] = null;
             }
@@ -122,15 +124,14 @@ public class Controller extends MouseAdapter {
         }
     }
 
-    private void createMove(Move move){
-        //TODO
-        System.out.println("Move: " + move.from + ", " + move.to);
+    private void createMove(int from, int to){
+        Move move = new Move(from, to);
+        System.out.println("Move: " + move.from + ", " + move.to); //TODO delete me
+        model.doMove(move);
+
     }
 
-    /**
-     * get squares that are legal after the user has clicked on a square
-     * @return int[] of legal squares
-     */
+    @Override
     public List<Integer> getLegalSquares(){
         List<Integer> squares = new ArrayList<>();
         for (Move move : selectedLegalMoves){
@@ -139,6 +140,7 @@ public class Controller extends MouseAdapter {
         return squares;
     }
 
+    @Override
     public List<ViewPiece> getPiecesOnTheBoard(){
         List<ViewPiece> output = new ArrayList<>();
         for (Piece piece : model.getAllPieces()){
