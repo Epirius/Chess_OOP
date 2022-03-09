@@ -1,35 +1,55 @@
 package Controller;
 
+import Main.Constants;
 import Model.Model;
 import Model.Move;
-import Model.Pieces.Piece;
-import View.ViewPiece;
+import View.View;
 
-import javax.swing.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Felix Kaasa
  */
-public class Controller {
+public class Controller extends MouseAdapter {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
     Model model;
-    JComponent view;
+    View view;
 
-    public Controller(){
+    public Controller(Model model, View view){
         this.clickHolder[0] = null;
         this.clickHolder[1] = null;
-    }
-
-    public void setModelAndView(Model model, JComponent view){
         this.model = model;
         this.view = view;
+        view.addMouseListener(this);
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+            int rawX = e.getX();
+            int rawY = e.getY();
+
+            //checking if the x and y coordinates of the mouse is over the squares of the board.
+            boolean xInBounds = rawX > Constants.boardOffset && rawX < Constants.boardOffset + Constants.squareSize * 8;
+            boolean yInBounds = rawY > Constants.boardOffset && rawY < Constants.boardOffset + Constants.squareSize * 8;
+            if (!xInBounds || !yInBounds) {
+                return;
+            }
+
+            //converting the x and y coordinates of the mouse to a int of the square it is over.
+            int square = rawCoordsToSquare(rawX, rawY);
+            System.out.println(square); // TODO delete this line
+            handleClicks(square);
+            view.setLegalSquares(getLegalSquares());
+            view.repaint();
+        }
     }
 
     /**
-     * Handles clicks sendt from View.
+     * A method that handles the clicks and convert them into actions.
      * @param clickedSquare an int corresponding to the ID of the square that was clicked on.
      */
     public void handleClicks(int clickedSquare){
@@ -70,6 +90,29 @@ public class Controller {
         }
     }
 
+    /**
+     * converts raw x,y position of a mouse into the square the mouse is over.
+     * @param rawX x coord of mouse
+     * @param rawY y coord of mouse
+     * @return int ID of the square the mouse is over.
+     */
+    private int rawCoordsToSquare(int rawX, int rawY) {
+        boolean xInBounds = rawX > Constants.boardOffset && rawX < Constants.boardOffset + Constants.squareSize * 8;
+        boolean yInBounds = rawY > Constants.boardOffset && rawY < Constants.boardOffset + Constants.squareSize * 8;
+        if (!xInBounds || !yInBounds){throw new IndexOutOfBoundsException();}
+
+        int offset = Constants.boardOffset;
+        int squareSize = Constants.squareSize;
+        int x = Math.floorDiv((rawX - offset), squareSize);
+        int y = Math.floorDiv((rawY - offset), squareSize);
+        int square = ((Math.abs(y - 7) + 1) * 8) - Math.abs(x - 7) - 1;
+        return square;
+    }
+
+    /**
+     * a method that checks if the selected square has legal moves from it. if so it updates the list of legal moves.
+     * @param selectedSquare the int id of the square that was selected.
+     */
     private void updateSelectedLegalMoves(int selectedSquare) {
         for (Move move : model.getLegalMoves()){
             if (move.from == selectedSquare){
