@@ -5,19 +5,22 @@ import Model.*;
 import View.View;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 
 /**
  * @author Felix Kaasa
  */
 public class Main {
+
     public static void main(String[] args) {
-        Controller controller = new Controller();
+
         Model model = new Model();
-        JComponent view = new View(controller);
-        controller.setModelAndView(model, view);
-
-
+        //JComponent view = new View(controller);
+        View view = new View();
+        Controller controller = new Controller(model, view);
+        //controller.setModelAndView(model, view);
 
 
         JFrame frame = new JFrame("Chess - Felix");
@@ -28,7 +31,6 @@ public class Main {
         frame.setResizable(false);
 
         frame.setVisible(true);
-
 
     }
 }

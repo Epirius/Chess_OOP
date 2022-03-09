@@ -13,14 +13,13 @@ import javax.swing.*;
 public class testController {
     Model model;
     Controller controller;
-    JComponent view;
+    View view;
 
     @Before
     public void init(){
-        controller = new Controller();
         model = new Model();
-        view = new View(controller);
-        controller.setModelAndView(model, view);
+        view = new View();
+        controller = new Controller(model, view);
     }
 
     @Test
