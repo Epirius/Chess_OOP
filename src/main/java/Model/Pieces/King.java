@@ -37,9 +37,9 @@ public class King extends Piece{
             moves.add(new Move(position, position + step));
 
         }
-        // adding castling
-        if (castleKingSide) {moves.add(new Move(position, position + 2, true));}
-        if (castleQueenSide){moves.add(new Move(position, position - 2, true));}
+        int teamOffset = (this.team == Team.WHITE ? 0 : 56);
+        if (castleKingSide) {moves.add(new Move(position, position + 2, new Move(7 + teamOffset, 5 + teamOffset)));}
+        if (castleQueenSide){moves.add(new Move(position, position - 2, new Move(0 + teamOffset, 3 + teamOffset)));}
 
         return moves;
     }

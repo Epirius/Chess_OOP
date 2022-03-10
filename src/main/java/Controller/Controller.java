@@ -125,10 +125,11 @@ public class Controller extends MouseAdapter implements IDrawable {
     }
 
     private void createMove(int from, int to){
-        Move move = new Move(from, to);
-        System.out.println("Move: " + move.from + ", " + move.to); //TODO delete me
-        model.doMove(move);
-
+        for (Move legalMove : model.getLegalMoves()){
+            if (legalMove.equals(new Move(from, to))){
+                model.doMove(legalMove);
+            }
+        }
     }
 
     @Override

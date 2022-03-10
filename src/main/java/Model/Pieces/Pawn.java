@@ -33,6 +33,10 @@ public class Pawn extends Piece{
             int newY = IBoard.squareToCoordinates(position + step)[1];
             if (team == Team.WHITE && y + 1 != newY){continue;}
             if (team == Team.BLACK && y - 1 != newY){continue;}
+
+            // checking if en passant (will handle that later)
+            //TODO
+
             moves.add(new Move(position, position + step));
         }
         // one step

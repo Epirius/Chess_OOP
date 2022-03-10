@@ -19,7 +19,7 @@ public enum Direction {
 
     /**
      * takes in a square ID and returns a square in a direction.
-     * @param current square.
+     * @param currentSquare
      * @return new square in a direction.
      */
     public int getDirection(int currentSquare){

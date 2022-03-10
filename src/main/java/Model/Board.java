@@ -80,15 +80,26 @@ public class Board implements IBoard{
 
     @Override
     public void doMove(Move move) {
-        // TODO move to Model.Model maybe??
+        System.out.println(move);
         int from = move.getMove()[0];
         int to = move.getMove()[1];
         Piece movingPiece = getSquare(from).getPiece();
+        System.out.println(move);
 
-        if (!getSquare(to).isEmpty()){
+        if (move.isEnPassant()){
+            kill(move.enPassantPosition);
+        }
+        else if (move.isMoveCastle()){
+            int rookFrom = move.castleRookMove.from;
+            int rookTo = move.castleRookMove.to;
+            Piece rookPiece = getPiece(rookFrom);
+            getSquare(rookTo).setPiece(rookPiece);
+            getSquare(rookFrom).removePiece();
+            rookPiece.setPosition(rookTo);
+        }
+        else if (!getSquare(to).isEmpty()){
             kill(to);
         }
-        if (move.enPassant){kill(move.enPassantPosition);}
         getSquare(to).setPiece(movingPiece);
         getSquare(from).removePiece();
         movingPiece.setPosition(to);
@@ -143,40 +154,3 @@ public class Board implements IBoard{
         return squares;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

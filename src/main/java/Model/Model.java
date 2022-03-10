@@ -53,7 +53,7 @@ public class Model implements IMovable {
         }
 
         for (Move move : moves){
-            // checking if the king is moving into an attacked square.
+             // checking if the king is moving into an attacked square.
             if (move.from == king && threatSquares.contains(move.to)){
                 illegalMoves.add(move);
                 continue;
@@ -73,10 +73,29 @@ public class Model implements IMovable {
                     continue;
                 }
             }
-            // checking for double check.
+            // checking for double check of the king.
             if (kingInCheck.size() > 1){
                 if (move.from != king){
                     illegalMoves.add(move);
+                }
+            }
+
+            // Pawns
+            if (board.getPiece(move.from).type == Type.PAWN){
+                // White
+                if (board.getPiece(move.from).team == Team.WHITE){
+                    // checking if double move is blocked
+                    if (move.to ==  move.from + 16 && board.getPiece(move.from + 8) != null){
+                        illegalMoves.add(move);
+                    }
+                }
+
+                // Black
+                if (board.getPiece(move.from).team == Team.BLACK){
+                    // checking if double move is blocked
+                    if (move.to ==  move.from - 16 && board.getPiece(move.from - 8) != null){
+                        illegalMoves.add(move);
+                    }
                 }
             }
         }
@@ -91,13 +110,13 @@ public class Model implements IMovable {
             if (threatSquares.contains(4) || threatSquares.contains(5) || threatSquares.contains(6) ||
                     !kingPiece.castleKingSide || board.getSquare(5).getPiece() != null ||
                     board.getSquare(6).getPiece() != null) {
-                illegalMoves.add(new Move(4, 6, true));
+                illegalMoves.add(new Move(4, 6, new Move(7, 5)));
             }
             // Queen side
             if (threatSquares.contains(4) || threatSquares.contains(3) || threatSquares.contains(2) ||
-                    !kingPiece.castleQueenSide || board.getSquare(2).getPiece() != null ||
-                    board.getSquare(3).getPiece() != null) {
-                illegalMoves.add(new Move(4, 2, true));
+                    !kingPiece.castleQueenSide || board.getSquare(1).getPiece() != null ||
+                    board.getSquare(2).getPiece() != null || board.getSquare(3).getPiece() != null) {
+                illegalMoves.add(new Move(4, 2, new Move(0, 3)));
             }
         }
 
@@ -107,13 +126,13 @@ public class Model implements IMovable {
             if (threatSquares.contains(60) || threatSquares.contains(61) || threatSquares.contains(62) ||
                     !kingPiece.castleKingSide || board.getSquare(61).getPiece() != null ||
                     board.getSquare(62).getPiece() != null) {
-                illegalMoves.add(new Move(60, 62, true));
+                illegalMoves.add(new Move(60, 62, new Move(63, 61)));
             }
             // Queen side
-            if (threatSquares.contains(4) || threatSquares.contains(3) || threatSquares.contains(2) ||
-                    !kingPiece.castleQueenSide || board.getSquare(58).getPiece() != null ||
-                    board.getSquare(59).getPiece() != null) {
-                illegalMoves.add(new Move(60, 58, true));
+            if (threatSquares.contains(60) || threatSquares.contains(59) || threatSquares.contains(58) ||
+                    !kingPiece.castleQueenSide || board.getSquare(57).getPiece() != null ||
+                    board.getSquare(58).getPiece() != null || board.getSquare(59).getPiece() != null) {
+                illegalMoves.add(new Move(60, 58, new Move(56, 59)));
             }
         }
         moves.removeAll(illegalMoves);
