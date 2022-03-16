@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Model implements IMovable {
-    //TODO move some stuff from Model.Board to this file
     private Board board = new Board();
 
 
@@ -77,6 +76,7 @@ public class Model implements IMovable {
             if (kingInCheck.size() > 1){
                 if (move.from != king){
                     illegalMoves.add(move);
+                    continue;
                 }
             }
 
@@ -87,6 +87,7 @@ public class Model implements IMovable {
                     // checking if double move is blocked
                     if (move.to ==  move.from + 16 && board.getPiece(move.from + 8) != null){
                         illegalMoves.add(move);
+                        continue;
                     }
                 }
 
@@ -95,12 +96,36 @@ public class Model implements IMovable {
                     // checking if double move is blocked
                     if (move.to ==  move.from - 16 && board.getPiece(move.from - 8) != null){
                         illegalMoves.add(move);
+                        continue;
                     }
                 }
             }
-        }
 
-        // TODO check for pinned pieces and add their moves to illegalMoves.
+            /*
+            //TODO checking for pinned pieces
+            //TODO this does not work. try another method.
+            if (kingInCheck.size() == 0){
+                // Checking if a piece is pinned by removing the piece from the board, and seeing if the king is in check.
+                int positionID = move.from;
+                Team team = board.getSquare(positionID).getPiece().team;
+                Piece pieceReference = board.getPiece(positionID);
+
+                // temporarily removing the piece
+                board.getSquare(positionID).removePiece();
+
+                // checking if the king is in check
+                List<Move> temporaryThreatSquares = getPossibleThreats();
+                for (Move threat : temporaryThreatSquares) {
+                    if (!board.getSquare(threat.to).isEmpty() && board.getSquare(threat.to).getPiece().equals(new King(team))) {
+                        illegalMoves.add(move);
+                    }
+                }
+                // putting the piece back where it was.
+                board.getSquare(positionID).setPiece(pieceReference);
+            }
+
+             */
+        }
 
         // checking if castling is illegal
         King kingPiece = (King) getKing();

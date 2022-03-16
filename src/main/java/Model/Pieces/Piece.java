@@ -6,6 +6,7 @@ import Model.Type;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Felix Kaasa
@@ -42,9 +43,16 @@ public abstract class Piece implements IPiece{
     }
 
     @Override
-    public List<Move> getLegalMoves() {
-        System.out.println("getLegalMoves have not been implemented!!!!! (Piece.java)");
-        return new ArrayList<Move>(); //TODO
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Piece piece = (Piece) o;
+        return type == piece.type && team == piece.team;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, team);
     }
 
     //TODO maybe move move() to this class?

@@ -112,7 +112,6 @@ public class Board implements IBoard{
      * @param Id id of the square with the captured piece
      */
     private void kill(int Id){
-        // TODO move to Model.Model maybe ??
         // TODO do something with points here
         Piece deathRowPiece = getSquare(Id).getPiece();
         List<Piece> teamList = (Team.WHITE == deathRowPiece.team ? whitePieces : blackPieces);
@@ -138,8 +137,8 @@ public class Board implements IBoard{
 
     /**
      * used to get the squares between two squares.
-     * @param squareId
-     * @param target
+     * @param squareId id of the square of the first piece
+     * @param target id of the square of the second piece
      * @return a list of squares between two square Id's, returns empty if they are not on the same line.
      */
     protected List<Square> squaresBetween(int squareId, int target){

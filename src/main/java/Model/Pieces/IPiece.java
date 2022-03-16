@@ -21,13 +21,4 @@ public interface IPiece {
 
     // This returns all moves for a piece as if it was the only piece on the board.
     List<Move> getPossibleMoves(int position, Board board);
-
-    /*
-    ** Returns a list of all legal moves TODO: change return type to list of moves
-    ** @params input of all possible moves for a piece on an empty board.
-    */
-    List<Move> getLegalMoves();
-
-
-
 }
