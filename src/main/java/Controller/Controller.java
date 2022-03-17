@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * @author Felix Kaasa
  */
@@ -20,6 +21,7 @@ public class Controller extends MouseAdapter implements IDrawable {
     private List<Move> selectedLegalMoves = new ArrayList<>();
     Model model;
     View view;
+    public GameState gameState = GameState.UPGRADE_PAWN; //ACTIVE_GAME;
 
     public Controller(Model model, View view){
         this.clickHolder[0] = null;
@@ -139,6 +141,11 @@ public class Controller extends MouseAdapter implements IDrawable {
             squares.add(move.to);
         }
         return squares;
+    }
+
+    @Override
+    public GameState getGameState() {
+        return gameState;
     }
 
     @Override

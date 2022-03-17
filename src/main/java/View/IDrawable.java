@@ -1,5 +1,7 @@
 package View;
 
+import Controller.GameState;
+
 import java.util.List;
 
 public interface IDrawable {
@@ -15,4 +17,10 @@ public interface IDrawable {
      * @return int[] of legal squares
      */
     List<Integer> getLegalSquares();
+
+    /**
+     * used to get the current game state (for example main menu, game over etc..)
+     * @return the state of the game
+     */
+    GameState getGameState();
 }

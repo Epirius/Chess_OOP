@@ -5,12 +5,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public final class Constants {
     public static final int squareSize = 64;
     public static final int boardOffset = 64;
     public static final int displayWidth = squareSize * 8 + boardOffset * 2;
     public static final int displayHeight = squareSize * 8 + boardOffset * 2;
+    public static final int upgradePawnHeight = 100;
+    public static final int upgradePawnBoxLength = 100;
 
 
     // COLORS
@@ -18,6 +21,7 @@ public final class Constants {
     public static final Color colorDarkSquare = new Color(21, 29, 36);
     public static final Color colorLightSquare = new Color(237, 132, 99);
     public static final Color colorHighlightSquare = new Color(213, 248, 147, 175);
+    public static final Color colorPawnUpgradeBG = new Color(95, 205, 228);
 
 
     // Images
@@ -55,5 +59,4 @@ public final class Constants {
             System.out.println("The piece images were not loaded in properly.");
         }
     }
-
 }

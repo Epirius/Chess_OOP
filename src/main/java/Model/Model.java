@@ -11,6 +11,7 @@ public class Model implements IMovable {
     private Board board = new Board();
 
 
+
     /////////////////////////////////////////////////////////////////////////////////////
 
     private List<Move> getPossibleMoves(){
@@ -106,7 +107,6 @@ public class Model implements IMovable {
             // Checking for pinned pieces
             if (pinnedPieces.size() > 0 && pinnedPieces.contains(move.from)){
                 illegalMoves.add(move);
-                continue;
             }
 
         }
@@ -187,6 +187,10 @@ public class Model implements IMovable {
         board.doMove(move);
     }
 
+    /**
+     * a method that finds all friendly pieces that are pinned
+     * @return a list of square id's for all friendly pinned pieces
+     */
     private List<Integer> getPinnedPieces(){
         int kingPosition = getKing().getPosition();
         Team team = (board.isCurrentPlayerIsWhite() ? Team.WHITE : Team.BLACK);
@@ -202,7 +206,7 @@ public class Model implements IMovable {
 
             // making sure the piece can attack in the direction of the king.
             int direction = 0;
-            if (squaresBetween.size() > 1){ //TODO size > 1 may be wrong ? maybe 0?? but that gave an error
+            if (squaresBetween.size() > 1){
                 direction = squaresBetween.get(0).getSquareId() - squaresBetween.get(1).getSquareId();
             }
             if (piece.type == Type.BISHOP){

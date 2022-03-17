@@ -1,11 +1,13 @@
 package View;
 
 import Controller.Controller;
+import Controller.GameState;
 import Main.Constants;
 import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,8 @@ public class View extends JComponent {
         super.paintComponent(g);
         boardLayer(g);
         pieceLayer(g);
+        hudLayer(g, Team.WHITE);
+
     }
 
     /*
@@ -40,7 +44,7 @@ public class View extends JComponent {
 
     /**
      * converts a square id to coordinates with 0,0 at TOP LEFT.
-     * @param square
+     * @param square id of the board square.
      * @return coords with 0,0 at TOP LEFT
      */
     private int[] inverseSquareToCoords(int square){
@@ -107,6 +111,35 @@ public class View extends JComponent {
             }
 
             g.drawImage(piece.image, xOffset, yOffset, piecePane);
+        }
+    }
+
+    private void hudLayer(Graphics g, Team team){
+        // If a pawn is upgrading
+        //TODO stop normal handeling of clicks if gamestate is upgrade_pawn.
+        if (controller.getGameState() == GameState.UPGRADE_PAWN){
+            JLayeredPane upgradePane = new JLayeredPane();
+            g.setColor(Constants.colorPawnUpgradeBG);
+            g.fillRect(0, getHeight() / 2 - Constants.upgradePawnHeight, getWidth(), Constants.upgradePawnHeight * 2);
+            g.setColor(Constants.colorBackground);
+
+            int spacing = (getWidth() - Constants.upgradePawnHeight * 2) / (4 - 1) - Constants.upgradePawnBoxLength;
+            int numButtons = 4;
+            List<ViewPiece> upgradePossibilities = new ArrayList<>();
+            upgradePossibilities.add(new ViewPiece(Type.QUEEN, team, 0));
+            upgradePossibilities.add(new ViewPiece(Type.ROOK, team, 0));
+            upgradePossibilities.add(new ViewPiece(Type.BISHOP, team, 0));
+            upgradePossibilities.add(new ViewPiece(Type.KNIGHT, team, 0));
+            for (int i = 0; i < numButtons; i++) {
+                int xPosition = spacing * (i + 1) + Constants.upgradePawnHeight * i;
+                g.fillRect(xPosition, (getHeight() - Constants.upgradePawnBoxLength) / 2, Constants.upgradePawnBoxLength, Constants.upgradePawnBoxLength);
+                g.drawImage(upgradePossibilities.get(i).image, xPosition, (getHeight() - Constants.upgradePawnBoxLength) / 2, upgradePane);
+                //TODO Move image to center of button.
+                //TODO handle clicks on buttons.
+           }
+
+
+            //TODO CONTINUE
         }
     }
 }

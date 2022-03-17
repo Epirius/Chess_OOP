@@ -4,12 +4,13 @@ import Main.Constants;
 import Model.Team;
 import Model.Type;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
  * @author Felix Kaasa
  */
-public class ViewPiece {
+public class ViewPiece  {
     public final Type type;
     public final Team team;
     public final int position;
