@@ -54,6 +54,4 @@ public abstract class Piece implements IPiece{
     public int hashCode() {
         return Objects.hash(type, team, position);
     }
-
-    //TODO maybe move move() to this class?
 }

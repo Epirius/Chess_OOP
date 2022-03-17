@@ -80,7 +80,6 @@ public class Board implements IBoard{
 
     @Override
     public void doMove(Move move) {
-        System.out.println(move); // TODO REMOVE
         int from = move.getMove()[0];
         int to = move.getMove()[1];
         Piece movingPiece = getSquare(from).getPiece();
