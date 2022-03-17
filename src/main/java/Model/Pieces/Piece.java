@@ -47,12 +47,12 @@ public abstract class Piece implements IPiece{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Piece piece = (Piece) o;
-        return type == piece.type && team == piece.team;
+        return position == piece.position && type == piece.type && team == piece.team;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(type, team);
+        return Objects.hash(type, team, position);
     }
 
     //TODO maybe move move() to this class?

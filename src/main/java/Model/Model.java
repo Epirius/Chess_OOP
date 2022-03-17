@@ -102,14 +102,12 @@ public class Model implements IMovable {
                 }
             }
 
-            /*
+
             // Checking for pinned pieces
             if (pinnedPieces.size() > 0 && pinnedPieces.contains(move.from)){
                 illegalMoves.add(move);
                 continue;
             }
-
-             */
 
         }
 
@@ -204,7 +202,7 @@ public class Model implements IMovable {
 
             // making sure the piece can attack in the direction of the king.
             int direction = 0;
-            if (squaresBetween.size() > 0){
+            if (squaresBetween.size() > 1){ //TODO size > 1 may be wrong ? maybe 0?? but that gave an error
                 direction = squaresBetween.get(0).getSquareId() - squaresBetween.get(1).getSquareId();
             }
             if (piece.type == Type.BISHOP){
