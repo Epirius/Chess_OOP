@@ -39,6 +39,7 @@ public class Model implements IMovable {
         List<Move> illegalMoves = new ArrayList<>();
         List<Move> kingInCheck = new ArrayList<>();
         List<Integer> threatSquares = new ArrayList<>();
+        List<Integer> pinnedPieces = getPinnedPieces();
 
         for (Move move : threats){ threatSquares.add(move.to);}
 
@@ -102,29 +103,14 @@ public class Model implements IMovable {
             }
 
             /*
-            //TODO checking for pinned pieces
-            //TODO this does not work. try another method.
-            if (kingInCheck.size() == 0){
-                // Checking if a piece is pinned by removing the piece from the board, and seeing if the king is in check.
-                int positionID = move.from;
-                Team team = board.getSquare(positionID).getPiece().team;
-                Piece pieceReference = board.getPiece(positionID);
-
-                // temporarily removing the piece
-                board.getSquare(positionID).removePiece();
-
-                // checking if the king is in check
-                List<Move> temporaryThreatSquares = getPossibleThreats();
-                for (Move threat : temporaryThreatSquares) {
-                    if (!board.getSquare(threat.to).isEmpty() && board.getSquare(threat.to).getPiece().equals(new King(team))) {
-                        illegalMoves.add(move);
-                    }
-                }
-                // putting the piece back where it was.
-                board.getSquare(positionID).setPiece(pieceReference);
+            // Checking for pinned pieces
+            if (pinnedPieces.size() > 0 && pinnedPieces.contains(move.from)){
+                illegalMoves.add(move);
+                continue;
             }
 
              */
+
         }
 
         // checking if castling is illegal
@@ -201,6 +187,53 @@ public class Model implements IMovable {
     @Override
     public void doMove(Move move) {
         board.doMove(move);
+    }
+
+    private List<Integer> getPinnedPieces(){
+        int kingPosition = getKing().getPosition();
+        Team team = (board.isCurrentPlayerIsWhite() ? Team.WHITE : Team.BLACK);
+        List<Piece> enemyPieceList = (Team.WHITE == team ? board.blackPieces : board.whitePieces);
+        List<Integer> pinnedPiecesList = new ArrayList<>();
+
+        for (Piece piece : enemyPieceList){
+            if (!( piece.type == Type.BISHOP || piece.type == Type.QUEEN || piece.type == Type.ROOK)){
+                // only bishop, queen or rook can pin pieces. so if the piece is something else: continue.
+                continue;
+            }
+            List<Square> squaresBetween = board.squaresBetween(kingPosition, piece.getPosition());
+
+            // making sure the piece can attack in the direction of the king.
+            int direction = 0;
+            if (squaresBetween.size() > 0){
+                direction = squaresBetween.get(0).getSquareId() - squaresBetween.get(1).getSquareId();
+            }
+            if (piece.type == Type.BISHOP){
+                if ( direction == 8 || direction == -8 || direction == 1 || direction == -1){
+                    continue;
+                }
+            }
+            // making sure the piece can attack in the direction of the king.
+            if (piece.type == Type.ROOK){
+                if (direction == 9 || direction == 7 || direction == -7 || direction == -9){
+                    continue;
+                }
+            }
+
+            // Checking if there is one (and only one) piece between attacker and king.
+            int numberOfPiecesBetween = 0;
+            Piece candidatePinnedPiece = null;
+            for (Square square : squaresBetween){
+                if (square.isEmpty()){
+                    continue;
+                }
+                numberOfPiecesBetween++;
+                candidatePinnedPiece = square.getPiece();
+            }
+            if (numberOfPiecesBetween == 1 && candidatePinnedPiece.team == team){
+                pinnedPiecesList.add(candidatePinnedPiece.getPosition());
+            }
+        }
+        return pinnedPiecesList;
     }
 
 }

@@ -30,6 +30,7 @@ public class View extends JComponent {
     }
 
     /*
+    //TODO REMOVE?
     @Override
     public void setLegalSquares(List<Integer> legalSquares){
         this.legalSquares = legalSquares;
@@ -53,9 +54,8 @@ public class View extends JComponent {
 
     /**
      * a method that draws the board layer.
-     * @param g
      */
-    public void boardLayer(Graphics g){
+    private void boardLayer(Graphics g){
         g.setColor(Constants.colorBackground);
         g.fillRect(0,0,Constants.displayWidth, Constants.displayHeight);
         int squareSize = Constants.squareSize;
@@ -88,7 +88,10 @@ public class View extends JComponent {
 
     }
 
-    public void pieceLayer(Graphics g){
+    /**
+     * A method that draws the piece layer
+     */
+    private void pieceLayer(Graphics g){
         JLayeredPane piecePane = new JLayeredPane();
         List<ViewPiece> pieces = controller.getPiecesOnTheBoard();
 
