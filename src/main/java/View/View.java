@@ -7,7 +7,6 @@ import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -120,26 +119,41 @@ public class View extends JComponent {
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
             JLayeredPane upgradePane = new JLayeredPane();
             g.setColor(Constants.colorPawnUpgradeBG);
-            g.fillRect(0, getHeight() / 2 - Constants.upgradePawnHeight, getWidth(), Constants.upgradePawnHeight * 2);
+            g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
             g.setColor(Constants.colorBackground);
 
-            int spacing = (getWidth() - Constants.upgradePawnHeight * 2) / (4 - 1) - Constants.upgradePawnBoxLength;
-            int numButtons = 4;
-            List<ViewPiece> upgradePossibilities = new ArrayList<>();
-            upgradePossibilities.add(new ViewPiece(Type.QUEEN, team, 0));
-            upgradePossibilities.add(new ViewPiece(Type.ROOK, team, 0));
-            upgradePossibilities.add(new ViewPiece(Type.BISHOP, team, 0));
-            upgradePossibilities.add(new ViewPiece(Type.KNIGHT, team, 0));
-            for (int i = 0; i < numButtons; i++) {
-                int xPosition = spacing * (i + 1) + Constants.upgradePawnHeight * i;
-                g.fillRect(xPosition, (getHeight() - Constants.upgradePawnBoxLength) / 2, Constants.upgradePawnBoxLength, Constants.upgradePawnBoxLength);
-                g.drawImage(upgradePossibilities.get(i).image, xPosition, (getHeight() - Constants.upgradePawnBoxLength) / 2, upgradePane);
-                //TODO Move image to center of button.
-                //TODO handle clicks on buttons.
-           }
-
-
-            //TODO CONTINUE
+            List<Button> upgradeButtons = getUpgradeButtons(team);
+            for (Button button : upgradeButtons) {
+                button.drawButton(g, upgradePane);
+            }
         }
     }
+
+    /**
+     * a method that creates 4 buttons used for upgrading a pawn.
+     * @param team team the currently is playing.
+     * @return a list of buttons.
+     */
+    public List<Button> getUpgradeButtons(Team team){
+        List<Button> upgradeButtons = new ArrayList<>();
+
+        int spacing = (getWidth() - Constants.upgradePawnBoxHeight * 2) / (4 - 1) - Constants.upgradePawnBoxWidth;
+        int numButtons = 4;
+
+        //creating 4 pieces that will be placed on top of the buttons (position does not matter here)
+        List<ViewPiece> upgradePossibilities = new ArrayList<>();
+        upgradePossibilities.add(new ViewPiece(Type.QUEEN, team, 0));
+        upgradePossibilities.add(new ViewPiece(Type.ROOK, team, 0));
+        upgradePossibilities.add(new ViewPiece(Type.BISHOP, team, 0));
+        upgradePossibilities.add(new ViewPiece(Type.KNIGHT, team, 0));
+
+        // creating the 4 buttons
+        for (int i = 0; i < numButtons; i++) {
+            int xPosition = spacing * (i + 1) + Constants.upgradePawnBoxHeight * i;
+            int yPosition = (getHeight() - Constants.upgradePawnBoxWidth) / 2;
+            upgradeButtons.add(new Button(xPosition, yPosition, Constants.upgradePawnBoxWidth, Constants.upgradePawnBoxHeight, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
+        }
+        return upgradeButtons;
+    }
+
 }

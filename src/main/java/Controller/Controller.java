@@ -2,9 +2,11 @@ package Controller;
 
 import Main.Constants;
 import Model.Model;
+import Model.Team;
 import Model.Move;
 import Model.Pieces.Piece;
 import View.View;
+import View.Button;
 import View.ViewPiece;
 import View.IDrawable;
 
@@ -21,7 +23,7 @@ public class Controller extends MouseAdapter implements IDrawable {
     private List<Move> selectedLegalMoves = new ArrayList<>();
     Model model;
     View view;
-    public GameState gameState = GameState.UPGRADE_PAWN; //ACTIVE_GAME;
+    public GameState gameState = GameState.ACTIVE_GAME; //TODO HANDLE CHANGING OF GAME STATE.
 
     public Controller(Model model, View view){
         this.clickHolder[0] = null;
@@ -45,12 +47,19 @@ public class Controller extends MouseAdapter implements IDrawable {
             }
 
             //converting the x and y coordinates of the mouse to a int of the square it is over.
-            int square = rawCoordsToSquare(rawX, rawY);
-            System.out.println(square); // TODO delete this line
-            handleClicks(square);
+            if (gameState == GameState.ACTIVE_GAME) {
+                int square = rawCoordsToSquare(rawX, rawY);
+                System.out.println(square); // TODO delete this line
+                handleClicks(square);
+            }
+            else if (gameState == GameState.UPGRADE_PAWN){
+                handlePawnUpgradeClicks(rawX, rawY);
+            }
+
             view.repaint();
         }
     }
+
 
     /**
      * A method that handles the clicks and convert them into actions.
@@ -92,6 +101,27 @@ public class Controller extends MouseAdapter implements IDrawable {
                 updateSelectedLegalMoves(clickHolder[0]);
             }
         }
+    }
+
+    /**
+     * this method handles clicks when a pawn upgrade is happening
+     * @param rawX raw x position of mouse
+     * @param rawY raw y position of mouse
+     */
+    private void handlePawnUpgradeClicks(int rawX, int rawY) {
+        // Team does not matter here.
+        List<Button> upgradeButtons = view.getUpgradeButtons(Team.WHITE);
+        for (Button button : upgradeButtons) {
+            int xStart = button.getStartPosition()[0];
+            int yStart = button.getStartPosition()[1];
+            int xEnd = button.getEndPosition()[0];
+            int yEnd = button.getEndPosition()[1];
+
+            if (rawX > xStart && rawX < xEnd && rawY > yStart && rawY < yEnd){
+                System.out.println("Button hit " + button.type); //TODO HANDLE EVENT
+            }
+        }
+
     }
 
     /**

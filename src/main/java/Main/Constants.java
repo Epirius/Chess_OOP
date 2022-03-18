@@ -5,15 +5,14 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public final class Constants {
     public static final int squareSize = 64;
     public static final int boardOffset = 64;
     public static final int displayWidth = squareSize * 8 + boardOffset * 2;
     public static final int displayHeight = squareSize * 8 + boardOffset * 2;
-    public static final int upgradePawnHeight = 100;
-    public static final int upgradePawnBoxLength = 100;
+    public static final int upgradePawnBoxHeight = 100;
+    public static final int upgradePawnBoxWidth = 100;
 
 
     // COLORS
