@@ -30,7 +30,7 @@ public class View extends JComponent {
         super.paintComponent(g);
         boardLayer(g);
         pieceLayer(g);
-        hudLayer(g, Team.WHITE);
+        hudLayer(g);
 
     }
 
@@ -115,7 +115,7 @@ public class View extends JComponent {
         }
     }
 
-    private void hudLayer(Graphics g, Team team){
+    private void hudLayer(Graphics g){
         // If a pawn is upgrading
         //TODO stop normal handeling of clicks if gamestate is upgrade_pawn.
         if (controller.getGameState() == UPGRADE_PAWN){
@@ -124,6 +124,9 @@ public class View extends JComponent {
             g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
             g.setColor(Constants.colorBackground);
 
+            Team team;
+            if (controller.getTeam() == Team.WHITE){team = Team.BLACK;}
+            else {team = Team.WHITE;}
             List<Button> upgradeButtons = getUpgradeButtons(team);
             for (Button button : upgradeButtons) {
                 button.drawButton(g, upgradePane);

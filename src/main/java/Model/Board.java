@@ -78,6 +78,14 @@ public class Board implements IBoard{
         return getSquare(squareId).getPiece();
     }
 
+    //TODO add to interface
+    public Team getTeam(){
+        if (currentPlayerIsWhite){
+            return Team.WHITE;
+        }
+        return Team.BLACK;
+    }
+
     @Override
     public void doMove(Move move) {
         int from = move.getMove()[0];
@@ -103,6 +111,36 @@ public class Board implements IBoard{
         movingPiece.setPosition(to);
         moveHistory.add(move);
         currentPlayerIsWhite = !currentPlayerIsWhite;
+    }
+
+    //@Override TODO make interface for upgrading
+    public void upgradePawn(Type type){
+        int id = moveHistory.peek().to;
+        if (this.getPiece(id).type != Type.PAWN){
+            throw new RuntimeException("the last move was not a pawn, yet upgrade pawn is called.");
+        }
+        if (id > 7 && id < 56 || id < 0 || id > 63){
+            throw new RuntimeException("the position of the pawn to be upgraded is not in the first or last line of the board.");
+        }
+
+        Team team = this.getPiece(id).team;
+        List<Piece> teamList = (Team.WHITE == team ? whitePieces : blackPieces);
+        Piece upgradedPiece;
+
+        switch (type) {
+            case QUEEN -> upgradedPiece = new Queen(team);
+            case ROOK -> upgradedPiece = new Rook(team);
+            case BISHOP -> upgradedPiece = new Bishop(team);
+            case KNIGHT -> upgradedPiece = new Knight(team);
+            default -> upgradedPiece = new Queen(team);
+        }
+
+        teamList.remove(this.getPiece(id));
+        getSquare(id).removePiece();
+        getSquare(id).setPiece(upgradedPiece);
+        upgradedPiece.setPosition(id);
+        teamList.add(upgradedPiece);
+
     }
 
     /**

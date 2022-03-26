@@ -168,6 +168,10 @@ public class Model implements IMovable {
         return king;
     }
 
+    public Team getTeam(){
+        return board.getTeam();
+    }
+
     /**
      * helper function to pass info from board to controller.
      */
@@ -190,6 +194,11 @@ public class Model implements IMovable {
     @Override
     public void doMove(Move move) {
         board.doMove(move);
+    }
+
+    //@Override TODO interface maybe?
+    public void upgradePawn(Type type){
+        board.upgradePawn(type);
     }
 
     /**

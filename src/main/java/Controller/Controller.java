@@ -111,8 +111,12 @@ public class Controller extends MouseAdapter implements IDrawable {
      * @param rawY raw y position of mouse
      */
     private void handlePawnUpgradeClicks(int rawX, int rawY) {
+        if (gameState != GameState.UPGRADE_PAWN){
+            throw new RuntimeException("handlePawnUpgradeClicks should only be called if the Gamestate is UPGRADE_PAWN");
+        }
+
         // Team does not matter here.
-        List<Button> upgradeButtons = view.getUpgradeButtons(Team.WHITE);
+        List<Button> upgradeButtons = view.getUpgradeButtons(Team.BLACK);
         for (Button button : upgradeButtons) {
             int xStart = button.getStartPosition()[0];
             int yStart = button.getStartPosition()[1];
@@ -121,6 +125,8 @@ public class Controller extends MouseAdapter implements IDrawable {
 
             if (rawX > xStart && rawX < xEnd && rawY > yStart && rawY < yEnd){
                 System.out.println("Button hit " + button.type); //TODO HANDLE EVENT
+                model.upgradePawn(button.type);
+                gameState = GameState.ACTIVE_GAME;
             }
         }
 
@@ -194,5 +200,10 @@ public class Controller extends MouseAdapter implements IDrawable {
             output.add(new ViewPiece(piece.getPiece(), piece.getTeam(), piece.getPosition()));
         }
         return output;
+    }
+
+    //TODO add to some interface
+    public Team getTeam(){
+        return model.getTeam();
     }
 }
