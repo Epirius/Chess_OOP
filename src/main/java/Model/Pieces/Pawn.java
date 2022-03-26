@@ -40,11 +40,11 @@ public class Pawn extends Piece{
             moves.add(new Move(position, position + step));
         }
         // one step
-        if (board.getSquare(position + directionOfStep).isEmpty()){
+        if ((position + directionOfStep) < 64 && (position + directionOfStep) >= 0 && board.getSquare(position + directionOfStep).isEmpty()){
             moves.add(new Move(position, position + directionOfStep));
         }
         // two steps as the first move
-        if (board.getSquare(position + directionOfStep * 2).isEmpty()){
+        if ((position + directionOfStep * 2) < 64 && (position + directionOfStep * 2) >= 0 && board.getSquare(position + directionOfStep * 2).isEmpty()){
             if (team == Team.WHITE && y == startRow) {
                 moves.add(new Move(position, position + directionOfStep * 2));
             }

@@ -10,6 +10,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static Controller.GameState.UPGRADE_PAWN;
+
 public class View extends JComponent {
     List<Integer> legalSquares = new ArrayList<>();
     Controller controller;
@@ -116,7 +118,7 @@ public class View extends JComponent {
     private void hudLayer(Graphics g, Team team){
         // If a pawn is upgrading
         //TODO stop normal handeling of clicks if gamestate is upgrade_pawn.
-        if (controller.getGameState() == GameState.UPGRADE_PAWN){
+        if (controller.getGameState() == UPGRADE_PAWN){
             JLayeredPane upgradePane = new JLayeredPane();
             g.setColor(Constants.colorPawnUpgradeBG);
             g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);

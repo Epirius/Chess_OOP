@@ -13,6 +13,13 @@ public interface IMovable {
     List<Piece> getAllPieces();
 
     /**
+     * get piece at square
+     * @param id
+     * @return
+     */
+    Piece getPiece(int id);
+
+    /**
      * a method to send moves to.
      * @param move move to be made.
      */

@@ -2,6 +2,8 @@ package Controller;
 
 import Main.Constants;
 import Model.Model;
+import Model.Pieces.Pawn;
+import Model.Type;
 import Model.Team;
 import Model.Move;
 import Model.Pieces.Piece;
@@ -160,7 +162,14 @@ public class Controller extends MouseAdapter implements IDrawable {
         for (Move legalMove : model.getLegalMoves()){
             if (legalMove.equals(new Move(from, to))){
                 model.doMove(legalMove);
+                checkPawnUpgrade(legalMove);
             }
+        }
+    }
+
+    private void checkPawnUpgrade(Move move){
+        if (model.getPiece(move.to).type == Type.PAWN && (move.to >= 56 && move.to < 64) || (move.to <= 7 && move.to >= 0)){
+            this.gameState = GameState.UPGRADE_PAWN;
         }
     }
 

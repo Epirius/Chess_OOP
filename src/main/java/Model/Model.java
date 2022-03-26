@@ -183,6 +183,11 @@ public class Model implements IMovable {
     }
 
     @Override
+    public Piece getPiece(int id) {
+        return board.getPiece(id);
+    }
+
+    @Override
     public void doMove(Move move) {
         board.doMove(move);
     }
