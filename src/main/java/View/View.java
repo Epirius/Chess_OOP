@@ -1,7 +1,6 @@
 package View;
 
 import Controller.Controller;
-import Controller.GameState;
 import Main.Constants;
 import Model.*;
 
@@ -20,7 +19,7 @@ public class View extends JComponent {
 
     }
 
-    public void setDrawable(Controller controller){
+    public void installController(Controller controller){
         this.controller = controller;
     }
 
