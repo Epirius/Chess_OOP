@@ -10,7 +10,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static Controller.GameState.UPGRADE_PAWN;
+import static View.GraphicHelperMethods.*;
+
 
 public class View extends JComponent {
     List<Integer> legalSquares = new ArrayList<>();
@@ -116,10 +117,11 @@ public class View extends JComponent {
     }
 
     private void hudLayer(Graphics g){
-        // If a pawn is upgrading
         //TODO stop normal handeling of clicks if gamestate is upgrade_pawn.
-        if (controller.getGameState() == UPGRADE_PAWN){
-            JLayeredPane upgradePane = new JLayeredPane();
+        JLayeredPane pane = new JLayeredPane();
+
+        // If a pawn is upgrading
+        if (controller.getGameState() == GameState.UPGRADE_PAWN){
             g.setColor(Constants.colorPawnUpgradeBG);
             g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
             g.setColor(Constants.colorBackground);
@@ -129,8 +131,24 @@ public class View extends JComponent {
             else {team = Team.WHITE;}
             List<Button> upgradeButtons = getUpgradeButtons(team);
             for (Button button : upgradeButtons) {
-                button.drawButton(g, upgradePane);
+                button.drawButton(g, pane);
             }
+        }
+
+        if (controller.getGameState() == GameState.CHECK_MATE || controller.getGameState() == GameState.DRAW){
+            g.setColor(new Color(0,0,0,150));
+            g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
+
+            Font myfont = new Font("SansSerif", Font.BOLD, 80);
+            g.setFont(myfont);
+            g.setColor(Color.WHITE);
+            String text = "";
+            if (controller.gameState == GameState.CHECK_MATE) {
+                text = "Check Mate";
+            } else if (controller.gameState == GameState.DRAW){
+                text = "Draw";
+            }
+            drawCenteredString(g, text, 0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
         }
     }
 

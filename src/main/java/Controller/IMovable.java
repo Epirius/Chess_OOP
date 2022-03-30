@@ -25,6 +25,12 @@ public interface IMovable {
      */
     void doMove(Move move);
 
+    /**
+     * checks if king is in check
+     * @return true if king is in check, else false.
+     */
+    public boolean kingInCheck();
+
 
     /**
      * finds all legal move for the current player.

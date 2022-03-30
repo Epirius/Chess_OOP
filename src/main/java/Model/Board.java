@@ -14,7 +14,7 @@ public class Board implements IBoard{
     protected List<Piece> whitePieces = new ArrayList<>();
     protected List<Piece> blackPieces = new ArrayList<>();
     public Stack<Move> moveHistory = new Stack<>();
-    private boolean currentPlayerIsWhite = true;
+    private boolean currentPlayerIsWhite = true; //TODO swap this for TEAM enum
 
 
 
@@ -88,6 +88,10 @@ public class Board implements IBoard{
 
     @Override
     public void doMove(Move move) {
+        if (getSquare(move.from).isEmpty()){
+            throw new RuntimeException("tried to do a move from a empty square");
+        }
+
         int from = move.getMove()[0];
         int to = move.getMove()[1];
         Piece movingPiece = getSquare(from).getPiece();
@@ -154,6 +158,7 @@ public class Board implements IBoard{
         teamList.remove(deathRowPiece);
         getSquare(Id).removePiece();
     }
+
 
     public boolean isCurrentPlayerIsWhite(){
         return currentPlayerIsWhite;

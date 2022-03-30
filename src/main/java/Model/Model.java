@@ -32,6 +32,19 @@ public class Model implements IMovable {
         return allThreatMoves;
     }
 
+    @Override
+    public boolean kingInCheck(){
+        List<Move> threats = getPossibleThreats();
+        int king = (board.isCurrentPlayerIsWhite() ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
+
+        for (Move threat : threats){
+            if (threat.to == king){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public List<Move> getLegalMoves(){
@@ -59,6 +72,8 @@ public class Model implements IMovable {
                 illegalMoves.add(move);
                 continue;
             }
+
+            //TODO check if king is attaking a defended piece
 
             // checking if king is attacked by a piece, and the move does not kill that piece.
             if (kingInCheck.size() == 1 && move.to != kingInCheck.get(0).from && move.from != king){
@@ -149,6 +164,7 @@ public class Model implements IMovable {
     }
 
     // helper function only used in getLegalMoves()
+
     private Piece getKing(){
         List<Piece> teamList = (board.isCurrentPlayerIsWhite() ? board.whitePieces : board.blackPieces);
         Piece king = null;
