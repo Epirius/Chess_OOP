@@ -164,7 +164,6 @@ public class Model implements IMovable {
     }
 
     // helper function only used in getLegalMoves()
-
     private Piece getKing(){
         List<Piece> teamList = (board.isCurrentPlayerIsWhite() ? board.whitePieces : board.blackPieces);
         Piece king = null;
@@ -209,12 +208,43 @@ public class Model implements IMovable {
 
     @Override
     public void doMove(Move move) {
+
+        updateCastlingLegality(move);
         board.doMove(move);
     }
 
     //@Override TODO interface maybe?
     public void upgradePawn(Type type){
         board.upgradePawn(type);
+    }
+
+    private void updateCastlingLegality(Move move){
+        King king = (King) getKing();
+
+        if (!king.castleKingSide && !king.castleQueenSide){
+            return;
+        }
+
+        // Setting castling to illegal if the king is moved.
+        if (board.getPiece(move.from).type == Type.KING){
+            king.setCastleKingSideToFalse();
+            king.setCastleQueenSideToFalse();
+        }
+
+        // Checking if the rooks have moved
+        if(move.from == 0 && board.getPiece(0).type == Type.ROOK){
+            king.setCastleQueenSideToFalse();
+        }
+        if(move.from == 7 && board.getPiece(7).type == Type.ROOK){
+            king.setCastleKingSideToFalse();
+        }
+        if(move.from == 56 && board.getPiece(56).type == Type.ROOK){
+            king.setCastleQueenSideToFalse();
+        }
+        if(move.from == 63 && board.getPiece(63).type == Type.ROOK){
+            king.setCastleKingSideToFalse();
+        }
+
     }
 
     /**
