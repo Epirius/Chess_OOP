@@ -1,0 +1,14 @@
+handle castling:
+    -for now i have a boolean for the king for kingside and queenside castling.
+        -that bool is given to the Model.Move.
+    -i need to turn the bool to false when it should be.
+    -i need to handle the moving of the rook if the player castles
+
+
+get possible moves implemented so far:
+king (need work with castling)
+queen
+bishop
+rook
+knight
+pawn (need work with en passant)
