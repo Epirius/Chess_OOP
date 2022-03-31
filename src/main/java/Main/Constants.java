@@ -21,7 +21,7 @@ public final class Constants {
     public static final Color colorLightSquare = new Color(237, 132, 99);
     public static final Color colorHighlightSquare = new Color(213, 248, 147, 175);
     public static final Color colorPawnUpgradeBG = new Color(95, 205, 228);
-    public static final int TIME_SECONDS = 5;
+    public static final int TIME_SECONDS = 300;
 
 
     // Images

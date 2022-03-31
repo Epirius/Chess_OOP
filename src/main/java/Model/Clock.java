@@ -25,7 +25,7 @@ public class Clock implements ActionListener {
     public Clock(View view, Controller controller){
         whiteClock = Constants.TIME_SECONDS;
         blackClock = Constants.TIME_SECONDS;
-        this.currentPlayer = Team.BLACK;
+        this.currentPlayer = Team.WHITE;
         timer = new Timer(1000, this);
         this.view = view;
         this.controller = controller;

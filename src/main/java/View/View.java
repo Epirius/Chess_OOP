@@ -6,6 +6,7 @@ import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import Controller.GameState;
@@ -128,8 +129,15 @@ public class View extends JComponent {
 
         // Clock
         g.setColor(Constants.colorPawnUpgradeBG);
-        g.drawString("time: " + clock.getTime(Team.WHITE), 65 , 50);
-        g.drawString("time: " + clock.getTime(Team.BLACK), 65 , getHeight() - 30);
+        int whiteTotal = clock.getTime(Team.WHITE);
+        int whiteMins = whiteTotal / 60;
+
+        int blackTotal = clock.getTime(Team.BLACK);
+        int blackMins = blackTotal / 60;
+
+        g.drawString("time: " + (blackMins > 0 ? blackMins + ":" : "")  + blackTotal % 60, 65 , 50);
+        g.drawString("time: " + (whiteMins > 0 ? whiteMins + ":" : "")  + whiteTotal % 60, 65 , getHeight() - 30);
+
 
         // If a pawn is upgrading
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
