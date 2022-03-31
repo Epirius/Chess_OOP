@@ -6,4 +6,5 @@ public enum GameState {
     UPGRADE_PAWN,
     CHECK_MATE,
     DRAW,
+    TIME_OUT;
 }

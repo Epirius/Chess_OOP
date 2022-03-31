@@ -16,13 +16,17 @@ import static View.GraphicHelperMethods.*;
 public class View extends JComponent {
     List<Integer> legalSquares = new ArrayList<>();
     Controller controller;
+    Clock clock;
 
-    public View(){
-
+    public View() {
     }
 
     public void installController(Controller controller){
         this.controller = controller;
+    }
+
+    public void installClock(Clock clock){
+        this.clock = clock;
     }
 
 
@@ -119,6 +123,13 @@ public class View extends JComponent {
     private void hudLayer(Graphics g){
         //TODO stop normal handeling of clicks if gamestate is upgrade_pawn.
         JLayeredPane pane = new JLayeredPane();
+        Font myfont = new Font("SansSerif", Font.BOLD, 20);
+        g.setFont(myfont);
+
+        // Clock
+        g.setColor(Constants.colorPawnUpgradeBG);
+        g.drawString("time: " + clock.getTime(Team.WHITE), 65 , 50);
+        g.drawString("time: " + clock.getTime(Team.BLACK), 65 , getHeight() - 30);
 
         // If a pawn is upgrading
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
@@ -135,18 +146,20 @@ public class View extends JComponent {
             }
         }
 
-        if (controller.getGameState() == GameState.CHECK_MATE || controller.getGameState() == GameState.DRAW){
+        if (controller.getGameState() == GameState.CHECK_MATE || controller.getGameState() == GameState.DRAW || controller.getGameState() == GameState.TIME_OUT){
             g.setColor(new Color(0,0,0,150));
             g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
-
-            Font myfont = new Font("SansSerif", Font.BOLD, 80);
+            myfont = new Font("SansSerif", Font.BOLD, 80);
             g.setFont(myfont);
+
             g.setColor(Color.WHITE);
             String text = "";
             if (controller.gameState == GameState.CHECK_MATE) {
                 text = "Check Mate";
             } else if (controller.gameState == GameState.DRAW){
                 text = "Draw";
+            } else if (controller.gameState == GameState.TIME_OUT){
+                text = "Time ran out";
             }
             drawCenteredString(g, text, 0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
         }

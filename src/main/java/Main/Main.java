@@ -18,7 +18,10 @@ public class Main {
         Model model = new Model();
         View view = new View();
         Controller controller = new Controller(model, view);
+        Clock clock = new Clock(view, controller);
         view.installController(controller);
+        view.installClock(clock);
+        model.installClock(clock);
 
 
 

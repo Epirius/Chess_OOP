@@ -10,7 +10,11 @@ import java.util.List;
 
 public class Model implements IMovable {
     private Board board = new Board();
+    private Clock clock;
 
+    public void installClock(Clock clock){
+        this.clock = clock;
+    }
 
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +71,6 @@ public class Model implements IMovable {
 
         // checking if king is attacked.
         for (Move threat : threats){
-            System.out.println(threat); //TODO DELETE
             if (threat.to == king){
                 kingInCheck.add(threat);
             }
@@ -76,7 +79,6 @@ public class Model implements IMovable {
         for (Move move : moves){
              // checking if the king is moving into an attacked square.
             if (move.from == king && threatSquares.contains(move.to)){
-                //TODO this does not check if the king is moving in to a square defended by a pawn (maybe other pieces aswell?)
                 illegalMoves.add(move);
                 continue;
             }
@@ -237,6 +239,8 @@ public class Model implements IMovable {
 
         updateCastlingLegality(move);
         board.doMove(move);
+        clock.start();
+        clock.nextPlayer();
     }
 
     //@Override TODO interface maybe?
