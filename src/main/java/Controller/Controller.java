@@ -175,7 +175,7 @@ public class Controller extends MouseAdapter implements IDrawable {
     }
 
     private void checkPawnUpgrade(Move move){
-        if (model.getPiece(move.to).type == Type.PAWN && (move.to >= 56 && move.to < 64) || (move.to <= 7 && move.to >= 0)){
+        if (model.getPiece(move.to).type.equals(Type.PAWN) && ((move.to >= 56 && move.to < 64) || (move.to <= 7 && move.to >= 0))){
             this.gameState = GameState.UPGRADE_PAWN;
         }
     }

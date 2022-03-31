@@ -2,6 +2,7 @@ package Model;
 
 import Controller.IMovable;
 import Model.Pieces.King;
+import Model.Pieces.Pawn;
 import Model.Pieces.Piece;
 
 import java.util.ArrayList;
@@ -27,7 +28,12 @@ public class Model implements IMovable {
         List<Piece> enemyList = (board.isCurrentPlayerIsWhite() ? board.blackPieces : board.whitePieces);
         List<Move> allThreatMoves = new ArrayList<>();
         for (Piece piece : enemyList){
-            allThreatMoves.addAll(piece.getPossibleMoves(piece.getPosition(), board));
+            if (piece.type == Type.PAWN){
+                Pawn pawn = (Pawn) piece;
+                allThreatMoves.addAll(pawn.getPossibleThreats(piece.getPosition(), board));
+            } else {
+                allThreatMoves.addAll(piece.getPossibleMoves(piece.getPosition(), board));
+            }
         }
         return allThreatMoves;
     }
@@ -61,6 +67,7 @@ public class Model implements IMovable {
 
         // checking if king is attacked.
         for (Move threat : threats){
+            System.out.println(threat); //TODO DELETE
             if (threat.to == king){
                 kingInCheck.add(threat);
             }
@@ -69,11 +76,30 @@ public class Model implements IMovable {
         for (Move move : moves){
              // checking if the king is moving into an attacked square.
             if (move.from == king && threatSquares.contains(move.to)){
+                //TODO this does not check if the king is moving in to a square defended by a pawn (maybe other pieces aswell?)
                 illegalMoves.add(move);
                 continue;
             }
 
-            //TODO check if king is attaking a defended piece
+            // Checking if the king is attacking a piece that is defended.
+            if (move.from == king && !board.getSquare(move.to).isEmpty() && board.getPiece(king).team != board.getPiece(move.to).team){
+                Piece enemyPiece = board.getPiece(move.to);
+                Piece friendlyKing = board.getPiece(move.from);
+
+                // making the move and checking if the king is in check
+                board.getSquare(move.from).removePiece();
+                board.getSquare(move.to).setPiece(friendlyKing);
+
+                if (kingInCheck()){
+                    illegalMoves.add(move);
+                    board.getSquare(move.from).setPiece(friendlyKing);
+                    board.getSquare(move.to).setPiece(enemyPiece);
+                    continue;
+                }
+                // resetting the board to what it was before i tested the move
+                board.getSquare(move.from).setPiece(friendlyKing);
+                board.getSquare(move.to).setPiece(enemyPiece);
+            }
 
             // checking if king is attacked by a piece, and the move does not kill that piece.
             if (kingInCheck.size() == 1 && move.to != kingInCheck.get(0).from && move.from != king){
