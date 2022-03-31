@@ -1,2 +1,4 @@
-castling error where king castles after having moved. look at the draw test for an example.
-maske the game over tests work
+- add clock
+- add killed pieces to the side of the board + their total score
+- refactor code
+- add ai?
