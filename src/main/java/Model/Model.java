@@ -20,7 +20,7 @@ public class Model implements IMovable {
     /////////////////////////////////////////////////////////////////////////////////////
 
     private List<Move> getPossibleMoves(){
-        List<Piece> teamList = (board.isCurrentPlayerIsWhite() ? board.whitePieces : board.blackPieces);
+        List<Piece> teamList = (board.getTeam() == Team.WHITE ? board.whitePieces : board.blackPieces);
         List<Move> allPossibleMoves = new ArrayList<>();
         for (Piece piece : teamList){
             allPossibleMoves.addAll(piece.getPossibleMoves(piece.getPosition(), board));
@@ -29,7 +29,7 @@ public class Model implements IMovable {
     }
 
     private List<Move> getPossibleThreats(){
-        List<Piece> enemyList = (board.isCurrentPlayerIsWhite() ? board.blackPieces : board.whitePieces);
+        List<Piece> enemyList = (board.getTeam() == Team.WHITE ? board.blackPieces : board.whitePieces);
         List<Move> allThreatMoves = new ArrayList<>();
         for (Piece piece : enemyList){
             if (piece.type == Type.PAWN){
@@ -45,7 +45,7 @@ public class Model implements IMovable {
     @Override
     public boolean kingInCheck(){
         List<Move> threats = getPossibleThreats();
-        int king = (board.isCurrentPlayerIsWhite() ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
+        int king = (board.getTeam() == Team.WHITE ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
 
         for (Move threat : threats){
             if (threat.to == king){
@@ -57,7 +57,7 @@ public class Model implements IMovable {
 
     public boolean kingInCheck(Piece ignorePiece){
         List<Move> threats = getPossibleThreats();
-        int king = (board.isCurrentPlayerIsWhite() ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
+        int king = (board.getTeam() == Team.WHITE ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
 
         for (Move threat : threats){
             if (getPiece(threat.from).equals(ignorePiece)) {continue;}
@@ -80,7 +80,7 @@ public class Model implements IMovable {
 
         for (Move move : threats){ threatSquares.add(move.to);}
 
-        int king = (board.isCurrentPlayerIsWhite() ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
+        int king = (board.getTeam() == Team.WHITE ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
 
         // checking if king is attacked.
         for (Move threat : threats){
@@ -210,7 +210,7 @@ public class Model implements IMovable {
 
     // helper function only used in getLegalMoves()
     private Piece getKing(){
-        List<Piece> teamList = (board.isCurrentPlayerIsWhite() ? board.whitePieces : board.blackPieces);
+        List<Piece> teamList = (board.getTeam() == Team.WHITE ? board.whitePieces : board.blackPieces);
         Piece king = null;
         for (Piece piece : teamList){
             if (piece.type == Type.KING){king = piece;}
@@ -302,7 +302,7 @@ public class Model implements IMovable {
      */
     private List<Integer> getPinnedPieces(){
         int kingPosition = getKing().getPosition();
-        Team team = (board.isCurrentPlayerIsWhite() ? Team.WHITE : Team.BLACK);
+        Team team = (board.getTeam() == Team.WHITE ? Team.WHITE : Team.BLACK);
         List<Piece> enemyPieceList = (Team.WHITE == team ? board.blackPieces : board.whitePieces);
         List<Integer> pinnedPiecesList = new ArrayList<>();
 

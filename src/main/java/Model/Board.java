@@ -15,7 +15,7 @@ public class Board implements IBoard{
     protected List<Piece> blackPieces = new ArrayList<>();
     protected List<Piece> deadPieces = new ArrayList<>();
     public Stack<Move> moveHistory = new Stack<>();
-    private boolean currentPlayerIsWhite = true; //TODO swap this for TEAM enum
+    private Team currentPlayer = Team.WHITE;
 
 
 
@@ -81,10 +81,7 @@ public class Board implements IBoard{
 
     //TODO add to interface
     public Team getTeam(){
-        if (currentPlayerIsWhite){
-            return Team.WHITE;
-        }
-        return Team.BLACK;
+        return currentPlayer;
     }
 
     @Override
@@ -122,7 +119,7 @@ public class Board implements IBoard{
         getSquare(from).removePiece();
         movingPiece.setPosition(to);
         moveHistory.add(move);
-        currentPlayerIsWhite = !currentPlayerIsWhite;
+        currentPlayer = (currentPlayer == Team.WHITE ? Team.BLACK : Team.WHITE);
     }
 
     //@Override TODO make interface for upgrading
@@ -167,11 +164,6 @@ public class Board implements IBoard{
         getSquare(Id).removePiece();
     }
 
-
-    public boolean isCurrentPlayerIsWhite(){
-        return currentPlayerIsWhite;
-    }
-
     /**
      * checks if a square is occupied by a friendly piece.
      * @param squareId Id of the square with the piece to be checked.
@@ -179,8 +171,8 @@ public class Board implements IBoard{
      */
     public boolean isSquareFriendly(int squareId){
         if (getSquare(squareId).isEmpty()){return false;}
-        if (isCurrentPlayerIsWhite() && getPiece(squareId).team == Team.WHITE){return true;}
-        else if (!isCurrentPlayerIsWhite() && getPiece(squareId).team == Team.BLACK){return true;}
+        if (getTeam() == Team.WHITE && getPiece(squareId).team == Team.WHITE){return true;}
+        else if (getTeam() == Team.BLACK && getPiece(squareId).team == Team.BLACK){return true;}
         return false;
     }
 
@@ -193,7 +185,7 @@ public class Board implements IBoard{
     protected List<Square> squaresBetween(int squareId, int target){
         List<Square> squares = new ArrayList<>();
         List<Integer> line = GetLines.getLine(squareId, target);
-        if (line.size() == 0){return new ArrayList<Square>();}
+        if (line.size() == 0){return new ArrayList<>();}
 
         int targetIndex = line.indexOf(target);
         for (int i = 0; i < targetIndex; i++) {

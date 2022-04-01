@@ -181,7 +181,7 @@ public class View extends JComponent {
 
             for (ViewPiece piece : viewPieces) {
                 g.drawImage(piece.smallImage, xPos, yPos, pane);
-                xPos += piece.smallImage.getWidth() + 5;
+                xPos += piece.smallImage.getWidth();
             }
 
         }
