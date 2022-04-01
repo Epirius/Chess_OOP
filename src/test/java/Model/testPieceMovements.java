@@ -278,7 +278,6 @@ public class testPieceMovements {
         Assert.assertTrue(board.getSquare(36).isEmpty());
         Assert.assertTrue(board.getSquare(52).isEmpty());
         Assert.assertEquals(p1, board.getSquare(44).getPiece());
-        //todo test left side en passant
         //---------------------------------------------------------
 
         Pawn p3 = new Pawn(Team.WHITE);
@@ -295,6 +294,5 @@ public class testPieceMovements {
         Assert.assertTrue(board.getSquare(27).isEmpty());
         Assert.assertTrue(board.getSquare(28).isEmpty());
         Assert.assertEquals(p4, board.getSquare(20).getPiece());
-        //todo test left side en passant
     }
 }

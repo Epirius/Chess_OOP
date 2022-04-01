@@ -41,15 +41,6 @@ public class View extends JComponent {
 
     }
 
-    /*
-    //TODO REMOVE?
-    @Override
-    public void setLegalSquares(List<Integer> legalSquares){
-        this.legalSquares = legalSquares;
-    }
-
-     */
-
     /**
      * converts a square id to coordinates with 0,0 at TOP LEFT.
      * @param square id of the board square.
@@ -123,7 +114,6 @@ public class View extends JComponent {
     }
 
     private void hudLayer(Graphics g){
-        //TODO stop normal handeling of clicks if gamestate is upgrade_pawn.
         JLayeredPane pane = new JLayeredPane();
         Font myfont = new Font("SansSerif", Font.BOLD, 20);
         g.setFont(myfont);

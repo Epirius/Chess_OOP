@@ -51,7 +51,6 @@ public class Controller extends MouseAdapter implements IDrawable {
             //converting the x and y coordinates of the mouse to a int of the square it is over.
             if (gameState == GameState.ACTIVE_GAME) {
                 int square = rawCoordsToSquare(rawX, rawY);
-                System.out.println(square); // TODO delete this line
                 handleClicks(square);
             }
             else if (gameState == GameState.UPGRADE_PAWN){
@@ -124,7 +123,6 @@ public class Controller extends MouseAdapter implements IDrawable {
             int yEnd = button.getEndPosition()[1];
 
             if (rawX > xStart && rawX < xEnd && rawY > yStart && rawY < yEnd){
-                System.out.println("Button hit " + button.type); //TODO HANDLE EVENT
                 model.upgradePawn(button.type);
                 gameState = GameState.ACTIVE_GAME;
             }

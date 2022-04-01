@@ -26,6 +26,6 @@ public class testKingMoves {
         model.doMove(new Move(55,47));
         model.doMove(new Move(19,26));
         model.doMove(new Move(32,25));
-        assertTrue(model.getLegalMoves().contains(new Move(26,25))); //TODO NOT FIXED.
+        assertTrue(model.getLegalMoves().contains(new Move(26,25)));
     }
 }
