@@ -92,6 +92,13 @@ public class Board implements IBoard{
         if (getSquare(move.from).isEmpty()){
             throw new RuntimeException("tried to do a move from a empty square");
         }
+        /*
+        TODO rewrite some of the test before you turn this exeption on.
+        if (getPiece(move.from).team != Team.WHITE && currentPlayerIsWhite || getPiece(move.from).team != Team.BLACK && !currentPlayerIsWhite){
+            throw new RuntimeException("tried to move a piece from the opposite team");
+        }
+
+         */
 
         int from = move.getMove()[0];
         int to = move.getMove()[1];

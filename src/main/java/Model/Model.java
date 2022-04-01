@@ -239,8 +239,10 @@ public class Model implements IMovable {
 
         updateCastlingLegality(move);
         board.doMove(move);
-        clock.start();
-        clock.nextPlayer();
+        if (this.clock != null) {
+            clock.start();
+            clock.nextPlayer();
+        }
     }
 
     //@Override TODO interface maybe?
