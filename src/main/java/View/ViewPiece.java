@@ -3,6 +3,7 @@ package View;
 import Main.Constants;
 import Model.Team;
 import Model.Type;
+import org.imgscalr.Scalr;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -15,6 +16,7 @@ public class ViewPiece  {
     public final Team team;
     public final int position;
     public final BufferedImage image;
+    public final BufferedImage smallImage;
 
     public ViewPiece(Type type, Team team, int position){
         this.type = type;
@@ -30,5 +32,7 @@ public class ViewPiece  {
             case KING -> image = (team == Team.WHITE ? Constants.kingW : Constants.kingB);
             default -> throw new RuntimeException("Could not get the image of a piece, because the type could not be recognized.");
         }
+
+        this.smallImage = Scalr.resize(this.image, Scalr.Method.BALANCED, (int) (this.image.getWidth() / 1.5f), (int) (this.image.getHeight() / 1.5f));
     }
 }

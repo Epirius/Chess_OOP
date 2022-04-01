@@ -2,3 +2,4 @@
 - add killed pieces to the side of the board + their total score
 - refactor code
 - add ai?
+- BUG: king can not capture a undefended queen.

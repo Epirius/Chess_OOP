@@ -13,6 +13,7 @@ public class Board implements IBoard{
     private final Square[] squares = new Square[64];
     protected List<Piece> whitePieces = new ArrayList<>();
     protected List<Piece> blackPieces = new ArrayList<>();
+    protected List<Piece> deadPieces = new ArrayList<>();
     public Stack<Move> moveHistory = new Stack<>();
     private boolean currentPlayerIsWhite = true; //TODO swap this for TEAM enum
 
@@ -152,8 +153,8 @@ public class Board implements IBoard{
      * @param Id id of the square with the captured piece
      */
     private void kill(int Id){
-        // TODO do something with points here
         Piece deathRowPiece = getSquare(Id).getPiece();
+        deadPieces.add(deathRowPiece);
         List<Piece> teamList = (Team.WHITE == deathRowPiece.team ? whitePieces : blackPieces);
         teamList.remove(deathRowPiece);
         getSquare(Id).removePiece();

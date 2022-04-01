@@ -1,6 +1,8 @@
 package View;
 
 import Controller.GameState;
+import Model.Pieces.Piece;
+import Model.Team;
 
 import java.util.List;
 
@@ -23,4 +25,10 @@ public interface IDrawable {
      * @return the state of the game
      */
     GameState getGameState();
+
+    /**
+     * get all pieces that have been killed
+     * @return list of dead pieces
+     */
+    List<ViewPiece> getDeadViewPieces(Team team);
 }

@@ -206,6 +206,19 @@ public class Controller extends MouseAdapter implements IDrawable {
     }
 
     @Override
+    public List<ViewPiece> getDeadViewPieces(Team team) {
+        //TODO add to an interface
+        List<ViewPiece> output = new ArrayList<>();
+        List<Piece> deadPieces = model.getDeadPieces();
+
+        for (Piece piece : deadPieces){
+            if (piece.team != team){continue;}
+            output.add(new ViewPiece(piece.type, piece.team, 0)); // position does not matter here.
+        }
+        return output;
+    }
+
+    @Override
     public List<ViewPiece> getPiecesOnTheBoard(){
         List<ViewPiece> output = new ArrayList<>();
         for (Piece piece : model.getAllPieces()){

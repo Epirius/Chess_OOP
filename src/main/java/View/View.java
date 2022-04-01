@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import Controller.GameState;
 
@@ -127,17 +128,9 @@ public class View extends JComponent {
         Font myfont = new Font("SansSerif", Font.BOLD, 20);
         g.setFont(myfont);
 
-        // Clock
-        g.setColor(Constants.colorPawnUpgradeBG);
-        int whiteTotal = clock.getTime(Team.WHITE);
-        int whiteMins = whiteTotal / 60;
+        drawClock(g);
 
-        int blackTotal = clock.getTime(Team.BLACK);
-        int blackMins = blackTotal / 60;
-
-        g.drawString("time: " + (blackMins > 0 ? blackMins + ":" : "")  + blackTotal % 60, 65 , 50);
-        g.drawString("time: " + (whiteMins > 0 ? whiteMins + ":" : "")  + whiteTotal % 60, 65 , getHeight() - 30);
-
+        drawDeadPieces(g, pane);
 
         // If a pawn is upgrading
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
@@ -154,6 +147,7 @@ public class View extends JComponent {
             }
         }
 
+        // game over screens.
         if (controller.getGameState() == GameState.CHECK_MATE || controller.getGameState() == GameState.DRAW || controller.getGameState() == GameState.TIME_OUT){
             g.setColor(new Color(0,0,0,150));
             g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
@@ -171,6 +165,43 @@ public class View extends JComponent {
             }
             drawCenteredString(g, text, 0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
         }
+    }
+
+    /**
+     * draw the pieces that have been killed for both teams
+     * @param g Graphics object
+     * @param pane pane
+     */
+    private void drawDeadPieces(Graphics g, JLayeredPane pane) {
+        // Dead pieces
+        for (Team team : Arrays.asList(Team.WHITE, Team.BLACK)){
+            List<ViewPiece> viewPieces = controller.getDeadViewPieces(team);
+            int yPos = (team == Team.BLACK ? getHeight() - Constants.boardOffset / 2 : Constants.boardOffset / 2) - 8;
+            int xPos = Constants.boardOffset;
+
+            for (ViewPiece piece : viewPieces) {
+                g.drawImage(piece.smallImage, xPos, yPos, pane);
+                xPos += piece.smallImage.getWidth() + 5;
+            }
+
+        }
+    }
+
+    /**
+     * used to draw the clocks for each team.
+     * @param g graphics object to draw on.
+     */
+    private void drawClock(Graphics g) {
+        // Clock
+        g.setColor(Constants.colorPawnUpgradeBG);
+        int whiteTotal = clock.getTime(Team.WHITE);
+        int whiteMins = whiteTotal / 60;
+        int blackTotal = clock.getTime(Team.BLACK);
+        int blackMins = blackTotal / 60;
+        int xPos = getWidth() - Constants.boardOffset + 5;
+
+        g.drawString((blackMins > 0 ? blackMins + ":" : "")  + (blackTotal % 60 < 10 ? "0" : "") + blackTotal % 60, xPos, (getHeight() - Constants.squareSize) / 2 + 10);
+        g.drawString((whiteMins > 0 ? whiteMins + ":" : "")  + (whiteTotal % 60 < 10 ? "0" : "") + whiteTotal % 60, xPos, (getHeight() + Constants.squareSize) / 2);
     }
 
     /**

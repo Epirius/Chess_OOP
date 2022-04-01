@@ -64,6 +64,7 @@ public class Clock implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (controller.getGameState() != GameState.ACTIVE_GAME) {return;}
         if (currentPlayer == Team.WHITE){
             whiteClock--;
             if (whiteClock < 0){

@@ -328,4 +328,11 @@ public class Model implements IMovable {
         return pinnedPiecesList;
     }
 
+    /**
+     * method to get all the pieces that have been killed from both teams.
+     * @return list of dead pieces.
+     */
+    public List<Piece> getDeadPieces() {
+        return board.deadPieces;
+    }
 }
