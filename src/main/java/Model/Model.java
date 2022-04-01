@@ -107,6 +107,7 @@ public class Model implements IMovable {
                 friendlyKing.setPosition(move.to);
 
                 if (kingInCheck(enemyPiece)){
+                    // resetting the board to what it was before i tested the move
                     illegalMoves.add(move);
                     board.getSquare(move.from).setPiece(friendlyKing);
                     board.getSquare(move.to).setPiece(enemyPiece);

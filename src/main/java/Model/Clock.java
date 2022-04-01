@@ -31,14 +31,33 @@ public class Clock implements ActionListener {
         this.controller = controller;
     }
 
+    /**
+     * method to get the player who the clock is currently focusing on.
+     * @return the team of the player.
+     */
     public Team getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * method to switch which players clock is ticking down.
+     * it also adds time to the current players clock if that option is set in Constants.
+     */
     public void nextPlayer(){
+        // adding time to the current players clock (if the option in constants is not set to 0.)
+        if (currentPlayer == Team.WHITE){
+            whiteClock += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+        } else {
+            blackClock += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+        }
+
+        // updating the current player.
         currentPlayer = (currentPlayer == Team.WHITE ? Team.BLACK : Team.WHITE);
     }
 
+    /**
+     * method to start the timer.
+     */
     public void start(){
         if (started){return;}
         timer.start();
