@@ -31,6 +31,13 @@ public interface IMovable {
      */
     public boolean kingInCheck();
 
+    /**
+     * checks if king is in check but ignores checking from one enemy piece
+     * @return true if king is in check, else false.
+     * @param ignorePiece the piece that should be ignored when checking if the king is in check.
+     */
+    public boolean kingInCheck(Piece ignorePiece);
+
 
     /**
      * finds all legal move for the current player.

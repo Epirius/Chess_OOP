@@ -55,13 +55,26 @@ public class Model implements IMovable {
         return false;
     }
 
+    public boolean kingInCheck(Piece ignorePiece){
+        List<Move> threats = getPossibleThreats();
+        int king = (board.isCurrentPlayerIsWhite() ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
+
+        for (Move threat : threats){
+            if (getPiece(threat.from).equals(ignorePiece)) {continue;}
+            if (threat.to == king){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     @Override
     public List<Move> getLegalMoves(){
         List<Move> moves = getPossibleMoves();
         List<Move> threats = getPossibleThreats();
         List<Move> illegalMoves = new ArrayList<>();
-        List<Move> kingInCheck = new ArrayList<>();
+        List<Move> kingChecked = new ArrayList<>();
         List<Integer> threatSquares = new ArrayList<>();
         List<Integer> pinnedPieces = getPinnedPieces();
 
@@ -72,7 +85,7 @@ public class Model implements IMovable {
         // checking if king is attacked.
         for (Move threat : threats){
             if (threat.to == king){
-                kingInCheck.add(threat);
+                kingChecked.add(threat);
             }
         }
 
@@ -91,34 +104,37 @@ public class Model implements IMovable {
                 // making the move and checking if the king is in check
                 board.getSquare(move.from).removePiece();
                 board.getSquare(move.to).setPiece(friendlyKing);
+                friendlyKing.setPosition(move.to);
 
-                if (kingInCheck()){
+                if (kingInCheck(enemyPiece)){
                     illegalMoves.add(move);
                     board.getSquare(move.from).setPiece(friendlyKing);
                     board.getSquare(move.to).setPiece(enemyPiece);
+                    friendlyKing.setPosition(move.from);
                     continue;
                 }
                 // resetting the board to what it was before i tested the move
                 board.getSquare(move.from).setPiece(friendlyKing);
                 board.getSquare(move.to).setPiece(enemyPiece);
+                friendlyKing.setPosition(move.from);
             }
 
             // checking if king is attacked by a piece, and the move does not kill that piece.
-            if (kingInCheck.size() == 1 && move.to != kingInCheck.get(0).from && move.from != king){
+            if (kingChecked.size() == 1 && move.to != kingChecked.get(0).from && move.from != king){
                 // if the attacking piece is not a queen rook or bishop:
-                Type attacker = board.getSquare(kingInCheck.get(0).from).getPiece().type;
+                Type attacker = board.getSquare(kingChecked.get(0).from).getPiece().type;
                 if (!(attacker == Type.QUEEN || attacker == Type.ROOK || attacker == Type.BISHOP)){
                     // then we can't block.
                     illegalMoves.add(move);
                     continue;
-                } else if (!board.squaresBetween(king, kingInCheck.get(0).from).contains(board.getSquare(move.to))){
+                } else if (!board.squaresBetween(king, kingChecked.get(0).from).contains(board.getSquare(move.to))){
                     // if you can block but didn't:
                     illegalMoves.add(move);
                     continue;
                 }
             }
             // checking for double check of the king.
-            if (kingInCheck.size() > 1){
+            if (kingChecked.size() > 1){
                 if (move.from != king){
                     illegalMoves.add(move);
                     continue;
