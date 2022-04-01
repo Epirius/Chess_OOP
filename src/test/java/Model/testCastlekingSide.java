@@ -54,7 +54,7 @@ public class testCastlekingSide {
         model.doMove(new Move(5,4));
         model.doMove(new Move(61,60));
         assertFalse(model.getLegalMoves().contains(new Move(4,6, 7)));
-        model.doMove(new Move(9,16));
+        model.doMove(new Move(8,16));
         assertFalse(model.getLegalMoves().contains(new Move(60,62, 63)));
     }
 
