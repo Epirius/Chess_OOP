@@ -6,7 +6,6 @@ import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -131,30 +130,36 @@ public class View extends JComponent {
             Team team;
             if (controller.getTeam() == Team.WHITE){team = Team.BLACK;}
             else {team = Team.WHITE;}
-            List<Button> upgradeButtons = getUpgradeButtons(team);
-            for (Button button : upgradeButtons) {
+            List<ImageButton> upgradeButtons = getUpgradeButtons(team);
+            for (ImageButton button : upgradeButtons) {
                 button.drawButton(g, pane);
             }
         }
 
         // game over screens.
-        if (controller.getGameState() == GameState.CHECK_MATE || controller.getGameState() == GameState.DRAW || controller.getGameState() == GameState.TIME_OUT){
-            g.setColor(new Color(0,0,0,150));
-            g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
-            myfont = new Font("SansSerif", Font.BOLD, 80);
-            g.setFont(myfont);
+        if (controller.getGameState() == GameState.CHECK_MATE){ endScreen(g, "Check Mate");}
+        if (controller.getGameState() == GameState.DRAW){ endScreen(g, "Draw");}
+        if (controller.getGameState() == GameState.TIME_OUT){ endScreen(g, "Time ran out");}
+    }
 
-            g.setColor(Color.WHITE);
-            String text = "";
-            if (controller.gameState == GameState.CHECK_MATE) {
-                text = "Check Mate";
-            } else if (controller.gameState == GameState.DRAW){
-                text = "Draw";
-            } else if (controller.gameState == GameState.TIME_OUT){
-                text = "Time ran out";
-            }
-            drawCenteredString(g, text, 0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
-        }
+    private void endScreen(Graphics g, String text) {
+        Font myfont;
+        g.setColor(new Color(0,0,0,200));
+        g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), (int) (Constants.upgradePawnBoxHeight * 2.5f));
+        myfont = new Font("SansSerif", Font.BOLD, 80);
+        g.setFont(myfont);
+
+        g.setColor(Color.WHITE);
+        drawCenteredString(g, text, 0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
+
+        int buttonY = (int) (getHeight() / 1.6f);
+        int buttonX = getWidth() / 2;
+        int buttonWidth = 120;
+        int buttonHeight = 30;
+        TextButton mainMenu = new TextButton(buttonX - 30 - buttonWidth, buttonY,buttonWidth,buttonHeight,"main menu", this, () -> controller.setGameState(GameState.MAIN_MENU));
+        TextButton quitButton = new TextButton(buttonX + 30, buttonY,buttonWidth,buttonHeight, "Quit", this, () -> System.exit(0));
+        quitButton.drawButton(g);
+        mainMenu.drawButton(g);
     }
 
     /**
@@ -199,8 +204,8 @@ public class View extends JComponent {
      * @param team team the currently is playing.
      * @return a list of buttons.
      */
-    public List<Button> getUpgradeButtons(Team team){
-        List<Button> upgradeButtons = new ArrayList<>();
+    public List<ImageButton> getUpgradeButtons(Team team){
+        List<ImageButton> upgradeButtons = new ArrayList<>();
 
         int spacing = (getWidth() - Constants.upgradePawnBoxHeight * 2) / (4 - 1) - Constants.upgradePawnBoxWidth;
         int numButtons = 4;
@@ -216,7 +221,7 @@ public class View extends JComponent {
         for (int i = 0; i < numButtons; i++) {
             int xPosition = spacing * (i + 1) + Constants.upgradePawnBoxHeight * i;
             int yPosition = (getHeight() - Constants.upgradePawnBoxWidth) / 2;
-            upgradeButtons.add(new Button(xPosition, yPosition, Constants.upgradePawnBoxWidth, Constants.upgradePawnBoxHeight, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
+            upgradeButtons.add(new ImageButton(xPosition, yPosition, Constants.upgradePawnBoxWidth, Constants.upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
         }
         return upgradeButtons;
     }

@@ -2,13 +2,12 @@ package Controller;
 
 import Main.Constants;
 import Model.Model;
-import Model.Pieces.Pawn;
 import Model.Type;
 import Model.Team;
 import Model.Move;
 import Model.Pieces.Piece;
 import View.View;
-import View.Button;
+import View.ImageButton;
 import View.ViewPiece;
 import View.IDrawable;
 
@@ -23,9 +22,9 @@ import java.util.List;
 public class Controller extends MouseAdapter implements IDrawable {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
-    Model model;
+    public Model model;
     View view;
-    public GameState gameState = GameState.ACTIVE_GAME; //TODO HANDLE CHANGING OF GAME STATE.
+    public GameState gameState = Constants.DEFAULT_GAME_STATE; //TODO HANDLE CHANGING OF GAME STATE.
 
     public Controller(Model model, View view){
         this.clickHolder[0] = null;
@@ -37,6 +36,8 @@ public class Controller extends MouseAdapter implements IDrawable {
 
     @Override
     public void mousePressed(MouseEvent e) {
+        if (!(gameState == GameState.ACTIVE_GAME || gameState == GameState.UPGRADE_PAWN)){return;}//TODO REMOVE UPGRADE PAWN AFTER LAMBDA FUNCTION REFACTORING
+
         if (e.getButton() == MouseEvent.BUTTON1) {
             int rawX = e.getX();
             int rawY = e.getY();
@@ -53,10 +54,6 @@ public class Controller extends MouseAdapter implements IDrawable {
                 int square = rawCoordsToSquare(rawX, rawY);
                 handleClicks(square);
             }
-            else if (gameState == GameState.UPGRADE_PAWN){
-                handlePawnUpgradeClicks(rawX, rawY);
-            }
-
             view.repaint();
         }
     }
@@ -102,32 +99,6 @@ public class Controller extends MouseAdapter implements IDrawable {
                 updateSelectedLegalMoves(clickHolder[0]);
             }
         }
-    }
-
-    /**
-     * this method handles clicks when a pawn upgrade is happening
-     * @param rawX raw x position of mouse
-     * @param rawY raw y position of mouse
-     */
-    private void handlePawnUpgradeClicks(int rawX, int rawY) {
-        if (gameState != GameState.UPGRADE_PAWN){
-            throw new RuntimeException("handlePawnUpgradeClicks should only be called if the Gamestate is UPGRADE_PAWN");
-        }
-
-        // Team does not matter here.
-        List<Button> upgradeButtons = view.getUpgradeButtons(Team.BLACK);
-        for (Button button : upgradeButtons) {
-            int xStart = button.getStartPosition()[0];
-            int yStart = button.getStartPosition()[1];
-            int xEnd = button.getEndPosition()[0];
-            int yEnd = button.getEndPosition()[1];
-
-            if (rawX > xStart && rawX < xEnd && rawY > yStart && rawY < yEnd){
-                model.upgradePawn(button.type);
-                gameState = GameState.ACTIVE_GAME;
-            }
-        }
-
     }
 
     /**
@@ -201,6 +172,11 @@ public class Controller extends MouseAdapter implements IDrawable {
     @Override
     public GameState getGameState() {
         return gameState;
+    }
+
+    //TODO add @Override?
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
     }
 
     @Override

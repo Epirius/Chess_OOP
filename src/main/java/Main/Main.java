@@ -29,7 +29,7 @@ public class Main {
         frame.setContentPane(view);
         frame.getContentPane().setPreferredSize(new Dimension(Constants.displayWidth, Constants.displayHeight));
         frame.pack();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setResizable(false);
         frame.setVisible(true);
 

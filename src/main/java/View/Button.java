@@ -1,42 +1,78 @@
 package View;
 
+import Controller.GameState;
 import Main.Constants;
-import Model.Type;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
+import java.awt.event.MouseListener;
 
-public class Button extends JComponent{
-    public final int xPos;
-    public final int yPos;
-    public final int width;
-    public final int height;
-    public final BufferedImage image;
-    public final Type type;
+/**
+ * @author Felix Kaasa
+ */
+public abstract class Button implements MouseListener {
+    protected final int xPos;
+    protected final int yPos;
+    protected final int width;
+    protected final int height;
+    protected Color previousColor;
+    protected JLayeredPane pane;
+    protected GameState gamestateWhenCreated;
+    protected View view;
 
-    public Button(int xPos, int yPos, int width, int height, BufferedImage image, Type type){
+
+    public Button(int xPos, int yPos, int width, int height, View view) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
-        this.image = image;
-        this.type = type;
+        this.pane = new JLayeredPane();
+        view.addMouseListener(this);
+        gamestateWhenCreated = view.controller.getGameState();
+        this.view = view;
+
     }
 
-    public void drawButton(Graphics g ,JLayeredPane pane){
+    public void drawButton(Graphics g , JLayeredPane pane){
+        if (!isVisible()){return;}
+        previousColor = g.getColor();
+        g.setColor(Constants.BUTTON);
         g.fillRect(xPos, yPos, width, height);
-
-        int xImagePos = xPos + (Constants.upgradePawnBoxWidth - image.getWidth()) / 2;
-        int yImagePos = yPos + (Constants.upgradePawnBoxHeight - image.getHeight()) / 2;
-        g.drawImage(image, xImagePos, yImagePos, pane);
+        g.setColor(previousColor);
     }
 
+    /**
+     * method to get the start corner coordinates for the button
+     * @return int[] with x and y coordinates
+     */
     public int[] getStartPosition(){
         return new int[]{xPos, yPos};
     }
 
+    /**
+     * method to get the end corner coordinates for the button
+     * @return int[] with the x and y coordinates
+     */
     public int[] getEndPosition(){
         return new int[]{xPos + width, yPos + height};
     }
+
+    /**
+     * method that checks if the gamestate is currently the same as when the button was created.
+     * @return boolean
+     */
+    public boolean isVisible(){
+        return gamestateWhenCreated == view.controller.getGameState();
+    }
+
+    /**
+     * method to check if the mouse is over the button (and the button is visible)
+     * @param xMouse x coordinate of the mouse
+     * @param yMouse y coordinate of the mouse
+     * @return true if mouse over the button and the button is visible
+     */
+    public boolean mouseIsOverButton(int xMouse, int yMouse){
+        return (isVisible() && xMouse > xPos && xMouse < xPos + width && yMouse > yPos && yMouse < yPos + height);
+    }
+
 }

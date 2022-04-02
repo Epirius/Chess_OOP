@@ -1,5 +1,7 @@
 package Main;
 
+import Controller.GameState;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -13,6 +15,9 @@ public final class Constants {
     public static final int displayHeight = squareSize * 8 + boardOffset * 2;
     public static final int upgradePawnBoxHeight = 100;
     public static final int upgradePawnBoxWidth = 100;
+    public static final int TIME_SECONDS = 180;
+    public static final int TIME_ADDED_EACH_MOVE_SECONDS = 2;
+    public static final GameState DEFAULT_GAME_STATE = GameState.ACTIVE_GAME; //TODO SET THIS TO MAIN MENU
 
 
     // COLORS
@@ -21,8 +26,7 @@ public final class Constants {
     public static final Color colorLightSquare = new Color(237, 132, 99);
     public static final Color colorHighlightSquare = new Color(213, 248, 147, 175);
     public static final Color colorPawnUpgradeBG = new Color(95, 205, 228);
-    public static final int TIME_SECONDS = 180;
-    public static final int TIME_ADDED_EACH_MOVE_SECONDS = 2;
+    public static final Color BUTTON = Color.GRAY;
 
 
     // Images
@@ -32,7 +36,6 @@ public final class Constants {
     public static  BufferedImage bishopW;
     public static  BufferedImage queenW;
     public static  BufferedImage kingW;
-
     public static  BufferedImage pawnB;
     public static  BufferedImage rookB;
     public static  BufferedImage knightB;
@@ -48,7 +51,6 @@ public final class Constants {
             bishopW = ImageIO.read(new File("./images/bishopW.png"));
             queenW = ImageIO.read(new File("./images/queenW.png"));
             kingW = ImageIO.read(new File("./images/kingW.png"));
-
             pawnB = ImageIO.read(new File("./images/pawnB.png"));
             rookB = ImageIO.read(new File("./images/rookB.png"));
             knightB = ImageIO.read(new File("./images/knightB.png"));
