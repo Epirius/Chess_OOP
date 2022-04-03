@@ -9,6 +9,7 @@ public class testGameOver {
     @Test
     public void testDraw(){
         Model model = new Model();
+        model.installClock(new Clock(true));
 
         // moves found here https://www.chess.com/forum/view/fun-with-chess/fastest-stalemate
         model.doMove(new Move(10,26));
@@ -37,6 +38,7 @@ public class testGameOver {
     @Test
     public void testCheckMate(){
         Model model = new Model();
+        model.installClock(new Clock(true));
 
         model.doMove(new Move(12,28));
         model.doMove(new Move(52,36));

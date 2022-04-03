@@ -22,12 +22,4 @@ public class testController {
         controller = new Controller(view);
         controller.installModel(model);
     }
-
-    @Test
-    public void testHandleClicks(){
-        controller.handleClicks(8);
-        controller.handleClicks(24);
-
-
-    }
 }

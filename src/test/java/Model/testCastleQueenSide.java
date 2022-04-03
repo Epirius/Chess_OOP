@@ -14,6 +14,7 @@ public class testCastleQueenSide {
     @BeforeEach
     public void setup(){
         model = new Model();
+        model.installClock(new Clock(true));
 
         // setting up the board to be able to castle
         model.doMove(new Move(11,19));

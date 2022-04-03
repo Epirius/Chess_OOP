@@ -32,6 +32,19 @@ public class Clock implements ActionListener {
     }
 
     /**
+     * this is only to be used for testing
+     * @param TESTING
+     */
+    public Clock(boolean TESTING) {
+        whiteClock_Seconds = Constants.TIME_MINUTES * 60;
+        blackClock_Seconds = Constants.TIME_MINUTES * 60;
+        this.currentPlayer = Team.WHITE;
+        timer = new Timer(1000, this);
+        this.view = new View();
+        this.controller = new Controller(view);
+    }
+
+    /**
      * method to get the player who the clock is currently focusing on.
      * @return the team of the player.
      */
@@ -62,6 +75,7 @@ public class Clock implements ActionListener {
         if (started){return;}
         timer.start();
         started = true;
+        whiteClock_Seconds -= Constants.TIME_ADDED_EACH_MOVE_SECONDS;
     }
 
     /**

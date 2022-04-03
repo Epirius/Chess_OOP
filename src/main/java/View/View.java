@@ -71,7 +71,11 @@ public class View extends JComponent {
      * @param g graphics
      */
     private void mainMenu(Graphics g){
-        return;
+        controller.setGameState(GameState.CREATE_GAME); //TODO CREATE A MAIN MENU
+        // TODO NEW GAME
+        // TODO ABOUT
+        // TODO CREDITS etc..
+        repaint();
     }
 
     /**
@@ -117,6 +121,7 @@ public class View extends JComponent {
         //TODO set ai based on what the player chose.
         Model newModel = new Model();
         Clock newClock = new Clock(this, controller);
+        this.clock = newClock;
         newModel.installClock(newClock);
         controller.installModel(newModel);
         controller.setGameState(GameState.ACTIVE_GAME);
