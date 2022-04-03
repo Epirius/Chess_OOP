@@ -7,7 +7,6 @@ import Model.Team;
 import Model.Move;
 import Model.Pieces.Piece;
 import View.View;
-import View.ImageButton;
 import View.ViewPiece;
 import View.IDrawable;
 
@@ -26,12 +25,15 @@ public class Controller extends MouseAdapter implements IDrawable {
     View view;
     public GameState gameState = Constants.DEFAULT_GAME_STATE; //TODO HANDLE CHANGING OF GAME STATE.
 
-    public Controller(Model model, View view){
+    public Controller(View view){
         this.clickHolder[0] = null;
         this.clickHolder[1] = null;
-        this.model = model;
         this.view = view;
         view.addMouseListener(this);
+    }
+
+    public void installModel(Model model){
+        this.model = model;
     }
 
     @Override

@@ -15,9 +15,9 @@ public final class Constants {
     public static final int displayHeight = squareSize * 8 + boardOffset * 2;
     public static final int upgradePawnBoxHeight = 100;
     public static final int upgradePawnBoxWidth = 100;
-    public static final int TIME_SECONDS = 180;
-    public static final int TIME_ADDED_EACH_MOVE_SECONDS = 2;
-    public static final GameState DEFAULT_GAME_STATE = GameState.ACTIVE_GAME; //TODO SET THIS TO MAIN MENU
+    public static int TIME_MINUTES = 3;
+    public static int TIME_ADDED_EACH_MOVE_SECONDS = 2;
+    public static final GameState DEFAULT_GAME_STATE = GameState.CREATE_GAME; //TODO SET THIS TO MAIN MENU
 
 
     // COLORS
@@ -42,6 +42,7 @@ public final class Constants {
     public static  BufferedImage bishopB;
     public static  BufferedImage queenB;
     public static  BufferedImage kingB;
+    public static  BufferedImage rookWB;
 
     static {
         try {
@@ -57,6 +58,7 @@ public final class Constants {
             bishopB = ImageIO.read(new File("./images/bishopB.png"));
             queenB = ImageIO.read(new File("./images/queenB.png"));
             kingB = ImageIO.read(new File("./images/kingB.png"));
+            rookWB = ImageIO.read(new File("./images/rookWB.png"));
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The piece images were not loaded in properly.");

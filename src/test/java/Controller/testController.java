@@ -19,7 +19,8 @@ public class testController {
     public void init(){
         model = new Model();
         view = new View();
-        controller = new Controller(model, view);
+        controller = new Controller(view);
+        controller.installModel(model);
     }
 
     @Test

@@ -17,23 +17,30 @@ public abstract class Button implements MouseListener {
     protected final int height;
     protected Color previousColor;
     protected JLayeredPane pane;
-    protected GameState gamestateWhenCreated;
+    protected GameState gameStateWhenCreated;
     protected View view;
 
-
+    /**
+     * an Abstract class for buttons.
+     * @param xPos start position of the button.
+     * @param yPos start position of the button.
+     * @param width width of the button
+     * @param height height of the button
+     * @param view the view (needed to the controller/model)
+     */
     public Button(int xPos, int yPos, int width, int height, View view) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
         this.pane = new JLayeredPane();
-        view.addMouseListener(this);
-        gamestateWhenCreated = view.controller.getGameState();
+        gameStateWhenCreated = view.controller.getGameState();
         this.view = view;
+        view.addMouseListener(this);
 
     }
 
-    public void drawButton(Graphics g , JLayeredPane pane){
+    public void drawButton(Graphics g){
         if (!isVisible()){return;}
         previousColor = g.getColor();
         g.setColor(Constants.BUTTON);
@@ -45,7 +52,7 @@ public abstract class Button implements MouseListener {
      * method to get the start corner coordinates for the button
      * @return int[] with x and y coordinates
      */
-    public int[] getStartPosition(){
+    public int[] getStartPosition(){ //TODO DELETE IF NOT IN USE
         return new int[]{xPos, yPos};
     }
 
@@ -53,7 +60,7 @@ public abstract class Button implements MouseListener {
      * method to get the end corner coordinates for the button
      * @return int[] with the x and y coordinates
      */
-    public int[] getEndPosition(){
+    public int[] getEndPosition(){ //TODO DELETE IF NOT IN USE
         return new int[]{xPos + width, yPos + height};
     }
 
@@ -62,7 +69,7 @@ public abstract class Button implements MouseListener {
      * @return boolean
      */
     public boolean isVisible(){
-        return gamestateWhenCreated == view.controller.getGameState();
+        return gameStateWhenCreated == view.controller.getGameState();
     }
 
     /**

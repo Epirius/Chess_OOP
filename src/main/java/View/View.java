@@ -16,8 +16,16 @@ import static View.GraphicHelperMethods.*;
 
 public class View extends JComponent {
     List<Integer> legalSquares = new ArrayList<>();
+    protected Team selectTeam = null;
     Controller controller;
     Clock clock;
+
+    List<Button> createGame_buttonsList;
+    int minutesPerSide = Constants.TIME_MINUTES;
+    int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+
+
+
 
     public View() {
     }
@@ -34,10 +42,15 @@ public class View extends JComponent {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        boardLayer(g);
-        pieceLayer(g);
-        hudLayer(g);
-
+        if (controller.getGameState() == GameState.MAIN_MENU){
+            mainMenu(g);
+        } else if (controller.getGameState() == GameState.CREATE_GAME){
+            createGameScreen(g);
+        } else {
+            boardLayer(g);
+            pieceLayer(g);
+            hudLayer(g);
+        }
     }
 
     /**
@@ -53,9 +66,66 @@ public class View extends JComponent {
 
     }
 
+    /**
+     * draws the main menu
+     * @param g graphics
+     */
+    private void mainMenu(Graphics g){
+        return;
+    }
 
     /**
-     * a method that draws the board layer.
+     * new game menu
+     * @param g graphics
+     */
+    private void createGameScreen(Graphics g) {
+        g.setColor(Constants.colorBackground);
+        g.fillRect(0, 0, Constants.displayWidth, Constants.displayHeight);
+
+
+        //Create and draw the buttons
+        if (createGame_buttonsList == null) { createGame_buttonsList = getCreateGameButtons();}
+        for (Button button : createGame_buttonsList) { button.drawButton(g);}
+
+        //Highlight the pressed button.
+        g.setColor(new Color(255, 255, 255, 100));
+        Button whiteButton = createGame_buttonsList.get(0);
+        Button blackButton = createGame_buttonsList.get(1);
+        Button bothButton = createGame_buttonsList.get(2);
+        if (selectTeam == Team.WHITE) { g.fillRect(whiteButton.xPos, whiteButton.yPos, whiteButton.width, whiteButton.height);}
+        else if (selectTeam == Team.BLACK) { g.fillRect(blackButton.xPos, blackButton.yPos, blackButton.width, blackButton.height);}
+        else if (selectTeam == null) { g.fillRect(bothButton.xPos, bothButton.yPos, bothButton.width, bothButton.height);}
+
+        //Text
+        g.setColor(Color.WHITE);
+        g.setFont( new Font("SansSerif", Font.BOLD, 60));
+        drawCenteredString(g,"Choose a team:",0,10, getWidth(), 70);
+        g.fillRect(95,80, getStringWidth(g, g.getFont(), "Choose a team:"),2);
+        g.setFont( new Font("SansSerif", Font.BOLD, 30));
+        drawCenteredString(g, "Minutes per side: " + minutesPerSide, 0, 200, getWidth(), 70);
+        g.fillRect(183,260, getStringWidth(g, g.getFont(), "Minutes per side: " + minutesPerSide),2);
+        drawCenteredString(g, "Increment in seconds: " + secondsPerMove, 0, 350, getWidth(), 70);
+        g.fillRect(149,410, getStringWidth(g, g.getFont(), "Increment in seconds: " + secondsPerMove),2);
+
+        repaint();
+    }
+
+    private void createGame(){
+        System.out.println("Game created"); //TODO DELETE
+        Constants.TIME_ADDED_EACH_MOVE_SECONDS = secondsPerMove;
+        Constants.TIME_MINUTES = minutesPerSide;
+        //TODO set ai based on what the player chose.
+        Model newModel = new Model();
+        Clock newClock = new Clock(this, controller);
+        newModel.installClock(newClock);
+        controller.installModel(newModel);
+        controller.setGameState(GameState.ACTIVE_GAME);
+    }
+
+
+
+    /**
+     * a method that draws the board
      */
     private void boardLayer(Graphics g){
         g.setColor(Constants.colorBackground);
@@ -91,7 +161,7 @@ public class View extends JComponent {
     }
 
     /**
-     * A method that draws the piece layer
+     * A method that draws the pieces
      */
     private void pieceLayer(Graphics g){
         JLayeredPane piecePane = new JLayeredPane();
@@ -112,10 +182,13 @@ public class View extends JComponent {
         }
     }
 
+    /**
+     * the method that draws stuff in front of the game
+     * @param g graphics
+     */
     private void hudLayer(Graphics g){
         JLayeredPane pane = new JLayeredPane();
-        Font myfont = new Font("SansSerif", Font.BOLD, 20);
-        g.setFont(myfont);
+        g.setFont(new Font("SansSerif", Font.BOLD, 20));
 
         drawClock(g);
 
@@ -130,9 +203,9 @@ public class View extends JComponent {
             Team team;
             if (controller.getTeam() == Team.WHITE){team = Team.BLACK;}
             else {team = Team.WHITE;}
-            List<ImageButton> upgradeButtons = getUpgradeButtons(team);
-            for (ImageButton button : upgradeButtons) {
-                button.drawButton(g, pane);
+            List<imageButton> upgradeButtons = getUpgradeButtons(team);
+            for (imageButton button : upgradeButtons) {
+                button.drawButton(g);
             }
         }
 
@@ -142,12 +215,16 @@ public class View extends JComponent {
         if (controller.getGameState() == GameState.TIME_OUT){ endScreen(g, "Time ran out");}
     }
 
+    /**
+     * method that draws the screens when the game is over.
+     * @param g graphis
+     * @param text the main text that is displayed.
+     */
     private void endScreen(Graphics g, String text) {
         Font myfont;
         g.setColor(new Color(0,0,0,200));
         g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), (int) (Constants.upgradePawnBoxHeight * 2.5f));
-        myfont = new Font("SansSerif", Font.BOLD, 80);
-        g.setFont(myfont);
+        g.setFont(new Font("SansSerif", Font.BOLD, 80));
 
         g.setColor(Color.WHITE);
         drawCenteredString(g, text, 0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
@@ -204,8 +281,8 @@ public class View extends JComponent {
      * @param team team the currently is playing.
      * @return a list of buttons.
      */
-    public List<ImageButton> getUpgradeButtons(Team team){
-        List<ImageButton> upgradeButtons = new ArrayList<>();
+    public List<imageButton> getUpgradeButtons(Team team){
+        List<imageButton> upgradeButtons = new ArrayList<>();
 
         int spacing = (getWidth() - Constants.upgradePawnBoxHeight * 2) / (4 - 1) - Constants.upgradePawnBoxWidth;
         int numButtons = 4;
@@ -221,9 +298,33 @@ public class View extends JComponent {
         for (int i = 0; i < numButtons; i++) {
             int xPosition = spacing * (i + 1) + Constants.upgradePawnBoxHeight * i;
             int yPosition = (getHeight() - Constants.upgradePawnBoxWidth) / 2;
-            upgradeButtons.add(new ImageButton(xPosition, yPosition, Constants.upgradePawnBoxWidth, Constants.upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
+            upgradeButtons.add(new imageButton(xPosition, yPosition, Constants.upgradePawnBoxWidth, Constants.upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
         }
         return upgradeButtons;
+    }
+
+    /**
+     * method to create the buttons on the createGame screen.
+     * @return a list of buttons.
+     */
+    private List<Button> getCreateGameButtons(){
+        List<Button> buttons = new ArrayList<>();
+        System.out.println("create button");
+        int yButton = 100;
+        int buttonWidth = 70;
+        int center = (getWidth() - buttonWidth) / 2;
+        //CHOOSE TEAM BUTTONS:
+        buttons.add(new imageButton(center - 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookW, () -> selectTeam = Team.WHITE));
+        buttons.add(new imageButton(center + 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookB, () -> selectTeam = Team.BLACK));
+        buttons.add(new imageButton(center, yButton, buttonWidth, 70, this, Constants.rookWB, () -> selectTeam = null));
+
+        //PLUSS MINUS BUTTONS:
+        buttons.add(new TextButton(center + 30, 280, 40, 40, "+", this, () -> minutesPerSide += 1));
+        buttons.add(new TextButton(center - 30, 280, 40, 40, "-", this, () -> {if(minutesPerSide > 1){ minutesPerSide -= 1;}}));
+        buttons.add(new TextButton(center + 30, 427, 40, 40, "+", this, () -> secondsPerMove += 1));
+        buttons.add(new TextButton(center - 30, 427, 40, 40, "-", this, () -> {if(secondsPerMove > 0){ secondsPerMove -= 1;}}));
+        buttons.add(new TextButton(center - 55, 530, 150, 40, "Create game", this, () -> createGame()));
+        return buttons;
     }
 
 }

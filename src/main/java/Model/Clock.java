@@ -14,17 +14,17 @@ import java.awt.event.ActionListener;
  */
 public class Clock implements ActionListener {
 
-    boolean started = false;
-    private int whiteClock;
-    private int blackClock;
+    public boolean started = false;
+    private int whiteClock_Seconds;
+    private int blackClock_Seconds;
     Team currentPlayer;
     Timer timer;
     View view;
     Controller controller;
 
     public Clock(View view, Controller controller){
-        whiteClock = Constants.TIME_SECONDS;
-        blackClock = Constants.TIME_SECONDS;
+        whiteClock_Seconds = Constants.TIME_MINUTES * 60;
+        blackClock_Seconds = Constants.TIME_MINUTES * 60;
         this.currentPlayer = Team.WHITE;
         timer = new Timer(1000, this);
         this.view = view;
@@ -46,9 +46,9 @@ public class Clock implements ActionListener {
     public void nextPlayer(){
         // adding time to the current players clock (if the option in constants is not set to 0.)
         if (currentPlayer == Team.WHITE){
-            whiteClock += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+            whiteClock_Seconds += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
         } else {
-            blackClock += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+            blackClock_Seconds += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
         }
 
         // updating the current player.
@@ -69,7 +69,7 @@ public class Clock implements ActionListener {
      * @return time left.
      */
     public int getTime(){
-        return (currentPlayer == Team.WHITE ? whiteClock : blackClock);
+        return (currentPlayer == Team.WHITE ? whiteClock_Seconds : blackClock_Seconds);
     }
 
     /**
@@ -78,23 +78,23 @@ public class Clock implements ActionListener {
      * @return time left for given player
      */
     public int getTime(Team team){
-        return (team == Team.WHITE ? whiteClock : blackClock);
+        return (team == Team.WHITE ? whiteClock_Seconds : blackClock_Seconds);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (controller.getGameState() != GameState.ACTIVE_GAME) {return;}
         if (currentPlayer == Team.WHITE){
-            whiteClock--;
-            if (whiteClock < 0){
-                whiteClock = 0;
+            whiteClock_Seconds--;
+            if (whiteClock_Seconds < 0){
+                whiteClock_Seconds = 0;
                 timer.stop();
                 controller.gameState = GameState.TIME_OUT;
             }
         } else if (currentPlayer == Team.BLACK){
-            blackClock--;
-            if (blackClock < 0){
-                blackClock = 0;
+            blackClock_Seconds--;
+            if (blackClock_Seconds < 0){
+                blackClock_Seconds = 0;
                 timer.stop();
                 controller.gameState = GameState.TIME_OUT;
             }

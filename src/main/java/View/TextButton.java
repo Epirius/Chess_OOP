@@ -30,7 +30,7 @@ public class TextButton extends Button{
     }
 
     public void drawButton(Graphics g) {
-        super.drawButton(g, pane);
+        super.drawButton(g);
         Font font = new Font("SansSerif", Font.BOLD, 20);
         g.setFont(font);
         g.setColor(Color.WHITE);
