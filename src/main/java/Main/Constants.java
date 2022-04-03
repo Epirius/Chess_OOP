@@ -1,6 +1,7 @@
 package Main;
 
 import Controller.GameState;
+import Model.Team;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,7 +18,8 @@ public final class Constants {
     public static final int upgradePawnBoxWidth = 100;
     public static int TIME_MINUTES = 3;
     public static int TIME_ADDED_EACH_MOVE_SECONDS = 2;
-    public static final GameState DEFAULT_GAME_STATE = GameState.CREATE_GAME; //TODO SET THIS TO MAIN MENU
+    public static Team AI_TEAM = null;
+    public static final GameState DEFAULT_GAME_STATE = GameState.MAIN_MENU;
 
 
     // COLORS

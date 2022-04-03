@@ -72,6 +72,7 @@ public class imageButton extends Button{
             if (type != null) {
                 view.controller.model.upgradePawn(type);
                 view.controller.setGameState(GameState.ACTIVE_GAME);
+                view.controller.ai.createMove(); //TODO
                 view.repaint();
             } else if (action != null){
                 action.executeAction();

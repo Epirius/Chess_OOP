@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import Controller.GameState;
+import Controller.AI;
 
 import static View.GraphicHelperMethods.*;
 
@@ -115,16 +116,23 @@ public class View extends JComponent {
     }
 
     private void createGame(){
-        System.out.println("Game created"); //TODO DELETE
         Constants.TIME_ADDED_EACH_MOVE_SECONDS = secondsPerMove;
         Constants.TIME_MINUTES = minutesPerSide;
-        //TODO set ai based on what the player chose.
+        switch (selectTeam){
+            case WHITE -> Constants.AI_TEAM = Team.BLACK;
+            case BLACK -> Constants.AI_TEAM = Team.WHITE;
+            case null -> Constants.AI_TEAM = null;
+        }
         Model newModel = new Model();
         Clock newClock = new Clock(this, controller);
         this.clock = newClock;
         newModel.installClock(newClock);
         controller.installModel(newModel);
+        controller.installAI(new AI(controller));
         controller.setGameState(GameState.ACTIVE_GAME);
+        if (selectTeam == Team.BLACK && selectTeam != null) {
+            controller.ai.createMove();
+        }
     }
 
 
@@ -201,6 +209,12 @@ public class View extends JComponent {
 
         // If a pawn is upgrading
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
+            if (!controller.ai.isAiTurn()){
+                controller.ai.upgradePawn();
+                controller.ai.createMove();
+                repaint();
+                return;
+            }
             g.setColor(Constants.colorPawnUpgradeBG);
             g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
             g.setColor(Constants.colorBackground);
@@ -314,7 +328,6 @@ public class View extends JComponent {
      */
     private List<Button> getCreateGameButtons(){
         List<Button> buttons = new ArrayList<>();
-        System.out.println("create button");
         int yButton = 100;
         int buttonWidth = 70;
         int center = (getWidth() - buttonWidth) / 2;

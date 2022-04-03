@@ -22,8 +22,9 @@ public class Controller extends MouseAdapter implements IDrawable {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
     public Model model;
+    public GameState gameState = Constants.DEFAULT_GAME_STATE;
+    public AI ai;
     View view;
-    public GameState gameState = Constants.DEFAULT_GAME_STATE; //TODO HANDLE CHANGING OF GAME STATE.
 
     public Controller(View view){
         this.clickHolder[0] = null;
@@ -34,11 +35,20 @@ public class Controller extends MouseAdapter implements IDrawable {
 
     public void installModel(Model model){
         this.model = model;
+        if (this.ai != null){
+            ai.installModel(model);
+        }
+    }
+
+    public void installAI(AI ai) {
+        this.ai = ai;
+        this.ai.installModel(model);
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!(gameState == GameState.ACTIVE_GAME || gameState == GameState.UPGRADE_PAWN)){return;}//TODO REMOVE UPGRADE PAWN AFTER LAMBDA FUNCTION REFACTORING
+        if (!(gameState == GameState.ACTIVE_GAME)){return;}
+        if (ai.enabled && model.getTeam() == ai.getTeam()){return;}
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             int rawX = e.getX();
@@ -55,6 +65,9 @@ public class Controller extends MouseAdapter implements IDrawable {
             if (gameState == GameState.ACTIVE_GAME) {
                 int square = rawCoordsToSquare(rawX, rawY);
                 handleClicks(square);
+            }
+            if (gameState == GameState.ACTIVE_GAME && ai.isAiTurn()) {
+                ai.createMove();
             }
             view.repaint();
         }
@@ -136,22 +149,27 @@ public class Controller extends MouseAdapter implements IDrawable {
     }
 
     private void createMove(int from, int to){
+        if (ai.enabled && model.getTeam() == ai.getTeam()){
+            throw new RuntimeException("A move was made in Controller, when it was the AI's turn!");
+        }
         for (Move legalMove : model.getLegalMoves()){
             if (legalMove.equals(new Move(from, to))){
                 model.doMove(legalMove);
                 checkPawnUpgrade(legalMove);
                 checkIfGameOver();
+
+                return;
             }
         }
     }
 
-    private void checkPawnUpgrade(Move move){
-        if (model.getPiece(move.to).type.equals(Type.PAWN) && ((move.to >= 56 && move.to < 64) || (move.to <= 7 && move.to >= 0))){
+    void checkPawnUpgrade(Move move){
+        if (model.getPiece(move.to).type.equals(Type.PAWN) && ((move.to >= 56 && move.to < 64) || (move.to <= 7 && move.to >= 0))) {
             this.gameState = GameState.UPGRADE_PAWN;
         }
     }
 
-    private void checkIfGameOver(){
+    void checkIfGameOver(){
         if (model.getLegalMoves().size() == 0){
             if (model.kingInCheck()){
                 gameState = GameState.CHECK_MATE;
