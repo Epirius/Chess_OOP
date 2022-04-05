@@ -1,3 +1,6 @@
 - add total score of killed pieces.
 - refactor code
 - add ai?
+
+-BUG:
+    -king moving while under check to other square under check!

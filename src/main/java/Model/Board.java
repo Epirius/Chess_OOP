@@ -84,6 +84,16 @@ public class Board implements IBoard{
         return currentPlayer;
     }
 
+    /**
+     * used to change the current player to the next team.
+     */
+    private void nextTeam(){
+        switch(currentPlayer) {
+            case WHITE -> currentPlayer = Team.BLACK;
+            case BLACK -> currentPlayer = Team.WHITE;
+        }
+    }
+
     @Override
     public void doMove(Move move) {
         if (getSquare(move.from).isEmpty()){
@@ -116,10 +126,10 @@ public class Board implements IBoard{
         getSquare(from).removePiece();
         movingPiece.setPosition(to);
         moveHistory.add(move);
-        currentPlayer = (currentPlayer == Team.WHITE ? Team.BLACK : Team.WHITE);
+        nextTeam();
     }
 
-    //@Override TODO make interface for upgrading
+    // TODO make interface for upgrading
     public void upgradePawn(Type type){
         int id = moveHistory.peek().to;
         if (this.getPiece(id).type != Type.PAWN){

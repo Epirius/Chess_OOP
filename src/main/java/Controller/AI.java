@@ -44,6 +44,9 @@ public class AI implements ActionListener{
 
     public void createMove() {
         if (!enabled){return;}
+        if (controller.model.getTeam() != AI_TEAM){
+            throw new IllegalStateException("The AI is trying to create a move but it is not the AI's turn!");
+        }
 
         List<Move> moves = model.getLegalMoves();
         aiMove = moves.get(random.nextInt(moves.size()));

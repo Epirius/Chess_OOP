@@ -45,10 +45,11 @@ public class Controller extends MouseAdapter implements IDrawable {
         this.ai.installModel(model);
     }
 
+
     @Override
     public void mousePressed(MouseEvent e) {
         if (!(gameState == GameState.ACTIVE_GAME)){return;}
-        if (ai.enabled && model.getTeam() == ai.getTeam()){return;}
+        if (ai.enabled && model.getTeam() == ai.getTeam()){return;} //TODO this blockes the game after AI pawn upgrade
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             int rawX = e.getX();

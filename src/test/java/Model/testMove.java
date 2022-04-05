@@ -22,7 +22,7 @@ public class testMove {
     @Test
     public void testDoMove(){
         Board board = new Board(false);
-        Queen q1 = new Queen(Team.BLACK);
+        Queen q1 = new Queen(Team.WHITE);
         board.getSquare(30).setPiece(q1);
         List<Move> moves = q1.getPossibleMoves(30, board);
         board.doMove(moves.get(0));

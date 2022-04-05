@@ -20,15 +20,20 @@ public class View extends JComponent {
     protected Team selectTeam = null;
     Controller controller;
     Clock clock;
-
-    List<Button> createGame_buttonsList;
     int minutesPerSide = Constants.TIME_MINUTES;
     int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+
+    List<Button> createGame_buttonsList;
+    List<Button> upgradeButtonsWhite;
+    List<Button> upgradeButtonsBlack;
 
 
 
 
     public View() {
+        createGame_buttonsList = new ArrayList<>();
+        upgradeButtonsWhite = new ArrayList<>();
+        upgradeButtonsBlack = new ArrayList<>();
     }
 
     public void installController(Controller controller){
@@ -89,8 +94,7 @@ public class View extends JComponent {
 
 
         //Create and draw the buttons
-        if (createGame_buttonsList == null) { createGame_buttonsList = getCreateGameButtons();}
-        for (Button button : createGame_buttonsList) { button.drawButton(g);}
+        for (Button button : getCreateGameButtons()) { button.drawButton(g);}
 
         //Highlight the pressed button.
         g.setColor(new Color(255, 255, 255, 100));
@@ -211,10 +215,11 @@ public class View extends JComponent {
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
             if (!controller.ai.isAiTurn()){
                 controller.ai.upgradePawn();
-                controller.ai.createMove();
+                //controller.ai.createMove();
                 repaint();
                 return;
             }
+
             g.setColor(Constants.colorPawnUpgradeBG);
             g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
             g.setColor(Constants.colorBackground);
@@ -222,8 +227,8 @@ public class View extends JComponent {
             Team team;
             if (controller.getTeam() == Team.WHITE){team = Team.BLACK;}
             else {team = Team.WHITE;}
-            List<imageButton> upgradeButtons = getUpgradeButtons(team);
-            for (imageButton button : upgradeButtons) {
+
+            for (Button button : (team == Team.WHITE ? getUpgradeButtons(Team.WHITE) : getUpgradeButtons(Team.BLACK))) {
                 button.drawButton(g);
             }
         }
@@ -232,6 +237,7 @@ public class View extends JComponent {
         if (controller.getGameState() == GameState.CHECK_MATE){ endScreen(g, "Check Mate");}
         if (controller.getGameState() == GameState.DRAW){ endScreen(g, "Draw");}
         if (controller.getGameState() == GameState.TIME_OUT){ endScreen(g, "Time ran out");}
+        repaint();
     }
 
     /**
@@ -300,8 +306,11 @@ public class View extends JComponent {
      * @param team team the currently is playing.
      * @return a list of buttons.
      */
-    public List<imageButton> getUpgradeButtons(Team team){
-        List<imageButton> upgradeButtons = new ArrayList<>();
+    public List<Button> getUpgradeButtons(Team team){
+        List<Button> buttonList = (team == Team.WHITE ? upgradeButtonsWhite : upgradeButtonsBlack);
+        if (buttonList.size() > 0){
+            return buttonList;
+        }
 
         int spacing = (getWidth() - Constants.upgradePawnBoxHeight * 2) / (4 - 1) - Constants.upgradePawnBoxWidth;
         int numButtons = 4;
@@ -317,9 +326,9 @@ public class View extends JComponent {
         for (int i = 0; i < numButtons; i++) {
             int xPosition = spacing * (i + 1) + Constants.upgradePawnBoxHeight * i;
             int yPosition = (getHeight() - Constants.upgradePawnBoxWidth) / 2;
-            upgradeButtons.add(new imageButton(xPosition, yPosition, Constants.upgradePawnBoxWidth, Constants.upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
+            buttonList.add(new imageButton(xPosition, yPosition, Constants.upgradePawnBoxWidth, Constants.upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
         }
-        return upgradeButtons;
+        return buttonList;
     }
 
     /**
@@ -327,22 +336,28 @@ public class View extends JComponent {
      * @return a list of buttons.
      */
     private List<Button> getCreateGameButtons(){
-        List<Button> buttons = new ArrayList<>();
+        if (createGame_buttonsList.size() > 0){
+            return createGame_buttonsList;
+        }
+
         int yButton = 100;
         int buttonWidth = 70;
         int center = (getWidth() - buttonWidth) / 2;
         //CHOOSE TEAM BUTTONS:
-        buttons.add(new imageButton(center - 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookW, () -> selectTeam = Team.WHITE));
-        buttons.add(new imageButton(center + 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookB, () -> selectTeam = Team.BLACK));
-        buttons.add(new imageButton(center, yButton, buttonWidth, 70, this, Constants.rookWB, () -> selectTeam = null));
+        createGame_buttonsList.add(new imageButton(center - 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookW, () -> selectTeam = Team.WHITE));
+        createGame_buttonsList.add(new imageButton(center + 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookB, () -> selectTeam = Team.BLACK));
+        createGame_buttonsList.add(new imageButton(center, yButton, buttonWidth, 70, this, Constants.rookWB, () -> selectTeam = null));
 
         //PLUSS MINUS BUTTONS:
-        buttons.add(new TextButton(center + 30, 280, 40, 40, "+", this, () -> minutesPerSide += 1));
-        buttons.add(new TextButton(center - 30, 280, 40, 40, "-", this, () -> {if(minutesPerSide > 1){ minutesPerSide -= 1;}}));
-        buttons.add(new TextButton(center + 30, 427, 40, 40, "+", this, () -> secondsPerMove += 1));
-        buttons.add(new TextButton(center - 30, 427, 40, 40, "-", this, () -> {if(secondsPerMove > 0){ secondsPerMove -= 1;}}));
-        buttons.add(new TextButton(center - 55, 530, 150, 40, "Create game", this, () -> createGame()));
-        return buttons;
+        createGame_buttonsList.add(new TextButton(center + 30, 280, 40, 40, "+", this, () -> minutesPerSide += 1));
+        createGame_buttonsList.add(new TextButton(center - 30, 280, 40, 40, "-", this, () -> {if(minutesPerSide > 1){ minutesPerSide -= 1;}}));
+        createGame_buttonsList.add(new TextButton(center + 30, 427, 40, 40, "+", this, () -> secondsPerMove += 1));
+        createGame_buttonsList.add(new TextButton(center - 30, 427, 40, 40, "-", this, () -> {if(secondsPerMove > 0){ secondsPerMove -= 1;}}));
+
+        //CREATE GAME BUTTON:
+        createGame_buttonsList.add(new TextButton(center - 55, 530, 150, 40, "Create game", this, () -> createGame()));
+
+        return createGame_buttonsList;
     }
 
 }

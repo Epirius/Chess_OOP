@@ -5,6 +5,6 @@ sjakk brikke grafikken er public domain CC0 (https://opengameart.org/content/che
 se "Class Diagram.png" for å få en oversikt over programmet.
 får å kjøre programmet: "Chess_OOP\src\main\java\Main\Main.java"
 
-see numbers.png to see the id number of each square on the board.
+see numbers.png for id nummeret til alle rutene.
 
 ![](numbers.png)

@@ -3,6 +3,7 @@ package Model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -28,5 +29,18 @@ public class testKingMoves {
         model.doMove(new Move(19,26));
         model.doMove(new Move(32,25));
         assertTrue(model.getLegalMoves().contains(new Move(26,25)));
+    }
+
+    @Test
+    public void kingShouldNotMoveFromCheckToCheck(){
+        model.doMove(new Move(11,19));
+        model.doMove(new Move(52,44));
+        model.doMove(new Move(4,11));
+        model.doMove(new Move(59,52));
+        model.doMove(new Move(11,18));
+        model.doMove(new Move(52,43));
+        model.doMove(new Move(18,26));
+        model.doMove(new Move(43,35));
+        assertFalse(model.getLegalMoves().contains(new Move(26,17)));
     }
 }

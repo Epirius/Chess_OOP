@@ -244,17 +244,21 @@ public class testPieceMovements {
         Board board = new Board(false);
         Queen q1 = new Queen(Team.BLACK);
         Queen q2 = new Queen(Team.WHITE);
+        Pawn p1 = new Pawn(Team.WHITE);
         board.getSquare(0).setPiece(q1);
         board.getSquare(1).setPiece(q2);
+        board.getSquare(60).setPiece(p1);
 
         Assert.assertEquals(q1, board.getSquare(0).getPiece());
         Assert.assertEquals(q2, board.getSquare(1).getPiece());
 
+        board.doMove(new Move(60, 52));
         board.doMove(new Move(0,1));
 
         Assert.assertTrue(board.getSquare(0).isEmpty());
         Assert.assertEquals(q1, board.getSquare(1).getPiece());
 
+        board.doMove(new Move(52,44));
         board.doMove(new Move(1,0));
 
         Assert.assertTrue(board.getSquare(1).isEmpty());
@@ -266,9 +270,12 @@ public class testPieceMovements {
         Board board = new Board(false);
         Pawn p1 = new Pawn(Team.WHITE);
         Pawn p2 = new Pawn(Team.BLACK);
+        Queen q1 = new Queen(Team.WHITE);
 
         board.getSquare(35).setPiece(p1);
         board.getSquare(52).setPiece(p2);
+        board.getSquare(0).setPiece(q1);
+        board.doMove(new Move(0,1));
         board.doMove(new Move(52, 36));
         Move attack = new Move(35, 44, 36);
         Assert.assertTrue(p1.getPossibleMoves(35, board).contains(attack));
@@ -282,9 +289,12 @@ public class testPieceMovements {
 
         Pawn p3 = new Pawn(Team.WHITE);
         Pawn p4 = new Pawn(Team.BLACK);
+        Queen q2 = new Queen(Team.BLACK);
 
         board.getSquare(12).setPiece(p3);
         board.getSquare(27).setPiece(p4);
+        board.getSquare(7).setPiece(q2);
+        board.doMove(new Move(7,6));
         board.doMove(new Move(12, 28));
         Move attack2 = new Move(27, 20, 28);
         Assert.assertTrue(p4.getPossibleMoves(27, board).contains(attack2));

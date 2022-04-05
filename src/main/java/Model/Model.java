@@ -96,8 +96,11 @@ public class Model implements IMovable {
                 continue;
             }
 
-            // Checking if the king is attacking a piece that is defended.
-            if (move.from == king && !board.getSquare(move.to).isEmpty() && board.getPiece(king).team != board.getPiece(move.to).team){
+            // Checking if the king is attacking a piece that is defended. //TODO DELETE MAYBE?
+            //if (move.from == king && !board.getSquare(move.to).isEmpty() && board.getPiece(king).team != board.getPiece(move.to).team){
+
+            // Handling king moves manually
+            if (move.from == king){
                 Piece enemyPiece = board.getPiece(move.to);
                 Piece friendlyKing = board.getPiece(move.from);
 
@@ -260,6 +263,7 @@ public class Model implements IMovable {
             clock.start();
             clock.nextPlayer();
         }
+
     }
 
     //@Override TODO interface maybe?
