@@ -7,21 +7,18 @@ import Model.Move;
 import Model.Type;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Random;
 
 /**
  * @author Felix Kaasa
  */
-public class AI implements ActionListener{
+public class AI{
     private Controller controller;
     public boolean enabled;
     private Team AI_TEAM;
     private Model model;
     private Random random = new Random();
-    private Timer timer;
     private Move aiMove;
 
     public AI(Controller controller){
@@ -33,8 +30,6 @@ public class AI implements ActionListener{
             this.AI_TEAM = Constants.AI_TEAM;
             enabled = true;
         }
-
-        timer = new Timer(200, this);
     }
 
     public void installModel(Model model){ this.model = model;}
@@ -50,7 +45,9 @@ public class AI implements ActionListener{
 
         List<Move> moves = model.getLegalMoves();
         aiMove = moves.get(random.nextInt(moves.size()));
-        timer.restart();
+        model.doMove(aiMove);
+        controller.checkPawnUpgrade(aiMove);
+        controller.checkIfGameOver();
 
     }
 
@@ -61,17 +58,5 @@ public class AI implements ActionListener{
     public void upgradePawn() {
         model.upgradePawn(Type.QUEEN);
         controller.setGameState(GameState.ACTIVE_GAME);
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // EVENT
-        model.doMove(aiMove);
-        controller.checkPawnUpgrade(aiMove);
-        controller.checkIfGameOver();
-
-        // UPDATE TIMER
-        timer.stop();
-        timer.setDelay(random.nextInt(2000-50) + 50);
     }
 }

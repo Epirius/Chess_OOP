@@ -66,6 +66,8 @@ public class Clock implements ActionListener {
 
         // updating the current player.
         currentPlayer = (currentPlayer == Team.WHITE ? Team.BLACK : Team.WHITE);
+
+        //TODO MAYBE CALLL AI MOVE FROM HERE
     }
 
     /**

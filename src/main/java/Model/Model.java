@@ -76,7 +76,7 @@ public class Model implements IMovable {
         List<Move> illegalMoves = new ArrayList<>();
         List<Move> kingChecked = new ArrayList<>();
         List<Integer> threatSquares = new ArrayList<>();
-        List<Integer> pinnedPieces = getPinnedPieces();
+        List<PinnedPiece> pinnedPieces = getPinnedPieces();
 
         for (Move move : threats){ threatSquares.add(move.to);}
 
@@ -137,6 +137,17 @@ public class Model implements IMovable {
                     continue;
                 }
             }
+
+            // Checking for pinned pieces
+            if (pinnedPieces.size() > 0 && pinnedPieces.contains(new PinnedPiece(move.from, 0))){
+                //checking if the pinned piece is attacking the pinning piece.
+                PinnedPiece pinnedPiece = pinnedPieces.get(pinnedPieces.indexOf(new PinnedPiece(move.from, 0)));
+                if (pinnedPiece.pinnedFrom != move.to){
+                    illegalMoves.add(move);
+                    //TODO this may be an illegal move if multiple pieces ar pinning this piece.
+                }
+            }
+
             // checking for double check of the king.
             if (kingChecked.size() > 1){
                 if (move.from != king){
@@ -165,13 +176,6 @@ public class Model implements IMovable {
                     }
                 }
             }
-
-
-            // Checking for pinned pieces
-            if (pinnedPieces.size() > 0 && pinnedPieces.contains(move.from)){
-                illegalMoves.add(move);
-            }
-
         }
 
         // checking if castling is illegal
@@ -304,11 +308,11 @@ public class Model implements IMovable {
      * a method that finds all friendly pieces that are pinned
      * @return a list of square id's for all friendly pinned pieces
      */
-    private List<Integer> getPinnedPieces(){
+    private List<PinnedPiece> getPinnedPieces(){
         int kingPosition = getKing().getPosition();
         Team team = (board.getTeam() == Team.WHITE ? Team.WHITE : Team.BLACK);
         List<Piece> enemyPieceList = (Team.WHITE == team ? board.blackPieces : board.whitePieces);
-        List<Integer> pinnedPiecesList = new ArrayList<>();
+        List<PinnedPiece> pinnedPiecesList = new ArrayList<>();
 
         for (Piece piece : enemyPieceList){
             if (!( piece.type == Type.BISHOP || piece.type == Type.QUEEN || piece.type == Type.ROOK)){
@@ -345,7 +349,7 @@ public class Model implements IMovable {
                 candidatePinnedPiece = square.getPiece();
             }
             if (numberOfPiecesBetween == 1 && candidatePinnedPiece.team == team){
-                pinnedPiecesList.add(candidatePinnedPiece.getPosition());
+                pinnedPiecesList.add(new PinnedPiece(candidatePinnedPiece.getPosition(), piece.getPosition()));
             }
         }
         return pinnedPiecesList;
