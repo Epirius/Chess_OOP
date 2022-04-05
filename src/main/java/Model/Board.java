@@ -17,6 +17,9 @@ public class Board implements IBoard{
     public Stack<Move> moveHistory = new Stack<>();
     private Team currentPlayer = Team.WHITE;
 
+    //TODO MAKE AN UNDO MOVE FUNCTION SO I CAN LOOK FORWARD IN THE GAME FOR THE AI
+    //TODO I WILL NEED AN UPGRADED MOVEHISTORY THAT TRACKS STUFF LIKE EN PASSANT AND CASLTING, ASWELL AS KILLED PIECES.
+
 
 
     /**
