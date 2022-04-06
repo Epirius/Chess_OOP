@@ -14,12 +14,8 @@ public class Board implements IBoard{
     protected List<Piece> whitePieces = new ArrayList<>();
     protected List<Piece> blackPieces = new ArrayList<>();
     protected List<Piece> deadPieces = new ArrayList<>();
-    public Stack<Move> moveHistory = new Stack<>();
+    public Stack<MoveHistory> moveHistoryList= new Stack<>();
     private Team currentPlayer = Team.WHITE;
-
-    //TODO MAKE AN UNDO MOVE FUNCTION SO I CAN LOOK FORWARD IN THE GAME FOR THE AI
-    //TODO I WILL NEED AN UPGRADED MOVEHISTORY THAT TRACKS STUFF LIKE EN PASSANT AND CASLTING, ASWELL AS KILLED PIECES.
-
 
 
     /**
@@ -107,6 +103,12 @@ public class Board implements IBoard{
             throw new RuntimeException("tried to move a piece from the opposite team");
         }
 
+        if (MoveHistory.numberOfMoves % 2 == 0 && currentPlayer != Team.WHITE || MoveHistory.numberOfMoves % 2 != 0 && currentPlayer != Team.BLACK){
+            throw new RuntimeException("The number of moves does not match up with the current player");
+            //TODO this breaks some test, fix it later.
+        }
+        moveHistoryList.add(new MoveHistory(this, move));
+
         int from = move.getMove()[0];
         int to = move.getMove()[1];
         Piece movingPiece = getSquare(from).getPiece();
@@ -128,13 +130,13 @@ public class Board implements IBoard{
         getSquare(to).setPiece(movingPiece);
         getSquare(from).removePiece();
         movingPiece.setPosition(to);
-        moveHistory.add(move);
+        //moveHistoryList.add(move); TODO MAYBE REFACTOR MOVEHISTORY SO THAT MOVE IS REFERING TO THE MOVE TO GET TO THIS STATE.
         nextTeam();
     }
 
     // TODO make interface for upgrading
     public void upgradePawn(Type type){
-        int id = moveHistory.peek().to;
+        int id = moveHistoryList.peek().move.to;
         if (this.getPiece(id).type != Type.PAWN){
             throw new RuntimeException("the last move was not a pawn, yet upgrade pawn is called.");
         }
@@ -160,6 +162,35 @@ public class Board implements IBoard{
         upgradedPiece.setPosition(id);
         teamList.add(upgradedPiece);
 
+    }
+
+    /**
+     * method to undo the moves.
+     * @param numMoves number of moves back in time to undo (default should be 1)
+     */
+    public void undoMove(int numMoves){
+        if (numMoves < 1){ throw new RuntimeException("tried to undo less then 1 move");}
+        if (moveHistoryList.size() < numMoves){ return;}
+        MoveHistory lastMove = null;
+        for (int i = 0; i < numMoves; i++) {
+            lastMove = moveHistoryList.pop();
+        }
+        if (lastMove == null) { throw new RuntimeException("lastMove was not initialized");}
+
+        // Clearing the board of all pieces
+        for (Piece piece : whitePieces){ getSquare(piece.getPosition()).removePiece();}
+        for (Piece piece : blackPieces){ getSquare(piece.getPosition()).removePiece();}
+
+        // Setting the new pieces to the board
+        for (Piece piece : lastMove.whitePieces){ getSquare(piece.getPosition()).setPiece(piece);}
+        for (Piece piece : lastMove.blackPieces){ getSquare(piece.getPosition()).setPiece(piece);}
+
+        this.whitePieces = lastMove.whitePieces;
+        this.blackPieces = lastMove.blackPieces;
+        this.deadPieces = lastMove.deadPieces;
+        this.currentPlayer = lastMove.currentPlayer;
+
+        MoveHistory.numberOfMoves-= numMoves;
     }
 
     /**

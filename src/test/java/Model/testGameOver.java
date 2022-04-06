@@ -40,15 +40,15 @@ public class testGameOver {
         Model model = new Model();
         model.installClock(new Clock(true));
 
-        model.doMove(new Move(12,28));
-        model.doMove(new Move(52,36));
-        model.doMove(new Move(5,26));
-        model.doMove(new Move(57,42));
-        model.doMove(new Move(3,39));
-        model.doMove(new Move(54,46));
-        model.doMove(new Move(39,21));
-        model.doMove(new Move(61,54));
-        model.doMove(new Move(21,53));
+        model.doMove(new Move(12, 28));
+        model.doMove(new Move(52, 36));
+        model.doMove(new Move(5, 26));
+        model.doMove(new Move(57, 42));
+        model.doMove(new Move(3, 39));
+        model.doMove(new Move(54, 46));
+        model.doMove(new Move(39, 21));
+        model.doMove(new Move(61, 54));
+        model.doMove(new Move(21, 53));
 
         assertEquals(0, model.getLegalMoves().size());
     }

@@ -26,6 +26,7 @@ public class View extends JComponent {
     List<Button> createGame_buttonsList;
     List<Button> upgradeButtonsWhite;
     List<Button> upgradeButtonsBlack;
+    List<Button> hudButtons;
 
 
 
@@ -34,6 +35,7 @@ public class View extends JComponent {
         createGame_buttonsList = new ArrayList<>();
         upgradeButtonsWhite = new ArrayList<>();
         upgradeButtonsBlack = new ArrayList<>();
+        hudButtons = new ArrayList<>();
     }
 
     public void installController(Controller controller){
@@ -211,9 +213,14 @@ public class View extends JComponent {
 
         drawDeadPieces(g, pane);
 
+        // if active game draw hud buttons
+        for (Button button : getHudButtons()){
+            button.drawButton(g);
+        }
+
         // If a pawn is upgrading
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
-            if (!controller.ai.isAiTurn()){
+            if (controller.ai.enabled && !controller.ai.isAiTurn()){
                 controller.ai.upgradePawn();
                 //controller.ai.createMove();
                 repaint();
@@ -358,6 +365,37 @@ public class View extends JComponent {
         createGame_buttonsList.add(new TextButton(center - 55, 530, 150, 40, "Create game", this, () -> createGame()));
 
         return createGame_buttonsList;
+    }
+
+    /**
+     * method to create the buttons that are drawn on the main game screen.
+     * @return a list of buttons
+     */
+    private List<Button> getHudButtons(){
+        if (hudButtons.size() > 0){
+            return hudButtons;
+        }
+        int xSize = 70;
+        int ySize = 50;
+
+        // CREATING AN UNDO BUTTON.
+        hudButtons.add(new TextButton(getWidth() - xSize, getHeight() - ySize, xSize, ySize, "Undo", this, () -> {
+            if (controller.getGameState() != GameState.ACTIVE_GAME){return;}
+            boolean aiEnabled = controller.ai.enabled;
+            if (!aiEnabled){
+                controller.model.undoMove();
+                return;
+            }
+            Team aiTeam = controller.ai.getTeam();
+            Team currentTeam = controller.model.getTeam();
+            if (currentTeam == aiTeam){
+                controller.model.undoMove();
+            } else {
+                controller.model.undoMove(2);
+            }
+        }));
+
+        return hudButtons;
     }
 
 }

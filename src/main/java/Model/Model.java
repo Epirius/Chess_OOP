@@ -270,6 +270,23 @@ public class Model implements IMovable {
 
     }
 
+    //TODO add to interface
+
+    /**
+     * method to undo the last move.
+     */
+    public void undoMove(){
+        board.undoMove(1);
+    }
+
+    /**
+     * method to undo multiple moves.
+     * @param numMoves number of moves to undo
+     */
+    public void undoMove(int numMoves){
+        board.undoMove(numMoves);
+    }
+
     //@Override TODO interface maybe?
     public void upgradePawn(Type type){
         board.upgradePawn(type);

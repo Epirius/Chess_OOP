@@ -52,8 +52,8 @@ public class Pawn extends Piece{
         }
 
         // En passant
-        if (board.moveHistory.size() > 0) {
-            Move lastMove = board.moveHistory.peek();
+        if (board.moveHistoryList.size() > 0) {
+            Move lastMove = board.moveHistoryList.peek().move;
             int lastMoveFrom = lastMove.getMove()[0];
             int lastMoveFromY = IBoard.squareToCoordinates(lastMoveFrom)[1]; // y coordinate.
             int lastMoveTo = lastMove.getMove()[1];

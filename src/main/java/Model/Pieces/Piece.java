@@ -12,7 +12,7 @@ import java.util.Objects;
  * @author Felix Kaasa
  */
 
-public abstract class Piece implements IPiece{
+public abstract class Piece implements IPiece, Cloneable{
     public final Type type;
     public final Team team;
     private int position;
@@ -53,5 +53,16 @@ public abstract class Piece implements IPiece{
     @Override
     public int hashCode() {
         return Objects.hash(type, team, position);
+    }
+
+    @Override
+    public Piece clone() {
+        try {
+            Piece clone = (Piece) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

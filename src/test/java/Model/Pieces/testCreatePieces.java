@@ -92,5 +92,4 @@ public class testCreatePieces {
         Pawn whitePawn = new Pawn(Team.WHITE);
         Assert.assertNotEquals(Type.ROOK, whitePawn.type);
     }
-
 }
