@@ -9,9 +9,10 @@ import java.util.*;
  */
 
 public class Queen extends Piece{
+    public static final int value = 9;
 
     public Queen(Team team) {
-        super(team, Type.QUEEN);
+        super(team, Type.QUEEN, value);
     }
 
     @Override

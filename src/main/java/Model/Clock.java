@@ -13,6 +13,7 @@ import java.awt.event.ActionListener;
  * @author Felix Kaasa
  */
 public class Clock implements ActionListener {
+    //TODO clock does not change when undo button is clicked. fix it
 
     public boolean started = false;
     private int whiteClock_Seconds;
@@ -66,8 +67,6 @@ public class Clock implements ActionListener {
 
         // updating the current player.
         currentPlayer = (currentPlayer == Team.WHITE ? Team.BLACK : Team.WHITE);
-
-        //TODO MAYBE CALLL AI MOVE FROM HERE
     }
 
     /**

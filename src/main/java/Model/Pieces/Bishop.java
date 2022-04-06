@@ -9,9 +9,10 @@ import java.util.List;
  */
 
 public class Bishop extends Piece{
+    public static final int value = 3;
 
     public Bishop(Team team) {
-        super(team, Type.BISHOP);
+        super(team, Type.BISHOP, value);
     }
 
     @Override

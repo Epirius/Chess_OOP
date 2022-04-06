@@ -96,9 +96,6 @@ public class Model implements IMovable {
                 continue;
             }
 
-            // Checking if the king is attacking a piece that is defended. //TODO DELETE MAYBE?
-            //if (move.from == king && !board.getSquare(move.to).isEmpty() && board.getPiece(king).team != board.getPiece(move.to).team){
-
             // Handling king moves manually
             if (move.from == king){
                 Piece enemyPiece = board.getPiece(move.to);
@@ -144,7 +141,7 @@ public class Model implements IMovable {
                 PinnedPiece pinnedPiece = pinnedPieces.get(pinnedPieces.indexOf(new PinnedPiece(move.from, 0)));
                 if (pinnedPiece.pinnedFrom != move.to){
                     illegalMoves.add(move);
-                    //TODO this may be an illegal move if multiple pieces ar pinning this piece.
+                    //TODO this may be an illegal move if multiple pieces are pinning this piece.
                 }
             }
 
@@ -258,6 +255,8 @@ public class Model implements IMovable {
         return board.getPiece(id);
     }
 
+    public int getScore(){return board.getScore();}
+
     @Override
     public void doMove(Move move) {
 
@@ -271,7 +270,6 @@ public class Model implements IMovable {
     }
 
     //TODO add to interface
-
     /**
      * method to undo the last move.
      */

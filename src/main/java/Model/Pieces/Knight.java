@@ -10,9 +10,10 @@ import java.util.List;
  */
 
 public class Knight extends Piece{
+    public static final int value = 3;
 
     public Knight(Team team) {
-        super(team, Type.KNIGHT);
+        super(team, Type.KNIGHT, value);
     }
 
     @Override

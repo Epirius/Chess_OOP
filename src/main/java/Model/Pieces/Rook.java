@@ -9,9 +9,10 @@ import java.util.List;
  */
 
 public class Rook extends Piece{
+    public static final int value = 5;
 
     public Rook(Team team) {
-        super(team, Type.ROOK);
+        super(team, Type.ROOK, value);
     }
 
     @Override

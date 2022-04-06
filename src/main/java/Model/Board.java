@@ -78,6 +78,20 @@ public class Board implements IBoard{
         return getSquare(squareId).getPiece();
     }
 
+    /**
+     * a method to calculate the current score of the board.
+     * @return the current score. positive if white has more pieces, negative if black has more pieces.
+     */
+    public int getScore(){
+        int whiteScore = 0;
+        int blackScore = 0;
+
+        for (Piece piece : whitePieces){whiteScore += piece.value;}
+        for (Piece piece : blackPieces){blackScore += piece.value;}
+
+        return whiteScore - blackScore;
+    }
+
     //TODO add to interface
     public Team getTeam(){
         return currentPlayer;
@@ -130,7 +144,6 @@ public class Board implements IBoard{
         getSquare(to).setPiece(movingPiece);
         getSquare(from).removePiece();
         movingPiece.setPosition(to);
-        //moveHistoryList.add(move); TODO MAYBE REFACTOR MOVEHISTORY SO THAT MOVE IS REFERING TO THE MOVE TO GET TO THIS STATE.
         nextTeam();
     }
 

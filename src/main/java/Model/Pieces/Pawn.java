@@ -10,10 +10,10 @@ import java.util.List;
  */
 
 public class Pawn extends Piece{
-
+    public static final int value = 1;
 
     public Pawn(Team team) {
-        super(team, Type.PAWN);
+        super(team, Type.PAWN, value);
     }
 
     @Override

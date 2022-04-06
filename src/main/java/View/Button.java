@@ -49,14 +49,6 @@ public abstract class Button implements MouseListener {
     }
 
     /**
-     * method to get the start corner coordinates for the button
-     * @return int[] with x and y coordinates
-     */
-    public int[] getStartPosition(){ //TODO DELETE IF NOT IN USE
-        return new int[]{xPos, yPos};
-    }
-
-    /**
      * method to get the end corner coordinates for the button
      * @return int[] with the x and y coordinates
      */

@@ -12,9 +12,10 @@ import java.util.List;
 public class King extends Piece{
     public boolean castleKingSide = true;
     public boolean castleQueenSide = true;
+    public static final int value = 100;
 
     public King(Team team) {
-        super(team, Type.KING);
+        super(team, Type.KING, value);
     }
 
     @Override

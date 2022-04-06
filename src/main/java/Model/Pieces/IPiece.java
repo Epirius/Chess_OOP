@@ -20,10 +20,10 @@ public interface IPiece {
     void setPosition(int Id);
 
     /**
-     * this method is used to get all moves a piece can do (if it was alone on the board?TODO)
+     * this method is used to get all moves a piece can do if it was alone on the board
      * @param position position of the piece to be checked.
      * @param board a copy of the board.
-     * @return list of moves the piece could take (if alone on the board? -TODO find out if this is true)
+     * @return list of moves the piece could take (if alone on the board?
      */
     List<Move> getPossibleMoves(int position, Board board);
 }

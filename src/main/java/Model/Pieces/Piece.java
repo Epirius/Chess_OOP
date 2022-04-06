@@ -16,10 +16,12 @@ public abstract class Piece implements IPiece, Cloneable{
     public final Type type;
     public final Team team;
     private int position;
+    public int value;
 
-    public Piece(Team team, Type type){
+    public Piece(Team team, Type type, int value){
         this.team = team;
         this.type = type;
+        this.value = value;
     }
 
     @Override
@@ -59,7 +61,6 @@ public abstract class Piece implements IPiece, Cloneable{
     public Piece clone() {
         try {
             Piece clone = (Piece) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();

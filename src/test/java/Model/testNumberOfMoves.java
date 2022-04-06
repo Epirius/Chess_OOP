@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 public class testNumberOfMoves {
     Model model;
 
-    //I DID NOT WRITE THIS TEST, JUST COPYING FROM THE INTERNET //TODO DELETE THIS TEST.
+
     @Test
     public void testMoveNumbers(){
         this.model = new Model();
@@ -25,7 +25,7 @@ public class testNumberOfMoves {
     }
 
     public int calculateNumberOfMoves(int depth){
-        // THIS CODE IS COPIED FROM https://www.chessprogramming.org/Perft
+        // THIS CODE IS COPIED FROM (but rewritten for java) HERE https://www.chessprogramming.org/Perft
         if (depth == 0){
             return 1;
         }

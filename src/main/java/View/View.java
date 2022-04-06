@@ -80,7 +80,7 @@ public class View extends JComponent {
      */
     private void mainMenu(Graphics g){
         controller.setGameState(GameState.CREATE_GAME); //TODO CREATE A MAIN MENU
-        // TODO NEW GAME
+        // TODO NEW GAME - call createGameScreen()
         // TODO ABOUT
         // TODO CREDITS etc..
         repaint();
@@ -282,6 +282,11 @@ public class View extends JComponent {
             List<ViewPiece> viewPieces = controller.getDeadViewPieces(team);
             int yPos = (team == Team.BLACK ? getHeight() - Constants.boardOffset / 2 : Constants.boardOffset / 2) - 8;
             int xPos = Constants.boardOffset;
+
+            String text = String.valueOf((team == Team.BLACK ? controller.model.getScore() : controller.model.getScore() * -1));
+            int textWidth = GraphicHelperMethods.getStringWidth(g, getFont(), text);
+            int textHeight = GraphicHelperMethods.getStringHeight(g, getFont(), text);
+            drawCenteredString(g, text, xPos - textWidth - 3, yPos, textWidth, textHeight);
 
             for (ViewPiece piece : viewPieces) {
                 g.drawImage(piece.smallImage, xPos, yPos, pane);

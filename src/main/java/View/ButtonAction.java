@@ -5,7 +5,6 @@ package View;
  */
 @FunctionalInterface
 public interface ButtonAction {
-    //TODO DELETE IF NOT USED
     void executeAction();
 
 }
