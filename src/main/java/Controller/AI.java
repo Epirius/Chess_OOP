@@ -3,6 +3,8 @@ package Controller;
 import Main.Constants;
 import Model.Model;
 import Model.Board;
+import Model.Pieces.King;
+import Model.Pieces.Piece;
 import Model.Team;
 import Model.Move;
 import Model.Type;
@@ -11,6 +13,7 @@ import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 /**
  * @author Felix Kaasa
@@ -71,8 +74,9 @@ public class AI{
         Integer bestMoveIndex = null;
         List<Move> possibleBestMoves = new ArrayList<>();
         for (Move move : possibleMoves){
+
             model.doMove(move);
-            int value = minimax(depth, model, Integer.MIN_VALUE, Integer.MAX_VALUE, AI_TEAM == Team.WHITE);
+            int value = minimax(depth, model, Integer.MIN_VALUE, Integer.MAX_VALUE, AI_TEAM != Team.WHITE);
             model.undoMove();
 
             if (bestMoveIndex == null || (AI_TEAM == Team.BLACK && value < bestMoveIndex || AI_TEAM == Team.WHITE && value > bestMoveIndex)){
@@ -98,12 +102,12 @@ public class AI{
      * @param beta bata
      * @param maximizingPlayer boolean: true for white, false for black.
      */
-    public static int minimax(int depth, Model model, int alpha, int beta, boolean maximizingPlayer){
+    public int minimax(int depth, Model model, int alpha, int beta, boolean maximizingPlayer){
         // I am implementing the pseudocode from: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
         // and getting inspiration from here: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
 
         if (depth == 0 || isNodeTerminal(model)){
-            return model.getScore();
+            return evaluatePosition(model);
         }
 
         if (maximizingPlayer){
@@ -112,8 +116,8 @@ public class AI{
                 model.doMove(move);
                 value = Math.max(value, minimax(depth - 1, model, alpha, beta, false));
                 model.undoMove();
+                if (value >= beta){ break;}
                 alpha = Math.max(alpha, value);
-                if (alpha >= beta){ break;}
             }
             return value;
         } else {
@@ -122,8 +126,8 @@ public class AI{
                 model.doMove(move);
                 value = Math.min(value, minimax(depth - 1, model, alpha, beta, true));
                 model.undoMove();
+                if (alpha >= value){break;}
                 beta = Math.min(beta, value);
-                if (beta <= alpha){break;}
             }
             return value;
         }
@@ -131,8 +135,29 @@ public class AI{
 
     }
 
-    private static boolean isNodeTerminal(Model model) {
+    private boolean isNodeTerminal(Model model) {
         //TODO
         return false;
+    }
+
+    /**
+     * method that tries to score a given position
+     * @return int score of the position.
+     */
+    private int evaluatePosition(Model model){
+        int teamMultiplier = (AI_TEAM == Team.WHITE ? 1 : -1);
+        int numberOfTurns = model.getCurrentTurn();
+        int finalValue = 0;
+        int pieceValue = model.getScore();
+        int addedValue = 0; //TODO add things like position, not moving to many pawns, not moving backwords etc..
+
+        // adding points if castling
+        if (numberOfTurns > 8 && numberOfTurns < 14) {
+        }
+
+
+
+        finalValue = pieceValue + addedValue * teamMultiplier;
+        return finalValue;
     }
 }

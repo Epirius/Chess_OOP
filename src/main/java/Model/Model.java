@@ -258,6 +258,10 @@ public class Model implements IMovable {
 
     public int getScore(){return board.getScore();}
 
+    public int getCurrentTurn(){
+        return board.moveHistoryList.peek().moveID;
+    }
+
     @Override
     public void doMove(Move move) {
 
