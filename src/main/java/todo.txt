@@ -1,6 +1,3 @@
-- add total score of killed pieces.
+- fix timer when undoing moves
 - refactor code
 - add ai?
-
--BUG:
-    -king moving while under check to other square under check!
