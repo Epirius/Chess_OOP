@@ -12,10 +12,10 @@ import java.awt.event.ActionListener;
 /**
  * @author Felix Kaasa
  */
-public class Clock implements ActionListener {
+public class Clock implements ActionListener, Cloneable {
     //TODO clock does not change when undo button is clicked. fix it
 
-    public boolean started = false;
+    public boolean enabled = false;
     private int whiteClock_Seconds;
     private int blackClock_Seconds;
     Team currentPlayer;
@@ -34,7 +34,7 @@ public class Clock implements ActionListener {
 
     /**
      * this is only to be used for testing
-     * @param TESTING
+     * @param TESTING set to true if the clock should be used for testing. (this clock will not work, but for testing it may not need to work)
      */
     public Clock(boolean TESTING) {
         whiteClock_Seconds = Constants.TIME_MINUTES * 60;
@@ -61,8 +61,10 @@ public class Clock implements ActionListener {
         // adding time to the current players clock (if the option in constants is not set to 0.)
         if (currentPlayer == Team.WHITE){
             whiteClock_Seconds += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+            if (whiteClock_Seconds > Constants.TIME_MINUTES * 60){ whiteClock_Seconds = Constants.TIME_MINUTES * 60;}
         } else {
             blackClock_Seconds += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+            if (blackClock_Seconds > Constants.TIME_MINUTES * 60){ blackClock_Seconds = Constants.TIME_MINUTES * 60;}
         }
 
         // updating the current player.
@@ -73,10 +75,14 @@ public class Clock implements ActionListener {
      * method to start the timer.
      */
     public void start(){
-        if (started){return;}
+        if (enabled){return;}
         timer.start();
-        started = true;
-        whiteClock_Seconds -= Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+        enabled = true;
+        if (currentPlayer == Team.WHITE) {
+            whiteClock_Seconds -= Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+        } else {
+            blackClock_Seconds -= Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+        }
     }
 
     /**
@@ -96,8 +102,17 @@ public class Clock implements ActionListener {
         return (team == Team.WHITE ? whiteClock_Seconds : blackClock_Seconds);
     }
 
+    public void setTime(Team team, int seconds){
+        if (team == Team.WHITE) {
+            whiteClock_Seconds = seconds;
+        } else{
+            blackClock_Seconds = seconds;
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (!enabled){return;}
         if (controller.getGameState() != GameState.ACTIVE_GAME) {return;}
         if (currentPlayer == Team.WHITE){
             whiteClock_Seconds--;
@@ -116,5 +131,16 @@ public class Clock implements ActionListener {
         }
         view.repaint();
         timer.setDelay(1000);
+    }
+
+    @Override
+    public Clock clone() {
+        try {
+            Clock clone = (Clock) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
