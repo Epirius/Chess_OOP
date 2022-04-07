@@ -20,6 +20,7 @@ public final class Constants {
     public static int TIME_ADDED_EACH_MOVE_SECONDS = 2;
     public static Team AI_TEAM = null;
     public static final GameState DEFAULT_GAME_STATE = GameState.MAIN_MENU;
+    public static final int AI_SEARCH_DEPTH = 3;//TODO SET TO 3 // HIGHER MEANS IT TAKES LONGER FOR AI TO MAKE A MOVE
 
 
     // COLORS

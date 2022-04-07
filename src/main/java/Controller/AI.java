@@ -61,15 +61,20 @@ public class AI{
         return (enabled && model.getTeam() == AI_TEAM);
     }
 
+    /**
+     * a method that is called if the ai needs to choose which piece to upgrade the pawn to
+     */
     public void upgradePawn() {
         model.upgradePawn(Type.QUEEN);
         controller.setGameState(GameState.ACTIVE_GAME);
     }
 
     public  Move getBestMove(List<Move> possibleMoves, Model model){
-        int depth = 3;
+        //TODO maybe let user choose between random ai and minimax
+        int depth = Constants.AI_SEARCH_DEPTH;
         Integer bestMoveIndex = null;
         List<Move> possibleBestMoves = new ArrayList<>();
+        possibleMoves = preSortMovesList(possibleMoves);
         for (Move move : possibleMoves){
 
             model.doMove(move);
@@ -87,6 +92,29 @@ public class AI{
         }
         if (possibleBestMoves.size() == possibleMoves.size()){ System.out.println("Random move");}
         return possibleBestMoves.get(random.nextInt(possibleBestMoves.size()));
+    }
+
+    /**
+     * a method that sorts the list of possibleMoves by which moves are most likly to be good. this helps during alpha beta pruning.
+     * @param possibleMoves list of possible moves
+     * @return sorted list of possible moves
+     */
+    private List<Move> preSortMovesList(List<Move> possibleMoves) {
+        List<Move> captureMoveList = new ArrayList<>();
+        List<Move> normalMoveList = new ArrayList<>();
+
+        for (Move move : possibleMoves){
+            if (model.getPiece(move.to) != null){
+                captureMoveList.add(move);
+            } else {
+                normalMoveList.add(move);
+            }
+        }
+
+        if (captureMoveList.addAll(normalMoveList)){
+            return captureMoveList;
+        }
+        return possibleMoves;
     }
 
     //TODO for minimax alog: the algo has to know about pawn upgrading, and check each of the 4 upgrade paths as another branch.
@@ -109,7 +137,7 @@ public class AI{
 
         if (maximizingPlayer){
             int value = Integer.MIN_VALUE;
-            for (Move move : model.getLegalMoves()){
+            for (Move move : preSortMovesList(model.getLegalMoves())){
                 model.doMove(move);
                 value = Math.max(value, minimax(depth - 1, model, alpha, beta, false));
                 model.undoMove();
@@ -119,7 +147,7 @@ public class AI{
             return value;
         } else {
             int value = Integer.MAX_VALUE;
-            for (Move move : model.getLegalMoves()){
+            for (Move move : preSortMovesList(model.getLegalMoves())){
                 model.doMove(move);
                 value = Math.min(value, minimax(depth - 1, model, alpha, beta, true));
                 model.undoMove();

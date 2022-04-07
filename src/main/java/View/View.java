@@ -167,22 +167,63 @@ public class View extends JComponent {
         // draw legal squares.
         legalSquares = controller.getLegalSquares();
         if (legalSquares.size() > 0) {
-            for (Integer i : legalSquares) {
-                // convert the square into coordinates. NB!! 0,0 is at bottom left.
-                int[] legalSquare = inverseSquareToCoords(i);
-                int x = boardOffset + squareSize * legalSquare[0];
-                int y = boardOffset + squareSize * legalSquare[1];
-                g.setColor(Constants.colorHighlightSquare);
-                g.fillRect(x, y, squareSize, squareSize);
+            for (Integer square : legalSquares) {
+                if (controller.model.getPiece(square) == null) {
+                    drawShapeInSquare(g, square, 2);
+                } else {
+                    drawShapeInSquare(g, square, 3);
+                }
             }
         }
 
+        // draw last move
+        if (controller.model.getLastMove() != null) {
+            //TODO make an interface for the call to model
+            int[] lastMove = new int[]{controller.model.getLastMove().from, controller.model.getLastMove().to};
+            for (int square : lastMove){
+                drawShapeInSquare(g, square, 1);
+            }
+        }
+    }
+
+    /**
+     * a helper method to draw a shape inside a square
+     * @param g graphics
+     * @param squareID square in which the shape will be drawn
+     * @param shape id of the shape: 1 = circle, 2 = filledRect, 3 = filled corners
+     */
+    private void drawShapeInSquare(Graphics g, Integer squareID, int shape) {
+        int squareSize = Constants.squareSize;
+        int boardOffset = Constants.boardOffset;
+        int[] legalSquare = inverseSquareToCoords(squareID);
+        int x = boardOffset + squareSize * legalSquare[0];
+        int y = boardOffset + squareSize * legalSquare[1];
+        g.setColor(Constants.colorHighlightSquare);
+        int circleSize = squareSize / 2;
+        if (shape == 1) {
+            g.fillRect(x, y, squareSize, squareSize);
+        } else if (shape == 2){
+            g.fillOval(x + circleSize / 2, y + circleSize / 2, circleSize, circleSize);
+        } else if (shape == 3){
+            List<Polygon> polygons = new ArrayList<>();
+            int polySize = squareSize / 4;
+
+            polygons.add(new Polygon(new int[]{x, x, x + polySize}, new int[]{y, y + polySize, y}, 3));
+            polygons.add(new Polygon(new int[]{x + squareSize, x + squareSize, x + squareSize - polySize}, new int[]{y, y + polySize, y}, 3));
+            polygons.add(new Polygon(new int[]{x , x , x + polySize}, new int[]{y + squareSize, y - polySize + squareSize, y + squareSize}, 3));
+            polygons.add(new Polygon(new int[]{x + squareSize, x + squareSize, x + squareSize - polySize}, new int[]{y + squareSize, y - polySize + squareSize, y + squareSize}, 3));
+
+            for (Polygon polygon : polygons) {
+                g.fillPolygon(polygon);
+            }
+        }
     }
 
     /**
      * A method that draws the pieces
      */
     private void pieceLayer(Graphics g){
+        //TODO draw the move the piece before the ai finishes thinking. and draw green squares where the ai moved a piece (human as well)
         JLayeredPane piecePane = new JLayeredPane();
         List<ViewPiece> pieces = controller.getPiecesOnTheBoard();
 
@@ -222,7 +263,6 @@ public class View extends JComponent {
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
             if (controller.ai.enabled && !controller.ai.isAiTurn()){
                 controller.ai.upgradePawn();
-                //controller.ai.createMove();
                 repaint();
                 return;
             }

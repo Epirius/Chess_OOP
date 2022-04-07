@@ -382,4 +382,11 @@ public class Model implements IMovable {
     public List<Piece> getDeadPieces() {
         return board.deadPieces;
     }
+
+    public Move getLastMove() {
+        if(board.moveHistoryList.size() > 0){
+            return board.moveHistoryList.peek().move;
+        }
+        return null;
+    }
 }

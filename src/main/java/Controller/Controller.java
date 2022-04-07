@@ -66,6 +66,7 @@ public class Controller extends MouseAdapter implements IDrawable {
             if (gameState == GameState.ACTIVE_GAME) {
                 int square = rawCoordsToSquare(rawX, rawY);
                 handleClicks(square);
+                view.repaint();
             }
             if (gameState == GameState.ACTIVE_GAME && ai.isAiTurn()) {
                 ai.createMove();
@@ -150,7 +151,7 @@ public class Controller extends MouseAdapter implements IDrawable {
     }
 
     private void createMove(int from, int to){
-        if (ai.enabled && model.getTeam() == ai.getTeam()){
+        if (ai.isAiTurn()){
             throw new RuntimeException("A move was made in Controller, when it was the AI's turn!");
         }
         for (Move legalMove : model.getLegalMoves()){
