@@ -14,6 +14,7 @@ public class Model implements IMovable {
 
     public void installClock(Clock clock){
         this.clock = clock;
+        board.installClock(clock);
     }
 
 

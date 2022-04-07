@@ -1,0 +1,5 @@
+TODO delete this file.
+first 2-6 moves: use a common opening list and follow that. if the state is not in the list. use alpha beta pruning during the start (maybe with longer depth)
+after the opening: use alpha beta pruning.
+    -maybe with some extra points for positioning, such as castling early and having pieces in the center etc..
+end game: don't know. do more research.

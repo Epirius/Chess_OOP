@@ -16,6 +16,7 @@ public class Board implements IBoard{
     protected List<Piece> deadPieces = new ArrayList<>();
     public Stack<MoveHistory> moveHistoryList= new Stack<>();
     private Team currentPlayer = Team.WHITE;
+    private Clock clock;
 
 
     /**
@@ -33,6 +34,10 @@ public class Board implements IBoard{
     public Board(boolean initialize){
         createBoard();
         if (initialize){ initBoard();}
+    }
+
+    public void installClock(Clock clock){
+        this.clock = clock;
     }
 
     @Override
@@ -121,7 +126,8 @@ public class Board implements IBoard{
             throw new RuntimeException("The number of moves does not match up with the current player");
             //TODO this breaks some test, fix it later.
         }
-        moveHistoryList.add(new MoveHistory(this, move));
+        if (clock == null){throw new RuntimeException("Clock is null");}
+        moveHistoryList.add(new MoveHistory(this, move, clock));
 
         int from = move.getMove()[0];
         int to = move.getMove()[1];
@@ -189,21 +195,34 @@ public class Board implements IBoard{
             lastMove = moveHistoryList.pop();
         }
         if (lastMove == null) { throw new RuntimeException("lastMove was not initialized");}
+        loadBoardFromMoveHistory(lastMove);
+    }
 
+    /**
+     * method that loads the board from a MoveHistory object.
+     * @param moveToLoadIn the MoveHistory that is to be loaded.
+     */
+    public void loadBoardFromMoveHistory(MoveHistory moveToLoadIn){
         // Clearing the board of all pieces
         for (Piece piece : whitePieces){ getSquare(piece.getPosition()).removePiece();}
         for (Piece piece : blackPieces){ getSquare(piece.getPosition()).removePiece();}
 
         // Setting the new pieces to the board
-        for (Piece piece : lastMove.whitePieces){ getSquare(piece.getPosition()).setPiece(piece);}
-        for (Piece piece : lastMove.blackPieces){ getSquare(piece.getPosition()).setPiece(piece);}
+        for (Piece piece : moveToLoadIn.whitePieces){ getSquare(piece.getPosition()).setPiece(piece);}
+        for (Piece piece : moveToLoadIn.blackPieces){ getSquare(piece.getPosition()).setPiece(piece);}
 
-        this.whitePieces = lastMove.whitePieces;
-        this.blackPieces = lastMove.blackPieces;
-        this.deadPieces = lastMove.deadPieces;
-        this.currentPlayer = lastMove.currentPlayer;
+        // changing the lists in board to the lists from the MoveHistory
+        this.whitePieces = moveToLoadIn.whitePieces;
+        this.blackPieces = moveToLoadIn.blackPieces;
+        this.deadPieces = moveToLoadIn.deadPieces;
+        this.currentPlayer = moveToLoadIn.currentPlayer;
 
-        MoveHistory.numberOfMoves-= numMoves;
+        // setting the time of the clock to the time when the move was made
+        this.clock.setTime(Team.WHITE, moveToLoadIn.clock.getTime(Team.WHITE));
+        this.clock.setTime(Team.BLACK, moveToLoadIn.clock.getTime(Team.BLACK));
+        this.clock.currentPlayer = moveToLoadIn.clock.currentPlayer;
+
+        MoveHistory.numberOfMoves = moveToLoadIn.moveID - 1;
     }
 
     /**
