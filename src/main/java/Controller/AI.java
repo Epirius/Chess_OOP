@@ -2,11 +2,13 @@ package Controller;
 
 import Main.Constants;
 import Model.Model;
+import Model.Board;
 import Model.Team;
 import Model.Move;
 import Model.Type;
 
 import javax.swing.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -20,6 +22,7 @@ public class AI{
     private Model model;
     private Random random = new Random();
     private Move aiMove;
+
 
     public AI(Controller controller){
         this.controller = controller;
@@ -44,7 +47,10 @@ public class AI{
         }
 
         List<Move> moves = model.getLegalMoves();
-        aiMove = moves.get(random.nextInt(moves.size()));
+        //aiMove = moves.get(random.nextInt(moves.size()));
+        aiMove = getBestMove(moves, model);
+
+
         model.doMove(aiMove);
         controller.checkPawnUpgrade(aiMove);
         controller.checkIfGameOver();
@@ -58,5 +64,75 @@ public class AI{
     public void upgradePawn() {
         model.upgradePawn(Type.QUEEN);
         controller.setGameState(GameState.ACTIVE_GAME);
+    }
+
+    public  Move getBestMove(List<Move> possibleMoves, Model model){
+        int depth = 3;
+        Integer bestMoveIndex = null;
+        List<Move> possibleBestMoves = new ArrayList<>();
+        for (Move move : possibleMoves){
+            model.doMove(move);
+            int value = minimax(depth, model, Integer.MIN_VALUE, Integer.MAX_VALUE, AI_TEAM == Team.WHITE);
+            model.undoMove();
+
+            if (bestMoveIndex == null || (AI_TEAM == Team.BLACK && value < bestMoveIndex || AI_TEAM == Team.WHITE && value > bestMoveIndex)){
+                bestMoveIndex = value;
+                possibleBestMoves.clear();
+                possibleBestMoves.add(move);
+            }
+            if (value == bestMoveIndex){
+                possibleBestMoves.add(move);
+            }
+        }
+        if (possibleBestMoves.size() == possibleMoves.size()){ System.out.println("Random move");}
+        return possibleBestMoves.get(random.nextInt(possibleBestMoves.size()));
+    }
+
+    //TODO for minimax alog: the algo has to know about pawn upgrading, and check each of the 4 upgrade paths as another branch.
+    //TODO this algo should also take positioning into account.
+    /**
+     * method to find the best move
+     * @param depth how much further should the algorithm search
+     * @param model model
+     * @param alpha alpha
+     * @param beta bata
+     * @param maximizingPlayer boolean: true for white, false for black.
+     */
+    public static int minimax(int depth, Model model, int alpha, int beta, boolean maximizingPlayer){
+        // I am implementing the pseudocode from: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
+        // and getting inspiration from here: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
+
+        if (depth == 0 || isNodeTerminal(model)){
+            return model.getScore();
+        }
+
+        if (maximizingPlayer){
+            int value = Integer.MIN_VALUE;
+            for (Move move : model.getLegalMoves()){
+                model.doMove(move);
+                value = Math.max(value, minimax(depth - 1, model, alpha, beta, false));
+                model.undoMove();
+                alpha = Math.max(alpha, value);
+                if (alpha >= beta){ break;}
+            }
+            return value;
+        } else {
+            int value = Integer.MAX_VALUE;
+            for (Move move : model.getLegalMoves()){
+                model.doMove(move);
+                value = Math.min(value, minimax(depth - 1, model, alpha, beta, true));
+                model.undoMove();
+                beta = Math.min(beta, value);
+                if (beta <= alpha){break;}
+            }
+            return value;
+        }
+
+
+    }
+
+    private static boolean isNodeTerminal(Model model) {
+        //TODO
+        return false;
     }
 }

@@ -102,6 +102,11 @@ public class Clock implements ActionListener, Cloneable {
         return (team == Team.WHITE ? whiteClock_Seconds : blackClock_Seconds);
     }
 
+    /**
+     * method to set the clock time to a specific value
+     * @param team the team for which the clock should be set
+     * @param seconds the time the clock should be set to (this time overwrites the current clock time)
+     */
     public void setTime(Team team, int seconds){
         if (team == Team.WHITE) {
             whiteClock_Seconds = seconds;
@@ -137,7 +142,6 @@ public class Clock implements ActionListener, Cloneable {
     public Clock clone() {
         try {
             Clock clone = (Clock) super.clone();
-            // TODO: copy mutable state here, so the clone can't change the internals of the original
             return clone;
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
