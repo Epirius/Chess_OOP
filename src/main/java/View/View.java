@@ -193,6 +193,7 @@ public class View extends JComponent {
      * @param shape id of the shape: 1 = circle, 2 = filledRect, 3 = filled corners
      */
     private void drawShapeInSquare(Graphics g, Integer squareID, int shape) {
+        g.setColor(Constants.colorHighlightSquare);
         int squareSize = Constants.squareSize;
         int boardOffset = Constants.boardOffset;
         int[] legalSquare = inverseSquareToCoords(squareID);
@@ -207,6 +208,7 @@ public class View extends JComponent {
         } else if (shape == 3){
             List<Polygon> polygons = new ArrayList<>();
             int polySize = squareSize / 4;
+            g.setColor(new Color(11, 92, 6));
 
             polygons.add(new Polygon(new int[]{x, x, x + polySize}, new int[]{y, y + polySize, y}, 3));
             polygons.add(new Polygon(new int[]{x + squareSize, x + squareSize, x + squareSize - polySize}, new int[]{y, y + polySize, y}, 3));
