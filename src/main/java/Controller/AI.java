@@ -14,12 +14,11 @@ import java.util.Random;
  * @author Felix Kaasa
  */
 public class AI{
-    private Controller controller;
+    private final Controller controller;
     public boolean enabled;
-    private Team AI_TEAM;
+    private final Team AI_TEAM;
     private Model model;
-    private Random random = new Random();
-    private Move aiMove;
+    private final Random random = new Random();
 
     public AI(Controller controller){
         this.controller = controller;
@@ -44,7 +43,7 @@ public class AI{
         }
 
         List<Move> moves = model.getLegalMoves();
-        aiMove = moves.get(random.nextInt(moves.size()));
+        Move aiMove = moves.get(random.nextInt(moves.size()));
         model.doMove(aiMove);
         controller.checkPawnUpgrade(aiMove);
         controller.checkIfGameOver();
