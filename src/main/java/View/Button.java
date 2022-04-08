@@ -52,7 +52,7 @@ public abstract class Button implements MouseListener {
      * method to get the end corner coordinates for the button
      * @return int[] with the x and y coordinates
      */
-    public int[] getEndPosition(){ //TODO DELETE IF NOT IN USE
+    public int[] getEndPosition(){
         return new int[]{xPos + width, yPos + height};
     }
 

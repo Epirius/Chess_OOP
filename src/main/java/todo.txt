@@ -1,3 +1,1 @@
-- fix timer when undoing moves
 - refactor code
-- add ai?

@@ -164,6 +164,15 @@ public class View extends JComponent {
             }
         }
 
+        // draw last move
+        if (controller.model.getLastMove() != null) {
+            //TODO make an interface for the call to model
+            int[] lastMove = new int[]{controller.model.getLastMove().from, controller.model.getLastMove().to};
+            for (int square : lastMove){
+                drawShapeInSquare(g, square, 1);
+            }
+        }
+
         // draw legal squares.
         legalSquares = controller.getLegalSquares();
         if (legalSquares.size() > 0) {
@@ -173,15 +182,6 @@ public class View extends JComponent {
                 } else {
                     drawShapeInSquare(g, square, 3);
                 }
-            }
-        }
-
-        // draw last move
-        if (controller.model.getLastMove() != null) {
-            //TODO make an interface for the call to model
-            int[] lastMove = new int[]{controller.model.getLastMove().from, controller.model.getLastMove().to};
-            for (int square : lastMove){
-                drawShapeInSquare(g, square, 1);
             }
         }
     }
@@ -208,7 +208,7 @@ public class View extends JComponent {
         } else if (shape == 3){
             List<Polygon> polygons = new ArrayList<>();
             int polySize = squareSize / 4;
-            g.setColor(new Color(11, 92, 6));
+            g.setColor(Color.red);
 
             polygons.add(new Polygon(new int[]{x, x, x + polySize}, new int[]{y, y + polySize, y}, 3));
             polygons.add(new Polygon(new int[]{x + squareSize, x + squareSize, x + squareSize - polySize}, new int[]{y, y + polySize, y}, 3));
@@ -225,7 +225,7 @@ public class View extends JComponent {
      * A method that draws the pieces
      */
     private void pieceLayer(Graphics g){
-        //TODO draw the move the piece before the ai finishes thinking. and draw green squares where the ai moved a piece (human as well)
+        //TODO draw the move the piece before the ai finishes thinking.
         JLayeredPane piecePane = new JLayeredPane();
         List<ViewPiece> pieces = controller.getPiecesOnTheBoard();
 
