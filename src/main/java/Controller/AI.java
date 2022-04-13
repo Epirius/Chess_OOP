@@ -41,9 +41,10 @@ public class AI implements IDrawAi {
 
     public void installModel(IAiMovable model){ this.model = model;}
 
+    @Override
     public Team getTeam(){ return this.AI_TEAM;}
 
-
+    @Override
     public void createMove() {
         if (!enabled){return;}
         if (model.getTeam() != AI_TEAM){
@@ -59,21 +60,22 @@ public class AI implements IDrawAi {
 
     }
 
+    @Override
     public boolean isAiTurn(){
         return (enabled && model.getTeam() == AI_TEAM);
     }
 
+    @Override
     public boolean isEnabled(){return enabled;}
 
-    /**
-     * a method that is called if the ai needs to choose which piece to upgrade the pawn to
-     */
+
+    @Override
     public void upgradePawn() {
         model.upgradePawn(Type.QUEEN);
         controller.setGameState(GameState.ACTIVE_GAME);
     }
 
-    public  Move getBestMove(List<Move> possibleMoves, IAiMovable model){
+    private  Move getBestMove(List<Move> possibleMoves, IAiMovable model){
         //TODO maybe let user choose between random ai and minimax
         int depth = AI_SEARCH_DEPTH;
         Integer bestMoveIndex = null;

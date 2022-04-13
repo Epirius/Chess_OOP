@@ -442,6 +442,7 @@ public class Model implements IMovable, IAiMovable, IDrawModel {
         return board.deadPieces;
     }
 
+    @Override
     public Move getLastMove() {
         if(board.moveHistoryList.size() > 0){
             return board.moveHistoryList.peek().move;

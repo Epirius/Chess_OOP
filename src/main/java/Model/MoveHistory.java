@@ -35,7 +35,7 @@ public class MoveHistory {
 
         if (clock != null) {
             this.clock = clock.clone();
-            this.clock.enabled = false;
+            this.clock.setEnabled(false);
         } else {
             this.clock = null;
         }

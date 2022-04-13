@@ -10,16 +10,28 @@ import java.util.List;
 
 public interface IBoard {
 
-    // create a 8x8 board of squares.
+    /**
+     * creates an 8x8 board of squares
+     */
     void createBoard();
 
-
-    // place all the pieces for both teams in their starting positions.
+    /**
+     * places all the pieces for each team in their starting positions
+     */
     void initBoard();
 
+    /**
+     * gets a square
+     * @param Id id of the square
+     * @return the square with the id
+     */
     Square<Piece> getSquare(int Id);
 
-    // takes in a square id, and returns the piece that is on that square.
+    /**
+     * takes in a square id, and returns the piece that is on that square.
+     * @param squareId id of the square the piece is standing on
+     * @return the piece on the given square
+     */
     Piece getPiece(int squareId);
 
     /**

@@ -15,13 +15,13 @@ import java.awt.event.ActionListener;
 public class Clock implements ActionListener, Cloneable {
     //TODO clock does not change when undo button is clicked. fix it
 
-    public boolean enabled = false;
+    private boolean enabled = false;
     private int whiteClock_Seconds;
     private int blackClock_Seconds;
     Team currentPlayer;
-    Timer timer;
-    View view;
-    Controller controller;
+    private Timer timer;
+    private View view;
+    private Controller controller;
 
     public Clock(View view, Controller controller){
         whiteClock_Seconds = Constants.TIME_MINUTES * 60;
@@ -85,6 +85,10 @@ public class Clock implements ActionListener, Cloneable {
         }
     }
 
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     /**
      * Get the time of the player that is active.
      * @return time left.
@@ -124,14 +128,14 @@ public class Clock implements ActionListener, Cloneable {
             if (whiteClock_Seconds < 0){
                 whiteClock_Seconds = 0;
                 timer.stop();
-                controller.gameState = GameState.TIME_OUT;
+                controller.setGameState(GameState.TIME_OUT);
             }
         } else if (currentPlayer == Team.BLACK){
             blackClock_Seconds--;
             if (blackClock_Seconds < 0){
                 blackClock_Seconds = 0;
                 timer.stop();
-                controller.gameState = GameState.TIME_OUT;
+                controller.setGameState(GameState.TIME_OUT);
             }
         }
         view.repaint();

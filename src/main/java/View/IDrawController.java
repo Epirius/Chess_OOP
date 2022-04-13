@@ -21,13 +21,20 @@ public interface IDrawController {
     GameState getGameState();
 
     /**
-     *
-     * @param gameState
+     * a method to set the current gameState
+     * @param gameState the state to set the gameState to
      */
-    //TODO WRITE JDOCS
     void setGameState(GameState gameState);
 
+    /**
+     * a method to install a model
+     * @param model model to install
+     */
     void installModel(Model model);
 
+    /**
+     * a method to install an ai
+     * @param ai ai to be installed
+     */
     void installAI(AI ai);
 }

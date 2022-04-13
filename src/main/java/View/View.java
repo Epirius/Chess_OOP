@@ -17,25 +17,25 @@ import static View.GraphicHelperMethods.*;
 
 public class View extends JComponent {
     List<Integer> legalSquares = new ArrayList<>();
-    protected Team selectTeam = null;
-    IDrawController controller;
-    IDrawModel model;
-    IDrawAi ai;
-    Clock clock;
-    int minutesPerSide = Constants.TIME_MINUTES;
-    int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+    private Team selectTeam = null;
+    protected IDrawController controller;
+    protected IDrawModel model;
+    private IDrawAi ai;
+    private Clock clock;
+    private int minutesPerSide = Constants.TIME_MINUTES;
+    private int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
 
-    public static final Color colorBackground = new Color(90, 94, 89);
-    public static final Color colorDarkSquare = new Color(21, 29, 36);
-    public static final Color colorLightSquare = new Color(237, 132, 99);
-    public static final Color colorHighlightSquare = new Color(213, 248, 147, 175);
-    public static final Color colorPawnUpgradeBG = new Color(95, 205, 228);
-    public static final Color colorButton = Color.GRAY;
+    private static final Color colorBackground = new Color(90, 94, 89);
+    private static final Color colorDarkSquare = new Color(21, 29, 36);
+    private static final Color colorLightSquare = new Color(237, 132, 99);
+    private static final Color colorHighlightSquare = new Color(213, 248, 147, 175);
+    private static final Color colorPawnUpgradeBG = new Color(95, 205, 228);
+    private static final Color colorButton = Color.GRAY;
 
-    List<Button> createGame_buttonsList;
-    List<Button> upgradeButtonsWhite;
-    List<Button> upgradeButtonsBlack;
-    List<Button> hudButtons;
+    private List<Button> createGame_buttonsList;
+    private List<Button> upgradeButtonsWhite;
+    private List<Button> upgradeButtonsBlack;
+    private List<Button> hudButtons;
 
 
 

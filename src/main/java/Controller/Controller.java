@@ -18,10 +18,10 @@ import java.util.List;
 public class Controller extends MouseAdapter implements IDrawController {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
-    public Model model;
-    public GameState gameState = Constants.DEFAULT_GAME_STATE;
-    public AI ai;
-    View view;
+    private Model model;
+    private GameState gameState = Constants.DEFAULT_GAME_STATE;
+    private AI ai;
+    private View view;
 
     public Controller(View view){
         this.clickHolder[0] = null;
@@ -30,6 +30,7 @@ public class Controller extends MouseAdapter implements IDrawController {
         view.addMouseListener(this);
     }
 
+    @Override
     public void installModel(Model model){
         this.model = model;
         if (this.ai != null){
@@ -37,6 +38,7 @@ public class Controller extends MouseAdapter implements IDrawController {
         }
     }
 
+    @Override
     public void installAI(AI ai) {
         this.ai = ai;
         this.ai.installModel(model);
@@ -77,7 +79,7 @@ public class Controller extends MouseAdapter implements IDrawController {
      * A method that handles the clicks and convert them into actions.
      * @param clickedSquare an int corresponding to the ID of the square that was clicked on.
      */
-    public void handleClicks(int clickedSquare){
+    private void handleClicks(int clickedSquare){
         if (clickHolder[0] == null){
 
             // reset clickHandler
@@ -162,13 +164,13 @@ public class Controller extends MouseAdapter implements IDrawController {
         }
     }
 
-    void checkPawnUpgrade(Move move){
+    protected void checkPawnUpgrade(Move move){
         if (model.getPiece(move.to).type.equals(Type.PAWN) && ((move.to >= 56 && move.to < 64) || (move.to <= 7 && move.to >= 0))) {
             this.gameState = GameState.UPGRADE_PAWN;
         }
     }
 
-    void checkIfGameOver(){
+    protected void checkIfGameOver(){
         if (model.getLegalMoves().size() == 0){
             if (model.kingInCheck()){
                 gameState = GameState.CHECK_MATE;
@@ -197,29 +199,4 @@ public class Controller extends MouseAdapter implements IDrawController {
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
-
-    /*
-    //TODO DELETE
-    @Override
-    public List<ViewPiece> getDeadViewPieces(Team team) {
-        List<ViewPiece> output = new ArrayList<>();
-        List<Piece> deadPieces = model.getDeadPieces();
-
-        for (Piece piece : deadPieces){
-            if (piece.team != team){continue;}
-            output.add(new ViewPiece(piece.type, piece.team, 0)); // position does not matter here.
-        }
-        return output;
-    }
-
-    @Override
-    public List<ViewPiece> getPiecesOnTheBoard(){
-        List<ViewPiece> output = new ArrayList<>();
-        for (Piece piece : model.getAllPieces()){
-            output.add(new ViewPiece(piece.getPiece(), piece.getTeam(), piece.getPosition()));
-        }
-        return output;
-    }
-
-     */
 }
