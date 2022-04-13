@@ -50,8 +50,8 @@ public class imageButton extends Button{
     }
 
 
-    public void drawButton(Graphics g){
-        super.drawButton(g);
+    public void drawButton(Graphics g, Color buttonColor){
+        super.drawButton(g, buttonColor);
         int xImagePos = xPos + (width - image.getWidth()) / 2;
         int yImagePos = yPos + (height - image.getHeight()) / 2;
         g.drawImage(image, xImagePos, yImagePos, pane);

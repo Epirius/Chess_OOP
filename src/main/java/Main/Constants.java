@@ -20,16 +20,6 @@ public final class Constants {
     public static int TIME_ADDED_EACH_MOVE_SECONDS = 2;
     public static Team AI_TEAM = null;
     public static final GameState DEFAULT_GAME_STATE = GameState.MAIN_MENU;
-    public static final int AI_SEARCH_DEPTH = 3;
-
-
-    // COLORS
-    public static final Color colorBackground = new Color(90, 94, 89);
-    public static final Color colorDarkSquare = new Color(21, 29, 36);
-    public static final Color colorLightSquare = new Color(237, 132, 99);
-    public static final Color colorHighlightSquare = new Color(213, 248, 147, 175);
-    public static final Color colorPawnUpgradeBG = new Color(95, 205, 228);
-    public static final Color BUTTON = Color.GRAY;
 
 
     // Images

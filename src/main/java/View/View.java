@@ -23,6 +23,13 @@ public class View extends JComponent {
     int minutesPerSide = Constants.TIME_MINUTES;
     int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
 
+    public static final Color colorBackground = new Color(90, 94, 89);
+    public static final Color colorDarkSquare = new Color(21, 29, 36);
+    public static final Color colorLightSquare = new Color(237, 132, 99);
+    public static final Color colorHighlightSquare = new Color(213, 248, 147, 175);
+    public static final Color colorPawnUpgradeBG = new Color(95, 205, 228);
+    public static final Color colorButton = Color.GRAY;
+
     List<Button> createGame_buttonsList;
     List<Button> upgradeButtonsWhite;
     List<Button> upgradeButtonsBlack;
@@ -91,12 +98,12 @@ public class View extends JComponent {
      * @param g graphics
      */
     private void createGameScreen(Graphics g) {
-        g.setColor(Constants.colorBackground);
+        g.setColor(colorBackground);
         g.fillRect(0, 0, Constants.displayWidth, Constants.displayHeight);
 
 
         //Create and draw the buttons
-        for (Button button : getCreateGameButtons()) { button.drawButton(g);}
+        for (Button button : getCreateGameButtons()) { button.drawButton(g, colorButton);}
 
         //Highlight the pressed button.
         g.setColor(new Color(255, 255, 255, 100));
@@ -147,7 +154,7 @@ public class View extends JComponent {
      * a method that draws the board
      */
     private void boardLayer(Graphics g){
-        g.setColor(Constants.colorBackground);
+        g.setColor(colorBackground);
         g.fillRect(0,0,Constants.displayWidth, Constants.displayHeight);
         int squareSize = Constants.squareSize;
         int boardOffset = Constants.boardOffset;
@@ -156,7 +163,7 @@ public class View extends JComponent {
         // Drawing the board.
         for (int width = 0; width < 8; width++) {
             for (int height = 0; height < 8; height++) {
-                Color squareColor = ((width + height) % 2 == 0 ? Constants.colorLightSquare : Constants.colorDarkSquare);
+                Color squareColor = ((width + height) % 2 == 0 ? colorLightSquare : colorDarkSquare);
                 g.setColor(squareColor);
                 int x =  boardOffset + squareSize * width;
                 int y =  boardOffset + squareSize * height;
@@ -193,13 +200,13 @@ public class View extends JComponent {
      * @param shape id of the shape: 1 = circle, 2 = filledRect, 3 = filled corners
      */
     private void drawShapeInSquare(Graphics g, Integer squareID, int shape) {
-        g.setColor(Constants.colorHighlightSquare);
+        g.setColor(colorHighlightSquare);
         int squareSize = Constants.squareSize;
         int boardOffset = Constants.boardOffset;
         int[] legalSquare = inverseSquareToCoords(squareID);
         int x = boardOffset + squareSize * legalSquare[0];
         int y = boardOffset + squareSize * legalSquare[1];
-        g.setColor(Constants.colorHighlightSquare);
+        g.setColor(colorHighlightSquare);
         int circleSize = squareSize / 2;
         if (shape == 1) {
             g.fillRect(x, y, squareSize, squareSize);
@@ -258,7 +265,7 @@ public class View extends JComponent {
 
         // if active game draw hud buttons
         for (Button button : getHudButtons()){
-            button.drawButton(g);
+            button.drawButton(g, colorButton);
         }
 
         // If a pawn is upgrading
@@ -269,16 +276,16 @@ public class View extends JComponent {
                 return;
             }
 
-            g.setColor(Constants.colorPawnUpgradeBG);
+            g.setColor(colorPawnUpgradeBG);
             g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
-            g.setColor(Constants.colorBackground);
+            g.setColor(colorBackground);
 
             Team team;
             if (controller.getTeam() == Team.WHITE){team = Team.BLACK;}
             else {team = Team.WHITE;}
 
             for (Button button : (team == Team.WHITE ? getUpgradeButtons(Team.WHITE) : getUpgradeButtons(Team.BLACK))) {
-                button.drawButton(g);
+                button.drawButton(g, colorButton);
             }
         }
 
@@ -309,8 +316,8 @@ public class View extends JComponent {
         int buttonHeight = 30;
         TextButton mainMenu = new TextButton(buttonX - 30 - buttonWidth, buttonY,buttonWidth,buttonHeight,"main menu", this, () -> controller.setGameState(GameState.MAIN_MENU));
         TextButton quitButton = new TextButton(buttonX + 30, buttonY,buttonWidth,buttonHeight, "Quit", this, () -> System.exit(0));
-        quitButton.drawButton(g);
-        mainMenu.drawButton(g);
+        quitButton.drawButton(g, colorButton);
+        mainMenu.drawButton(g, colorButton);
     }
 
     /**
@@ -344,7 +351,7 @@ public class View extends JComponent {
      */
     private void drawClock(Graphics g) {
         // Clock
-        g.setColor(Constants.colorPawnUpgradeBG);
+        g.setColor(colorPawnUpgradeBG);
         int whiteTotal = clock.getTime(Team.WHITE);
         int whiteMins = whiteTotal / 60;
         int blackTotal = clock.getTime(Team.BLACK);

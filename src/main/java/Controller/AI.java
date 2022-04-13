@@ -24,6 +24,7 @@ public class AI{
     private final Team AI_TEAM;
     private Model model;
     private final Random random = new Random();
+    private final int AI_SEARCH_DEPTH = 3;
 
 
     public AI(Controller controller){
@@ -71,7 +72,7 @@ public class AI{
 
     public  Move getBestMove(List<Move> possibleMoves, Model model){
         //TODO maybe let user choose between random ai and minimax
-        int depth = Constants.AI_SEARCH_DEPTH;
+        int depth = AI_SEARCH_DEPTH;
         Integer bestMoveIndex = null;
         List<Move> possibleBestMoves = new ArrayList<>();
         possibleMoves = preSortMovesList(possibleMoves);

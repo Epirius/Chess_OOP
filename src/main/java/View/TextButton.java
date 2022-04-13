@@ -29,8 +29,8 @@ public class TextButton extends Button{
         this.text = text;
     }
 
-    public void drawButton(Graphics g) {
-        super.drawButton(g);
+    public void drawButton(Graphics g, Color buttonColor) {
+        super.drawButton(g, buttonColor);
         Font font = new Font("SansSerif", Font.BOLD, 20);
         g.setFont(font);
         g.setColor(Color.WHITE);

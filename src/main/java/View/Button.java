@@ -40,10 +40,10 @@ public abstract class Button implements MouseListener {
 
     }
 
-    public void drawButton(Graphics g){
+    public void drawButton(Graphics g, Color buttonColor){
         if (!isVisible()){return;}
         previousColor = g.getColor();
-        g.setColor(Constants.BUTTON);
+        g.setColor(buttonColor);
         g.fillRect(xPos, yPos, width, height);
         g.setColor(previousColor);
     }
