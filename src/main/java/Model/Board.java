@@ -17,12 +17,14 @@ public class Board implements IBoard{
     public Stack<MoveHistory> moveHistoryList= new Stack<>();
     private Team currentPlayer = Team.WHITE;
     private Clock clock;
+    private boolean testing = false;
 
 
     /**
      * The normal constructor for Board
      */
     public Board(){
+        Square.resetNumberOfSquares();
         createBoard();
         initBoard();
     }
@@ -32,6 +34,8 @@ public class Board implements IBoard{
      * @param initialize -if true: same as the normal constructor. if false: creates an empty board.
      */
     public Board(boolean initialize){
+        this.testing = true;
+        Square.resetNumberOfSquares();
         createBoard();
         if (initialize){ initBoard();}
     }
@@ -126,7 +130,10 @@ public class Board implements IBoard{
             throw new RuntimeException("The number of moves does not match up with the current player");
             //TODO this breaks some test, fix it later.
         }
-        if (clock == null){throw new RuntimeException("Clock is null");}
+        if (clock == null && !testing){
+            throw new RuntimeException("Clock is null");
+        }
+
         moveHistoryList.add(new MoveHistory(this, move, clock));
 
         int from = move.getMove()[0];

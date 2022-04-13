@@ -32,8 +32,13 @@ public class MoveHistory {
         this.whitePieces = copyPieceList(board.whitePieces);
         this.blackPieces = copyPieceList(board.blackPieces);
         this.deadPieces = copyPieceList(board.deadPieces);
-        this.clock = clock.clone();
-        this.clock.enabled = false;
+
+        if (clock != null) {
+            this.clock = clock.clone();
+            this.clock.enabled = false;
+        } else {
+            this.clock = null;
+        }
     }
 
     /**

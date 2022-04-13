@@ -15,7 +15,7 @@ public class testBoard {
     @Test
     public void createBoard(){
         Board board = new Board(false);
-        Square square = board.getSquare(63);
+        Square<Piece> square = board.getSquare(63);
         Assert.assertEquals(63, square.getSquareId());
 
         Queen queen = new Queen(Team.WHITE);
