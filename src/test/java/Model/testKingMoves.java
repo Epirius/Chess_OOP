@@ -14,7 +14,7 @@ public class testKingMoves {
 
     @BeforeEach
     public void setup(){
-        model = new Model();
+        model = new Model(true);
         model.installClock(new Clock(true));
     }
 

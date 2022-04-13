@@ -8,6 +8,7 @@ import Model.Pieces.Piece;
 import Model.Team;
 import Model.Move;
 import Model.Type;
+import View.IDrawAi;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -18,11 +19,11 @@ import java.util.stream.Collectors;
 /**
  * @author Felix Kaasa
  */
-public class AI{
+public class AI implements IDrawAi {
     private final Controller controller;
     public boolean enabled;
     private final Team AI_TEAM;
-    private Model model;
+    private IAiMovable model;
     private final Random random = new Random();
     private final int AI_SEARCH_DEPTH = 3;
 
@@ -38,14 +39,14 @@ public class AI{
         }
     }
 
-    public void installModel(Model model){ this.model = model;}
+    public void installModel(IAiMovable model){ this.model = model;}
 
     public Team getTeam(){ return this.AI_TEAM;}
 
 
     public void createMove() {
         if (!enabled){return;}
-        if (controller.model.getTeam() != AI_TEAM){
+        if (model.getTeam() != AI_TEAM){
             throw new IllegalStateException("The AI is trying to create a move but it is not the AI's turn!");
         }
 
@@ -62,6 +63,8 @@ public class AI{
         return (enabled && model.getTeam() == AI_TEAM);
     }
 
+    public boolean isEnabled(){return enabled;}
+
     /**
      * a method that is called if the ai needs to choose which piece to upgrade the pawn to
      */
@@ -70,7 +73,7 @@ public class AI{
         controller.setGameState(GameState.ACTIVE_GAME);
     }
 
-    public  Move getBestMove(List<Move> possibleMoves, Model model){
+    public  Move getBestMove(List<Move> possibleMoves, IAiMovable model){
         //TODO maybe let user choose between random ai and minimax
         int depth = AI_SEARCH_DEPTH;
         Integer bestMoveIndex = null;
@@ -96,7 +99,7 @@ public class AI{
     }
 
     /**
-     * a method that sorts the list of possibleMoves by which moves are most likly to be good. this helps during alpha beta pruning.
+     * a method that sorts the list of possibleMoves by which moves are most likely to be good. this helps during alpha beta pruning.
      * @param possibleMoves list of possible moves
      * @return sorted list of possible moves
      */
@@ -128,7 +131,7 @@ public class AI{
      * @param beta bata
      * @param maximizingPlayer boolean: true for white, false for black.
      */
-    public int minimax(int depth, Model model, int alpha, int beta, boolean maximizingPlayer){
+    private int minimax(int depth, IAiMovable model, int alpha, int beta, boolean maximizingPlayer){
         // I am implementing the pseudocode from: https://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning
         // and getting inspiration from here: https://www.geeksforgeeks.org/minimax-algorithm-in-game-theory-set-3-tic-tac-toe-ai-finding-optimal-move/
 
@@ -161,8 +164,8 @@ public class AI{
 
     }
 
-    private boolean isNodeTerminal(Model model) {
-        //TODO
+    private boolean isNodeTerminal(IAiMovable model) {
+        //TODO check if there is a checkmate (or possibly also pawn upgrade?)
         return false;
     }
 
@@ -170,14 +173,14 @@ public class AI{
      * method that tries to score a given position
      * @return int score of the position.
      */
-    private int evaluatePosition(Model model){
+    private int evaluatePosition(IAiMovable model){
         int teamMultiplier = (AI_TEAM == Team.WHITE ? 1 : -1);
         int numberOfTurns = model.getCurrentTurn();
         int finalValue = 0;
         int pieceValue = model.getScore();
         int addedValue = 0; //TODO add things like position, not moving to many pawns, not moving backwords etc..
 
-        // adding points if castling
+        // TODO: adding points if castling
         if (numberOfTurns > 8 && numberOfTurns < 14) {
         }
 

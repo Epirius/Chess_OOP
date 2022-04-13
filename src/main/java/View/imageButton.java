@@ -70,7 +70,7 @@ public class imageButton extends Button{
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (type != null) {
-                view.controller.model.upgradePawn(type);
+                view.model.upgradePawn(type);
                 view.controller.setGameState(GameState.ACTIVE_GAME);
                 view.repaint();
             } else if (action != null){

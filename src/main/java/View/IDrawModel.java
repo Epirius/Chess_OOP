@@ -1,12 +1,16 @@
 package View;
 
-import Controller.GameState;
+import Model.Move;
 import Model.Pieces.Piece;
 import Model.Team;
+import Model.Type;
 
 import java.util.List;
 
-public interface IDrawable {
+/**
+ * @author Felix Kaasa
+ */
+public interface IDrawModel {
 
     /**
      * get all the pieces on the board
@@ -15,20 +19,22 @@ public interface IDrawable {
     List<ViewPiece> getPiecesOnTheBoard();
 
     /**
-     * get squares that are legal after the user has clicked on a square
-     * @return int[] of legal squares
-     */
-    List<Integer> getLegalSquares();
-
-    /**
-     * used to get the current game state (for example main menu, game over etc..)
-     * @return the state of the game
-     */
-    GameState getGameState();
-
-    /**
      * get all pieces that have been killed
      * @return list of dead pieces
      */
     List<ViewPiece> getDeadViewPieces(Team team);
+
+    void upgradePawn(Type type);
+
+    Team getTeam();
+
+    Move getLastMove();
+
+    Piece getPiece(int id);
+
+    int getScore();
+
+    void undoMove();
+
+    void undoMove(int numMoves);
 }

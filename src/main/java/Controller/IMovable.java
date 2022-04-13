@@ -2,6 +2,8 @@ package Controller;
 
 import Model.Move;
 import Model.Pieces.Piece;
+import Model.Team;
+import Model.Type;
 
 import java.util.List;
 
@@ -14,8 +16,8 @@ public interface IMovable {
 
     /**
      * get piece at square
-     * @param id
-     * @return
+     * @param id of the square that you want the piece from
+     * @return a Piece from the given square
      */
     Piece getPiece(int id);
 
@@ -29,19 +31,12 @@ public interface IMovable {
      * checks if king is in check
      * @return true if king is in check, else false.
      */
-    public boolean kingInCheck();
-
-    /**
-     * checks if king is in check but ignores checking from one enemy piece
-     * @return true if king is in check, else false.
-     * @param ignorePiece the piece that should be ignored when checking if the king is in check.
-     */
-    public boolean kingInCheck(Piece ignorePiece);
-
+    boolean kingInCheck();
 
     /**
      * finds all legal move for the current player.
      * @return List<Move>
      */
     List<Move> getLegalMoves();
+
 }

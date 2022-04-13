@@ -18,7 +18,9 @@ import static View.GraphicHelperMethods.*;
 public class View extends JComponent {
     List<Integer> legalSquares = new ArrayList<>();
     protected Team selectTeam = null;
-    Controller controller;
+    IDrawController controller;
+    IDrawModel model;
+    IDrawAi ai;
     Clock clock;
     int minutesPerSide = Constants.TIME_MINUTES;
     int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
@@ -137,14 +139,17 @@ public class View extends JComponent {
             case null -> Constants.AI_TEAM = null;
         }
         Model newModel = new Model();
-        Clock newClock = new Clock(this, controller);
+        AI ai = new AI((Controller) controller);
+        this.model = newModel;
+        this.ai = ai;
+        Clock newClock = new Clock(this, (Controller) controller); //TODO
         this.clock = newClock;
         newModel.installClock(newClock);
         controller.installModel(newModel);
-        controller.installAI(new AI(controller));
+        controller.installAI(ai);
         controller.setGameState(GameState.ACTIVE_GAME);
         if (selectTeam == Team.BLACK && selectTeam != null) {
-            controller.ai.createMove();
+            ai.createMove();
         }
     }
 
@@ -172,9 +177,9 @@ public class View extends JComponent {
         }
 
         // draw last move
-        if (controller.model.getLastMove() != null) {
+        if (model.getLastMove() != null) {
             //TODO make an interface for the call to model
-            int[] lastMove = new int[]{controller.model.getLastMove().from, controller.model.getLastMove().to};
+            int[] lastMove = new int[]{model.getLastMove().from, model.getLastMove().to};
             for (int square : lastMove){
                 drawShapeInSquare(g, square, 1);
             }
@@ -184,7 +189,7 @@ public class View extends JComponent {
         legalSquares = controller.getLegalSquares();
         if (legalSquares.size() > 0) {
             for (Integer square : legalSquares) {
-                if (controller.model.getPiece(square) == null) {
+                if (model.getPiece(square) == null) {
                     drawShapeInSquare(g, square, 2);
                 } else {
                     drawShapeInSquare(g, square, 3);
@@ -234,7 +239,7 @@ public class View extends JComponent {
     private void pieceLayer(Graphics g){
         //TODO draw the move the piece before the ai finishes thinking.
         JLayeredPane piecePane = new JLayeredPane();
-        List<ViewPiece> pieces = controller.getPiecesOnTheBoard();
+        List<ViewPiece> pieces = model.getPiecesOnTheBoard();
 
         for (ViewPiece piece : pieces){
             int[] coords = inverseSquareToCoords(piece.position);
@@ -270,8 +275,8 @@ public class View extends JComponent {
 
         // If a pawn is upgrading
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
-            if (controller.ai.enabled && !controller.ai.isAiTurn()){
-                controller.ai.upgradePawn();
+            if (ai.isEnabled() && !ai.isAiTurn()){
+                ai.upgradePawn();
                 repaint();
                 return;
             }
@@ -281,7 +286,7 @@ public class View extends JComponent {
             g.setColor(colorBackground);
 
             Team team;
-            if (controller.getTeam() == Team.WHITE){team = Team.BLACK;}
+            if (model.getTeam() == Team.WHITE){team = Team.BLACK;}
             else {team = Team.WHITE;}
 
             for (Button button : (team == Team.WHITE ? getUpgradeButtons(Team.WHITE) : getUpgradeButtons(Team.BLACK))) {
@@ -328,11 +333,11 @@ public class View extends JComponent {
     private void drawDeadPieces(Graphics g, JLayeredPane pane) {
         // Dead pieces
         for (Team team : Arrays.asList(Team.WHITE, Team.BLACK)){
-            List<ViewPiece> viewPieces = controller.getDeadViewPieces(team);
+            List<ViewPiece> viewPieces = model.getDeadViewPieces(team);
             int yPos = (team == Team.BLACK ? getHeight() - Constants.boardOffset / 2 : Constants.boardOffset / 2) - 8;
             int xPos = Constants.boardOffset;
 
-            String text = String.valueOf((team == Team.BLACK ? controller.model.getScore() : controller.model.getScore() * -1));
+            String text = String.valueOf((team == Team.BLACK ? model.getScore() : model.getScore() * -1));
             int textWidth = GraphicHelperMethods.getStringWidth(g, getFont(), text);
             int textHeight = GraphicHelperMethods.getStringHeight(g, getFont(), text);
             drawCenteredString(g, text, xPos - textWidth - 3, yPos, textWidth, textHeight);
@@ -435,17 +440,17 @@ public class View extends JComponent {
         // CREATING AN UNDO BUTTON.
         hudButtons.add(new TextButton(getWidth() - xSize, getHeight() - ySize, xSize, ySize, "Undo", this, () -> {
             if (controller.getGameState() != GameState.ACTIVE_GAME){return;}
-            boolean aiEnabled = controller.ai.enabled;
+            boolean aiEnabled = ai.isEnabled();
             if (!aiEnabled){
-                controller.model.undoMove();
+                model.undoMove();
                 return;
             }
-            Team aiTeam = controller.ai.getTeam();
-            Team currentTeam = controller.model.getTeam();
+            Team aiTeam = ai.getTeam();
+            Team currentTeam = model.getTeam();
             if (currentTeam == aiTeam){
-                controller.model.undoMove();
+               model.undoMove();
             } else {
-                controller.model.undoMove(2);
+                model.undoMove(2);
             }
         }));
 

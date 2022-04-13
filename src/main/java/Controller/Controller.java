@@ -3,12 +3,9 @@ package Controller;
 import Main.Constants;
 import Model.Model;
 import Model.Type;
-import Model.Team;
 import Model.Move;
-import Model.Pieces.Piece;
 import View.View;
-import View.ViewPiece;
-import View.IDrawable;
+import View.IDrawController;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -18,7 +15,7 @@ import java.util.List;
 /**
  * @author Felix Kaasa
  */
-public class Controller extends MouseAdapter implements IDrawable {
+public class Controller extends MouseAdapter implements IDrawController {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
     public Model model;
@@ -196,14 +193,15 @@ public class Controller extends MouseAdapter implements IDrawable {
         return gameState;
     }
 
-    //TODO add @Override?
+    @Override
     public void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
+    /*
+    //TODO DELETE
     @Override
     public List<ViewPiece> getDeadViewPieces(Team team) {
-        //TODO add to an interface
         List<ViewPiece> output = new ArrayList<>();
         List<Piece> deadPieces = model.getDeadPieces();
 
@@ -223,8 +221,5 @@ public class Controller extends MouseAdapter implements IDrawable {
         return output;
     }
 
-    //TODO add to some interface
-    public Team getTeam(){
-        return model.getTeam();
-    }
+     */
 }

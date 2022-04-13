@@ -123,7 +123,7 @@ class Model.Board {
 + boolean isSquareFriendly(int)
 # List<Square> squaresBetween(int,int)
 }
-interface View.IDrawable {
+interface View.IDrawController {
 ~ List<ViewPiece> getPiecesOnTheBoard()
 ~ List<Integer> getLegalSquares()
 ~ GameState getGameState()
@@ -381,7 +381,7 @@ Model.Pieces.Piece <|-- Model.Pieces.Queen
 Controller.IMovable <|.. Model.Model
 Model.Pieces.Piece <|-- Model.Pieces.King
 View.JComponent <|-- View.View
-View.IDrawable <|.. Controller.Controller
+View.IDrawController <|.. Controller.Controller
 Controller.MouseAdapter <|-- Controller.Controller
 View.Button <|-- View.TextButton
 @enduml

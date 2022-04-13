@@ -15,7 +15,7 @@ public class testNumberOfMoves {
 
     @Test
     public void testMoveNumbers(){
-        this.model = new Model();
+        this.model = new Model(true);
         this.model.installClock(new Clock(true));
         // the expected values comes form here: https://www.chessprogramming.org/Perft_Results
         assertEquals(197281, calculateNumberOfMoves(4));

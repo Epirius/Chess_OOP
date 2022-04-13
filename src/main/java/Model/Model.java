@@ -1,16 +1,34 @@
 package Model;
 
 import Controller.IMovable;
+import Controller.IAiMovable;
 import Model.Pieces.King;
 import Model.Pieces.Pawn;
 import Model.Pieces.Piece;
+import View.IDrawModel;
+import View.ViewPiece;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Model implements IMovable {
-    private Board board = new Board();
+public class Model implements IMovable, IAiMovable, IDrawModel {
+    private Board board;
     private Clock clock;
+
+    /**
+     * normal constructor
+     */
+    public Model(){
+        this.board = new Board();
+    }
+
+    /**
+     * constructor used during testing
+     * @param testing boolean to flag this as a test Model, the value of the boolean does not matter.
+     */
+    public Model(boolean testing){
+        this.board = new Board(testing);
+    }
 
     public void installClock(Clock clock){
         this.clock = clock;
@@ -20,6 +38,10 @@ public class Model implements IMovable {
 
     /////////////////////////////////////////////////////////////////////////////////////
 
+    /**
+     * get all possible move, ignoring if the moves are legal.
+     * @return a list of all possible moves
+     */
     private List<Move> getPossibleMoves(){
         List<Piece> teamList = (board.getTeam() == Team.WHITE ? board.whitePieces : board.blackPieces);
         List<Move> allPossibleMoves = new ArrayList<>();
@@ -29,6 +51,10 @@ public class Model implements IMovable {
         return allPossibleMoves;
     }
 
+    /**
+     * get all possible moves for the enemies team
+     * @return list of enemy moves
+     */
     private List<Move> getPossibleThreats(){
         List<Piece> enemyList = (board.getTeam() == Team.WHITE ? board.blackPieces : board.whitePieces);
         List<Move> allThreatMoves = new ArrayList<>();
@@ -56,7 +82,12 @@ public class Model implements IMovable {
         return false;
     }
 
-    public boolean kingInCheck(Piece ignorePiece){
+    /**
+     * checks if king is in check but ignores checking from one enemy piece
+     * @param ignorePiece the piece that should be ignored when checking if the king is in check.
+     * @return true if king is in check, else false.
+     */
+    private boolean kingInCheckIfIgnoringOnePiece(Piece ignorePiece){
         List<Move> threats = getPossibleThreats();
         int king = (board.getTeam() == Team.WHITE ? getKing(Team.WHITE).getPosition() : getKing(Team.BLACK).getPosition());
 
@@ -107,7 +138,7 @@ public class Model implements IMovable {
                 board.getSquare(move.to).setPiece(friendlyKing);
                 friendlyKing.setPosition(move.to);
 
-                if (kingInCheck(enemyPiece)){
+                if (kingInCheckIfIgnoringOnePiece(enemyPiece)){
                     // resetting the board to what it was before i tested the move
                     illegalMoves.add(move);
                     board.getSquare(move.from).setPiece(friendlyKing);
@@ -213,7 +244,10 @@ public class Model implements IMovable {
         return moves;
     }
 
-    // helper function only used in getLegalMoves()
+    /**
+     * method to get the king of the current player
+     * @return King piece of current player
+     */
     private Piece getKing(){
         List<Piece> teamList = (board.getTeam() == Team.WHITE ? board.whitePieces : board.blackPieces);
         Piece king = null;
@@ -223,7 +257,11 @@ public class Model implements IMovable {
         return king;
     }
 
-    // helper function only used in getLegalMoves()
+    /**
+     * method to get the king of a player
+     * @param team team of the king
+     * @return King piece of the given team
+     */
     private Piece getKing(Team team){
         List<Piece> teamList = (team == Team.WHITE ? board.whitePieces : board.blackPieces);
         Piece king = null;
@@ -233,6 +271,27 @@ public class Model implements IMovable {
         return king;
     }
 
+    @Override
+    public List<ViewPiece> getPiecesOnTheBoard() {
+        List<ViewPiece> output = new ArrayList<>();
+        for (Piece piece : getAllPieces()){
+            output.add(new ViewPiece(piece.getPiece(), piece.getTeam(), piece.getPosition()));
+        }
+        return output;
+    }
+
+    @Override
+    public List<ViewPiece> getDeadViewPieces(Team team) {
+        List<ViewPiece> output = new ArrayList<>();
+
+        for (Piece piece : getDeadPieces()){
+            if (piece.team != team){continue;}
+            output.add(new ViewPiece(piece.type, piece.team, 0)); // position does not matter here.
+        }
+        return output;
+    }
+
+    @Override
     public Team getTeam(){
         return board.getTeam();
     }
@@ -256,8 +315,10 @@ public class Model implements IMovable {
         return board.getPiece(id);
     }
 
+    @Override
     public int getScore(){return board.getScore();}
 
+    @Override
     public int getCurrentTurn(){
         return board.moveHistoryList.peek().moveID;
     }
@@ -274,10 +335,8 @@ public class Model implements IMovable {
 
     }
 
-    //TODO add to interface
-    /**
-     * method to undo the last move.
-     */
+
+    @Override
     public void undoMove(){
         board.undoMove(1);
     }
@@ -290,7 +349,7 @@ public class Model implements IMovable {
         board.undoMove(numMoves);
     }
 
-    //@Override TODO interface maybe?
+    @Override
     public void upgradePawn(Type type){
         board.upgradePawn(type);
     }

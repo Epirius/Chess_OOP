@@ -12,13 +12,14 @@ public class testSquare {
 
     @Test
     public void createSquare(){
+        Square.resetNumberOfSquares();
         Square square = new Square();
         Assert.assertEquals(0, square.getSquareId());
-        Square.resetNumberOfSquares();
     }
 
     @Test
     public void putPieceInSquare(){
+        Square.resetNumberOfSquares();
         Square square = new Square();
 
         Queen queen = new Queen(Team.WHITE);
@@ -31,7 +32,6 @@ public class testSquare {
         Pawn pawn = new Pawn(Team.WHITE);
         square.setPiece(pawn);
         Assert.assertEquals(pawn, square.getPiece());
-        Square.resetNumberOfSquares();
     }
 
     @Test

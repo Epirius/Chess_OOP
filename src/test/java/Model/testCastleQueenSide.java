@@ -13,7 +13,7 @@ public class testCastleQueenSide {
 
     @BeforeEach
     public void setup(){
-        model = new Model();
+        model = new Model(true);
         model.installClock(new Clock(true));
 
         // setting up the board to be able to castle
