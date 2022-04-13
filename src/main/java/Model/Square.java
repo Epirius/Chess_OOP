@@ -12,13 +12,13 @@ public class Square<T> {
     private T piece;
 
     public Square(){
-        numberOfSquares++;
         this.Id = numberOfSquares;
+        numberOfSquares++;
     }
 
     public Square(int id){
-        numberOfSquares++;
         this.Id = id;
+        numberOfSquares++;
     }
 
     int getSquareId(){return this.Id;}
