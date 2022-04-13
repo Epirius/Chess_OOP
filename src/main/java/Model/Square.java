@@ -6,17 +6,26 @@ import Model.Pieces.Piece;
  * @author Felix Kaasa
  */
 
-public class Square {
+public class Square<T> {
+    private static int numberOfSquares = 0;
     private final int Id;
-    private Piece piece;
+    private T piece;
 
-    public Square(int Id){this.Id = Id;}
+    public Square(){
+        numberOfSquares++;
+        this.Id = numberOfSquares;
+    }
+
+    public Square(int id){
+        numberOfSquares++;
+        this.Id = id;
+    }
 
     int getSquareId(){return this.Id;}
 
-    void setPiece(Piece piece){this.piece = piece;}
+    void setPiece(T piece){this.piece = piece;}
 
-    public Piece getPiece(){
+    public T getPiece(){
         if (this.isEmpty()){ return null;}
         return this.piece;
     }

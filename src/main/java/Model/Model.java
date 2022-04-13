@@ -366,7 +366,7 @@ public class Model implements IMovable {
                     continue;
                 }
                 numberOfPiecesBetween++;
-                candidatePinnedPiece = square.getPiece();
+                candidatePinnedPiece = (Piece) square.getPiece();
             }
             if (numberOfPiecesBetween == 1 && candidatePinnedPiece.team == team){
                 pinnedPiecesList.add(new PinnedPiece(candidatePinnedPiece.getPosition(), piece.getPosition()));

@@ -10,7 +10,7 @@ import java.util.*;
 
 public class Board implements IBoard{
 
-    private final Square[] squares = new Square[64];
+    private final Square<Piece>[] squares = new Square[64];
     protected List<Piece> whitePieces = new ArrayList<>();
     protected List<Piece> blackPieces = new ArrayList<>();
     protected List<Piece> deadPieces = new ArrayList<>();
@@ -43,7 +43,7 @@ public class Board implements IBoard{
     @Override
     public void createBoard() {
         for (int i = 0; i < 64; i++) {
-            squares[i] = new Square(i);
+            squares[i] = new Square<Piece>();
         }
     }
 
@@ -74,7 +74,7 @@ public class Board implements IBoard{
     }
 
     @Override
-    public Square getSquare(int Id){
+    public Square<Piece> getSquare(int Id){
         return squares[Id];
     }
 

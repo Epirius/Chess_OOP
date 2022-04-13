@@ -17,7 +17,7 @@ public interface IBoard {
     // place all the pieces for both teams in their starting positions.
     void initBoard();
 
-    Square getSquare(int Id);
+    Square<Piece> getSquare(int Id);
 
     // takes in a square id, and returns the piece that is on that square.
     Piece getPiece(int squareId);
@@ -56,8 +56,7 @@ public interface IBoard {
     static int coordinatesToSquare(int[] coordinates) {
         int x = coordinates[0];
         int y = coordinates[1];
-        int id = x + (y * 8);
-        return id;
+        return x + (y * 8);
     }
 
 }
