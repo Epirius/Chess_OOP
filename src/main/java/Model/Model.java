@@ -352,6 +352,7 @@ public class Model implements IMovable, IAiMovable, IDrawModel {
     @Override
     public void upgradePawn(Type type){
         board.upgradePawn(type);
+        //TODO the game gets blocked after pawn upgrade when playing against ai
     }
 
     private void updateCastlingLegality(Move move){

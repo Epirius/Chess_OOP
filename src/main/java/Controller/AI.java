@@ -25,7 +25,8 @@ public class AI implements IDrawAi {
     private final Team AI_TEAM;
     private IAiMovable model;
     private final Random random = new Random();
-    private final static int AI_SEARCH_DEPTH = 3;
+    private int AI_SEARCH_DEPTH = 3;
+    private final boolean randomAI = false;
 
 
     public AI(Controller controller, Team team){
@@ -51,7 +52,9 @@ public class AI implements IDrawAi {
         Move aiMove = getBestMove(moves, model);
         model.doMove(aiMove);
         controller.checkPawnUpgrade(aiMove);
-        controller.checkIfGameOver();
+        if (controller.checkIfGameOver()){
+            controller.handleGameOver();
+        }
 
     }
 
@@ -71,7 +74,13 @@ public class AI implements IDrawAi {
     }
 
     private  Move getBestMove(List<Move> possibleMoves, IAiMovable model){
-        //TODO maybe let user choose between random ai and minimax
+        if (randomAI) {
+            return possibleMoves.get(random.nextInt(possibleMoves.size()));
+        }
+
+        if (model.getAllPieces().size() < 6){
+            AI_SEARCH_DEPTH = 4;
+        }
         int depth = AI_SEARCH_DEPTH;
         Integer bestMoveIndex = null;
         List<Move> possibleBestMoves = new ArrayList<>();
@@ -161,9 +170,13 @@ public class AI implements IDrawAi {
 
     }
 
+    /**
+     * method to see if the node is a leaf node
+     * @param model node
+     * @return true if it is a leaf node
+     */
     private boolean isNodeTerminal(IAiMovable model) {
-        //TODO check if there is a checkmate (or possibly also pawn upgrade?)
-        return false;
+        return (model.getLegalMoves().size() == 0);
     }
 
     /**
@@ -171,19 +184,19 @@ public class AI implements IDrawAi {
      * @return int score of the position.
      */
     private int evaluatePosition(IAiMovable model){
-        int teamMultiplier = (AI_TEAM == Team.WHITE ? 1 : -1);
+        int teamMultiplier = (model.getTeam() == Team.WHITE ? -1 : 1);
         int numberOfTurns = model.getCurrentTurn();
-        int finalValue = 0;
         int pieceValue = model.getScore();
-        int addedValue = 0; //TODO add things like position, not moving too many pawns, not moving backwards etc..
+        int addedValue = 0;
 
-        if (numberOfTurns > 8 && numberOfTurns < 14) {
-            // TODO: adding points if castling
+        if (isNodeTerminal(model)){
+            return Integer.MAX_VALUE * teamMultiplier;
         }
 
+        if (numberOfTurns > 8 && numberOfTurns < 14) {
+            // TODO add extra points to addedValue for positioning and castling etc..
+        }
 
-
-        finalValue = pieceValue + addedValue * teamMultiplier;
-        return finalValue;
+        return pieceValue + addedValue * teamMultiplier;
     }
 }

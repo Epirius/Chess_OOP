@@ -20,7 +20,7 @@ public class View extends JComponent {
     private Team selectTeam = null;
     protected IDrawController controller;
     protected IDrawModel model;
-    private IDrawAi ai;
+    protected IDrawAi ai;
     private Clock clock;
     private int minutesPerSide = Constants.TIME_MINUTES;
     private int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
@@ -107,9 +107,9 @@ public class View extends JComponent {
         g.setColor(colorBackground);
         g.fillRect(0, 0, Constants.displayWidth, Constants.displayHeight);
 
-
-        //Create and draw the buttons
-        for (Button button : getCreateGameButtons()) { button.drawButton(g, colorButton);}
+        for (Button button : getCreateGameButtons()) {
+            button.drawButton(g, colorButton);
+        }
 
         //Highlight the pressed button.
         g.setColor(new Color(255, 255, 255, 100));
@@ -120,7 +120,6 @@ public class View extends JComponent {
         else if (selectTeam == Team.BLACK) { g.fillRect(blackButton.xPos, blackButton.yPos, blackButton.width, blackButton.height);}
         else if (selectTeam == null) { g.fillRect(bothButton.xPos, bothButton.yPos, bothButton.width, bothButton.height);}
 
-        //Text
         g.setColor(Color.WHITE);
         g.setFont( new Font("SansSerif", Font.BOLD, 60));
         drawCenteredString(g,"Choose a team:",0,10, getWidth(), 70);
@@ -147,7 +146,7 @@ public class View extends JComponent {
         AI ai = new AI((Controller) controller, aiTeam);
         this.model = newModel;
         this.ai = ai;
-        Clock newClock = new Clock(this, (Controller) controller); //TODO
+        Clock newClock = new Clock(this, (Controller) controller);
         this.clock = newClock;
         newModel.installClock(newClock);
         controller.installModel(newModel);
@@ -183,7 +182,6 @@ public class View extends JComponent {
 
         // draw last move
         if (model.getLastMove() != null) {
-            //TODO make an interface for the call to model
             int[] lastMove = new int[]{model.getLastMove().from, model.getLastMove().to};
             for (int square : lastMove){
                 drawShapeInSquare(g, square, 1);
@@ -268,17 +266,13 @@ public class View extends JComponent {
     private void hudLayer(Graphics g){
         JLayeredPane pane = new JLayeredPane();
         g.setFont(new Font("SansSerif", Font.BOLD, 20));
-
         drawClock(g);
-
         drawDeadPieces(g, pane);
 
-        // if active game draw hud buttons
         for (Button button : getHudButtons()){
             button.drawButton(g, colorButton);
         }
 
-        // If a pawn is upgrading
         if (controller.getGameState() == GameState.UPGRADE_PAWN){
             if (ai.isEnabled() && !ai.isAiTurn()){
                 ai.upgradePawn();
@@ -299,7 +293,6 @@ public class View extends JComponent {
             }
         }
 
-        // game over screens.
         if (controller.getGameState() == GameState.CHECK_MATE){ endScreen(g, "Check Mate");}
         if (controller.getGameState() == GameState.DRAW){ endScreen(g, "Draw");}
         if (controller.getGameState() == GameState.TIME_OUT){ endScreen(g, "Time ran out");}
@@ -330,7 +323,6 @@ public class View extends JComponent {
      * @param pane pane
      */
     private void drawDeadPieces(Graphics g, JLayeredPane pane) {
-        // Dead pieces
         for (Team team : Arrays.asList(Team.WHITE, Team.BLACK)){
             List<ViewPiece> viewPieces = model.getDeadViewPieces(team);
             int yPos = (team == Team.BLACK ? getHeight() - Constants.boardOffset / 2 : Constants.boardOffset / 2) - 8;
@@ -354,7 +346,6 @@ public class View extends JComponent {
      * @param g graphics object to draw on.
      */
     private void drawClock(Graphics g) {
-        // Clock
         g.setColor(colorPawnUpgradeBG);
         int whiteTotal = clock.getTime(Team.WHITE);
         int whiteMins = whiteTotal / 60;
@@ -381,14 +372,12 @@ public class View extends JComponent {
         int spacing = (getWidth() - upgradePawnBoxHeight * 2) / (4 - 1) - upgradePawnBoxWidth;
         int numButtons = 4;
 
-        //creating 4 pieces that will be placed on top of the buttons (position does not matter here)
         List<ViewPiece> upgradePossibilities = new ArrayList<>();
         upgradePossibilities.add(new ViewPiece(Type.QUEEN, team, 0));
         upgradePossibilities.add(new ViewPiece(Type.ROOK, team, 0));
         upgradePossibilities.add(new ViewPiece(Type.BISHOP, team, 0));
         upgradePossibilities.add(new ViewPiece(Type.KNIGHT, team, 0));
 
-        // creating the 4 buttons
         for (int i = 0; i < numButtons; i++) {
             int xPosition = spacing * (i + 1) + upgradePawnBoxHeight * i;
             int yPosition = (getHeight() - upgradePawnBoxWidth) / 2;

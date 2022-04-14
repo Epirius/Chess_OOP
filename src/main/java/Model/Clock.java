@@ -58,7 +58,6 @@ public class Clock implements ActionListener, Cloneable {
      * it also adds time to the current players clock if that option is set in Constants.
      */
     public void nextPlayer(){
-        // adding time to the current players clock (if the option in constants is not set to 0.)
         if (currentPlayer == Team.WHITE){
             whiteClock_Seconds += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
             if (whiteClock_Seconds > Constants.TIME_MINUTES * 60){ whiteClock_Seconds = Constants.TIME_MINUTES * 60;}
@@ -67,7 +66,6 @@ public class Clock implements ActionListener, Cloneable {
             if (blackClock_Seconds > Constants.TIME_MINUTES * 60){ blackClock_Seconds = Constants.TIME_MINUTES * 60;}
         }
 
-        // updating the current player.
         currentPlayer = (currentPlayer == Team.WHITE ? Team.BLACK : Team.WHITE);
     }
 

@@ -20,6 +20,11 @@ public interface IAiMovable {
     Piece getPiece(int id);
 
     /**
+     * @return returns a list of all current pieces on the board
+     */
+    List<Piece> getAllPieces();
+
+    /**
      * a method to send moves to.
      * @param move move to be made.
      */

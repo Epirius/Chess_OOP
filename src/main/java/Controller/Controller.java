@@ -6,6 +6,7 @@ import Model.Type;
 import Model.Move;
 import View.View;
 import View.IDrawController;
+import Model.Team;
 
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -149,6 +150,11 @@ public class Controller extends MouseAdapter implements IDrawController {
         }
     }
 
+    /**
+     * method to create a move
+     * @param from int id of the square the piece is moving from
+     * @param to int id of the square the piece is moving to
+     */
     private void createMove(int from, int to){
         if (ai.isAiTurn()){
             throw new RuntimeException("A move was made in Controller, when it was the AI's turn!");
@@ -157,28 +163,43 @@ public class Controller extends MouseAdapter implements IDrawController {
             if (legalMove.equals(new Move(from, to))){
                 model.doMove(legalMove);
                 checkPawnUpgrade(legalMove);
-                checkIfGameOver();
+                if (checkIfGameOver()){
+                    handleGameOver();
+                }
 
                 return;
             }
         }
     }
 
+    /**
+     * method to check if a pawn is moving to the last line. if so it will change gameState
+     * @param move the move that is to be made
+     */
     protected void checkPawnUpgrade(Move move){
         if (model.getPiece(move.to).type.equals(Type.PAWN) && ((move.to >= 56 && move.to < 64) || (move.to <= 7 && move.to >= 0))) {
             this.gameState = GameState.UPGRADE_PAWN;
         }
     }
 
-    protected void checkIfGameOver(){
-        if (model.getLegalMoves().size() == 0){
-            if (model.kingInCheck()){
-                gameState = GameState.CHECK_MATE;
-            } else {
-                gameState = GameState.DRAW;
-            }
-            view.repaint();
+    /**
+     * method to check if there are no more legal moves.
+     * @return true if there are no legal moves else false
+     */
+    protected boolean checkIfGameOver(){
+        return (model.getLegalMoves().size() == 0);
+    }
+
+    /**
+     * method to change gameState if gameOver
+     */
+    protected void handleGameOver(){
+        if (model.kingInCheck()){
+            gameState = GameState.CHECK_MATE;
+        } else {
+            gameState = GameState.DRAW;
         }
+        view.repaint();
     }
 
     @Override
