@@ -30,7 +30,7 @@ public class Main {
         frame.getContentPane().setPreferredSize(new Dimension(Constants.displayWidth, Constants.displayHeight));
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setResizable(false);
+        frame.setResizable(false); //TODO MAYBE ALLOW RESIZE
         frame.setVisible(true);
 
         BufferedImage icon = Constants.knightB;

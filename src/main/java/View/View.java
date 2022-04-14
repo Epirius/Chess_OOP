@@ -24,6 +24,8 @@ public class View extends JComponent {
     private Clock clock;
     private int minutesPerSide = Constants.TIME_MINUTES;
     private int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+    public final int upgradePawnBoxHeight = 100;
+    public final int upgradePawnBoxWidth = 100;
 
     private static final Color colorBackground = new Color(90, 94, 89);
     private static final Color colorDarkSquare = new Color(21, 29, 36);
@@ -36,6 +38,7 @@ public class View extends JComponent {
     private List<Button> upgradeButtonsWhite;
     private List<Button> upgradeButtonsBlack;
     private List<Button> hudButtons;
+    private List<Button> endScreenButtons;
 
 
 
@@ -45,6 +48,7 @@ public class View extends JComponent {
         upgradeButtonsWhite = new ArrayList<>();
         upgradeButtonsBlack = new ArrayList<>();
         hudButtons = new ArrayList<>();
+        endScreenButtons = new ArrayList<>();
     }
 
     public void installController(Controller controller){
@@ -133,13 +137,14 @@ public class View extends JComponent {
     private void createGame(){
         Constants.TIME_ADDED_EACH_MOVE_SECONDS = secondsPerMove;
         Constants.TIME_MINUTES = minutesPerSide;
+        Team aiTeam = null;
         switch (selectTeam){
-            case WHITE -> Constants.AI_TEAM = Team.BLACK;
-            case BLACK -> Constants.AI_TEAM = Team.WHITE;
-            case null -> Constants.AI_TEAM = null;
+            case WHITE -> aiTeam = Team.BLACK;
+            case BLACK -> aiTeam= Team.WHITE;
+            case null -> aiTeam= null;
         }
         Model newModel = new Model();
-        AI ai = new AI((Controller) controller);
+        AI ai = new AI((Controller) controller, aiTeam);
         this.model = newModel;
         this.ai = ai;
         Clock newClock = new Clock(this, (Controller) controller); //TODO
@@ -282,7 +287,7 @@ public class View extends JComponent {
             }
 
             g.setColor(colorPawnUpgradeBG);
-            g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
+            g.fillRect(0, getHeight() / 2 - upgradePawnBoxHeight, getWidth(), upgradePawnBoxHeight * 2);
             g.setColor(colorBackground);
 
             Team team;
@@ -307,22 +312,16 @@ public class View extends JComponent {
      * @param text the main text that is displayed.
      */
     private void endScreen(Graphics g, String text) {
-        Font myfont;
         g.setColor(new Color(0,0,0,200));
-        g.fillRect(0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), (int) (Constants.upgradePawnBoxHeight * 2.5f));
+        g.fillRect(0, getHeight() / 2 - upgradePawnBoxHeight, getWidth(), (int) (upgradePawnBoxHeight * 2.5f));
         g.setFont(new Font("SansSerif", Font.BOLD, 80));
 
         g.setColor(Color.WHITE);
-        drawCenteredString(g, text, 0, getHeight() / 2 - Constants.upgradePawnBoxHeight, getWidth(), Constants.upgradePawnBoxHeight * 2);
+        drawCenteredString(g, text, 0, getHeight() / 2 - upgradePawnBoxHeight, getWidth(), upgradePawnBoxHeight * 2);
 
-        int buttonY = (int) (getHeight() / 1.6f);
-        int buttonX = getWidth() / 2;
-        int buttonWidth = 120;
-        int buttonHeight = 30;
-        TextButton mainMenu = new TextButton(buttonX - 30 - buttonWidth, buttonY,buttonWidth,buttonHeight,"main menu", this, () -> controller.setGameState(GameState.MAIN_MENU));
-        TextButton quitButton = new TextButton(buttonX + 30, buttonY,buttonWidth,buttonHeight, "Quit", this, () -> System.exit(0));
-        quitButton.drawButton(g, colorButton);
-        mainMenu.drawButton(g, colorButton);
+        for (Button button : getEndScreenButtons()) {
+            button.drawButton(g, colorButton);
+        }
     }
 
     /**
@@ -369,6 +368,7 @@ public class View extends JComponent {
 
     /**
      * a method that creates 4 buttons used for upgrading a pawn.
+     * buttons are created this way to  prevent a stackoverflow error from addMouseListener.
      * @param team team the currently is playing.
      * @return a list of buttons.
      */
@@ -378,7 +378,7 @@ public class View extends JComponent {
             return buttonList;
         }
 
-        int spacing = (getWidth() - Constants.upgradePawnBoxHeight * 2) / (4 - 1) - Constants.upgradePawnBoxWidth;
+        int spacing = (getWidth() - upgradePawnBoxHeight * 2) / (4 - 1) - upgradePawnBoxWidth;
         int numButtons = 4;
 
         //creating 4 pieces that will be placed on top of the buttons (position does not matter here)
@@ -390,15 +390,16 @@ public class View extends JComponent {
 
         // creating the 4 buttons
         for (int i = 0; i < numButtons; i++) {
-            int xPosition = spacing * (i + 1) + Constants.upgradePawnBoxHeight * i;
-            int yPosition = (getHeight() - Constants.upgradePawnBoxWidth) / 2;
-            buttonList.add(new imageButton(xPosition, yPosition, Constants.upgradePawnBoxWidth, Constants.upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
+            int xPosition = spacing * (i + 1) + upgradePawnBoxHeight * i;
+            int yPosition = (getHeight() - upgradePawnBoxWidth) / 2;
+            buttonList.add(new imageButton(xPosition, yPosition, upgradePawnBoxWidth, upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
         }
         return buttonList;
     }
 
     /**
      * method to create the buttons on the createGame screen.
+     * buttons are created this way to  prevent a stackoverflow error from addMouseListener.
      * @return a list of buttons.
      */
     private List<Button> getCreateGameButtons(){
@@ -428,6 +429,7 @@ public class View extends JComponent {
 
     /**
      * method to create the buttons that are drawn on the main game screen.
+     * buttons are created this way to  prevent a stackoverflow error from addMouseListener.
      * @return a list of buttons
      */
     private List<Button> getHudButtons(){
@@ -455,6 +457,27 @@ public class View extends JComponent {
         }));
 
         return hudButtons;
+    }
+
+    /**
+     * method to create the buttons that are drawn on the end screen.
+     * buttons are created this way to  prevent a stackoverflow error from addMouseListener.
+     * @return a list of buttons.
+     */
+    private List<Button> getEndScreenButtons(){
+        if (endScreenButtons.size() > 0){
+            return endScreenButtons;
+        }
+
+        int buttonY = (int) (getHeight() / 1.6f);
+        int buttonX = getWidth() / 2;
+        int buttonWidth = 120;
+        int buttonHeight = 30;
+
+        endScreenButtons.add(new TextButton(buttonX - 30 - buttonWidth, buttonY,buttonWidth,buttonHeight,"main menu", this, () -> controller.setGameState(GameState.MAIN_MENU)));
+        endScreenButtons.add(new TextButton(buttonX + 30, buttonY,buttonWidth,buttonHeight, "Quit", this, () -> System.exit(0)));
+
+        return endScreenButtons;
     }
 
 }

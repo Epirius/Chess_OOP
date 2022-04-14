@@ -25,18 +25,13 @@ public class AI implements IDrawAi {
     private final Team AI_TEAM;
     private IAiMovable model;
     private final Random random = new Random();
-    private final int AI_SEARCH_DEPTH = 3;
+    private final static int AI_SEARCH_DEPTH = 3;
 
 
-    public AI(Controller controller){
+    public AI(Controller controller, Team team){
         this.controller = controller;
-        if (Constants.AI_TEAM == null){
-            AI_TEAM = null;
-            enabled = false;
-        } else {
-            this.AI_TEAM = Constants.AI_TEAM;
-            enabled = true;
-        }
+        this.AI_TEAM = team;
+        this.enabled = (this.AI_TEAM != null);
     }
 
     public void installModel(IAiMovable model){ this.model = model;}
@@ -180,10 +175,10 @@ public class AI implements IDrawAi {
         int numberOfTurns = model.getCurrentTurn();
         int finalValue = 0;
         int pieceValue = model.getScore();
-        int addedValue = 0; //TODO add things like position, not moving to many pawns, not moving backwords etc..
+        int addedValue = 0; //TODO add things like position, not moving too many pawns, not moving backwards etc..
 
-        // TODO: adding points if castling
         if (numberOfTurns > 8 && numberOfTurns < 14) {
+            // TODO: adding points if castling
         }
 
 

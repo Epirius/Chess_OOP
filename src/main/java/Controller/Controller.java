@@ -19,7 +19,7 @@ public class Controller extends MouseAdapter implements IDrawController {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
     private Model model;
-    private GameState gameState = Constants.DEFAULT_GAME_STATE;
+    private GameState gameState = GameState.MAIN_MENU;
     private AI ai;
     private View view;
 

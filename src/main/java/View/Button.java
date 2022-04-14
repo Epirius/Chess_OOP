@@ -22,6 +22,8 @@ public abstract class Button implements MouseListener {
 
     /**
      * an Abstract class for buttons.
+     * NB! buttons can not be created directly each frame, because the addMouseListner will cause a stackOverflowError.
+     * So if you want to create a button, it has to be reused instead of created each frame.
      * @param xPos start position of the button.
      * @param yPos start position of the button.
      * @param width width of the button

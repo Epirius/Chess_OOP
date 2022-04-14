@@ -36,7 +36,6 @@ public class TextButton extends Button{
         g.setColor(Color.WHITE);
         drawCenteredString(g, text, xPos, yPos, width, height);
         g.setColor(previousColor);
-
     }
 
     @Override
