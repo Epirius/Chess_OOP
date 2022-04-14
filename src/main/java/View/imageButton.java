@@ -77,6 +77,7 @@ public class imageButton extends Button{
                 view.ai.createMove();
             } else if (action != null){
                 action.executeAction();
+                view.repaint();
             }
         }
     }

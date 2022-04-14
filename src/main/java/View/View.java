@@ -26,6 +26,7 @@ public class View extends JComponent {
     private int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
     public final int upgradePawnBoxHeight = 100;
     public final int upgradePawnBoxWidth = 100;
+    private GameState previousGameState;
 
     private static final Color colorBackground = new Color(90, 94, 89);
     private static final Color colorDarkSquare = new Color(21, 29, 36);
@@ -72,6 +73,12 @@ public class View extends JComponent {
             pieceLayer(g);
             hudLayer(g);
         }
+
+        if (previousGameState != null && controller.getGameState() != previousGameState) {
+            previousGameState = controller.getGameState();
+            repaint();
+        }
+        previousGameState = controller.getGameState();
     }
 
     /**
@@ -96,7 +103,6 @@ public class View extends JComponent {
         // TODO NEW GAME - call createGameScreen()
         // TODO ABOUT
         // TODO CREDITS etc..
-        repaint();
     }
 
     /**
@@ -129,8 +135,6 @@ public class View extends JComponent {
         g.fillRect(183,260, getStringWidth(g, g.getFont(), "Minutes per side: " + minutesPerSide),2);
         drawCenteredString(g, "Increment in seconds: " + secondsPerMove, 0, 350, getWidth(), 70);
         g.fillRect(149,410, getStringWidth(g, g.getFont(), "Increment in seconds: " + secondsPerMove),2);
-
-        repaint();
     }
 
     private void createGame(){
