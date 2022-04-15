@@ -66,12 +66,10 @@ public class Controller extends MouseAdapter implements IDrawController {
             if (gameState == GameState.ACTIVE_GAME) {
                 int square = rawCoordsToSquare(rawX, rawY);
                 handleClicks(square);
-                view.repaint();
             }
             if (gameState == GameState.ACTIVE_GAME && ai.isAiTurn()) {
                 ai.createMove();
             }
-            view.repaint();
         }
     }
 

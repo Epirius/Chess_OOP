@@ -43,7 +43,7 @@ public class View extends JComponent {
     private List<Button> endScreenButtons;
 
 
-
+    //TODO MAKE VIEW SCALE WITH WINDOW SIZE
 
     public View() {
         createGame_buttonsList = new ArrayList<>();
@@ -259,7 +259,6 @@ public class View extends JComponent {
             if (piece.type == Type.PAWN){
                 yOffset = y + Math.floorDiv(Constants.squareSize, 6);
             }
-
             g.drawImage(piece.image, xOffset, yOffset, piecePane);
         }
     }
