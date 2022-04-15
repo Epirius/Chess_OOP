@@ -49,7 +49,7 @@ public class Controller extends MouseAdapter implements IDrawController {
     @Override
     public void mousePressed(MouseEvent e) {
         if (!(gameState == GameState.ACTIVE_GAME)){return;}
-        if (ai.enabled && model.getTeam() == ai.getTeam()){return;}
+        if (ai.isEnabled() && model.getTeam() == ai.getTeam()){return;}
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             int rawX = e.getX();

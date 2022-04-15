@@ -270,7 +270,19 @@ public class View extends JComponent {
             if (piece.type == Type.PAWN){
                 yOffset = y + Math.floorDiv(squareSizeHeigth, 6);
             }
-            g.drawImage(piece.image, xOffset, yOffset, piecePane);
+
+            if (squareSizeWidth > 95 && squareSizeHeigth > 95){
+                g.drawImage(piece.extraLargeImage, xOffset, yOffset, piecePane);
+            } else if (squareSizeWidth > 80 && squareSizeHeigth > 80){
+                g.drawImage(piece.largeImage, xOffset, yOffset, piecePane);
+            } else if (squareSizeWidth > 55 && squareSizeHeigth > 55) {
+                g.drawImage(piece.image, xOffset, yOffset, piecePane);
+            } else if (squareSizeWidth > 45 && squareSizeHeigth > 45) {
+                g.drawImage(piece.smallImage, xOffset, yOffset, piecePane);
+            } else {
+                g.drawImage(piece.extraSmallImage, xOffset, yOffset, piecePane);
+            }
+
         }
     }
 
@@ -349,8 +361,8 @@ public class View extends JComponent {
             drawCenteredString(g, text, xPos - textWidth - 3, yPos, textWidth, textHeight);
 
             for (ViewPiece piece : viewPieces) {
-                g.drawImage(piece.smallImage, xPos, yPos, pane);
-                xPos += piece.smallImage.getWidth();
+                g.drawImage(piece.extraSmallImage, xPos, yPos, pane);
+                xPos += piece.extraSmallImage.getWidth();
             }
 
         }

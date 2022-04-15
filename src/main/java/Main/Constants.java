@@ -13,6 +13,7 @@ public final class Constants {
     public static int TIME_MINUTES = 3;
     public static int TIME_ADDED_EACH_MOVE_SECONDS = 2;
 
+
     public static  BufferedImage pawnW;
     public static  BufferedImage rookW;
     public static  BufferedImage knightW;

@@ -14,7 +14,7 @@ import java.util.Random;
  */
 public class AI implements IDrawAi {
     private final Controller controller;
-    public boolean enabled;
+    private boolean enabled;
     private final Team AI_TEAM;
     private IAiMovable model;
     private final Random random = new Random();

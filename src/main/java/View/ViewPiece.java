@@ -15,7 +15,10 @@ public class ViewPiece  {
     public final Team team;
     public final int position;
     public final BufferedImage image;
+    public final BufferedImage extraLargeImage;
+    public final BufferedImage largeImage;
     public final BufferedImage smallImage;
+    public final BufferedImage extraSmallImage;
 
     public ViewPiece(Type type, Team team, int position){
         this.type = type;
@@ -32,6 +35,9 @@ public class ViewPiece  {
             default -> throw new RuntimeException("Could not get the image of a piece, because the type could not be recognized.");
         }
 
-        this.smallImage = Scalr.resize(this.image, Scalr.Method.BALANCED, (int) (this.image.getWidth() / 1.5f), (int) (this.image.getHeight() / 1.5f));
+        this.extraLargeImage = Scalr.resize(this.image, Scalr.Method.BALANCED, (int) (this.image.getWidth() * 1.5f), (int) (this.image.getHeight() * 1.5f));
+        this.largeImage = Scalr.resize(this.image, Scalr.Method.BALANCED, (int) (this.image.getWidth() * 1.2f), (int) (this.image.getHeight() * 1.2f));
+        this.smallImage = Scalr.resize(this.image, Scalr.Method.BALANCED, (int) (this.image.getWidth() / 1.2f), (int) (this.image.getHeight() / 1.2f));
+        this.extraSmallImage = Scalr.resize(this.image, Scalr.Method.BALANCED, (int) (this.image.getWidth() / 1.5f), (int) (this.image.getHeight() / 1.5f));
     }
 }
