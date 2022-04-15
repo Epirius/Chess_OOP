@@ -10,11 +10,9 @@ to run:
 - cd to "Chess_OOP\src\main\java\Main"
 - run Main.java
 
-see numbers.png for id nummer til alle rutene.
 
-![](numbers.png)
 
-chess with:
+this program is an implementation of chess with:
 - possibility of playing local multiplayer or against ai.
 - an AI that uses minimax with alpha beta pruning.
 - possibility of resizing the screen.
@@ -24,3 +22,7 @@ chess with:
 - choose how many minutes the clock will start with, and number of seconds that will be added to the clock after a move.
 - display all possible moves for a selected piece.
 - text and image buttons that can execute arbitrary lambda functions when clicked.
+
+see numbers.png for id nummer to all squares.
+
+![](numbers.png)
