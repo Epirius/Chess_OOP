@@ -23,3 +23,4 @@ chess with:
 -choose which side you want to play as agains ai.
 -choose how many minutes the clock will start with, and number of seconds that will be added to the clock after a move.
 -display all possible moves for a selected piece.
+-text and image buttons that can execute arbitrary lambda functions when clicked.
