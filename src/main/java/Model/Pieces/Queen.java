@@ -2,7 +2,7 @@ package Model.Pieces;
 
 import Model.*;
 
-import java.util.*;
+import java.util.List;
 
 /**
  * @author Felix Kaasa

@@ -1,20 +1,13 @@
 package Controller;
 
-import Main.Constants;
-import Model.Model;
-import Model.Board;
-import Model.Pieces.King;
-import Model.Pieces.Piece;
-import Model.Team;
 import Model.Move;
+import Model.Team;
 import Model.Type;
 import View.IDrawAi;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 /**
  * @author Felix Kaasa
@@ -128,7 +121,6 @@ public class AI implements IDrawAi {
     }
 
     //TODO for minimax alog: the algo has to know about pawn upgrading, and check each of the 4 upgrade paths as another branch.
-    //TODO this algo should also take positioning into account.
     /**
      * method to find the best move
      * @param depth how much further should the algorithm search

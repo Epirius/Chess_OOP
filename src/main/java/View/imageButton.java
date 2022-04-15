@@ -1,10 +1,8 @@
 package View;
 
 import Controller.GameState;
-import Main.Constants;
 import Model.Type;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;

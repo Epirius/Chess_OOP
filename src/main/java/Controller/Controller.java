@@ -2,13 +2,13 @@ package Controller;
 
 import Main.Constants;
 import Model.Model;
-import Model.Type;
 import Model.Move;
-import View.View;
+import Model.Type;
 import View.IDrawController;
-import Model.Team;
+import View.View;
 
-import java.awt.event.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +62,7 @@ public class Controller extends MouseAdapter implements IDrawController {
                 return;
             }
 
-            //converting the x and y coordinates of the mouse to a int of the square it is over.
+            //converting the x and y coordinates of the mouse to an int of the square it is over.
             if (gameState == GameState.ACTIVE_GAME) {
                 int square = rawCoordsToSquare(rawX, rawY);
                 handleClicks(square);

@@ -5,7 +5,6 @@ import Model.Team;
 import Model.Type;
 import org.imgscalr.Scalr;
 
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**

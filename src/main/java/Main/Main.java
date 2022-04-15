@@ -1,8 +1,10 @@
 package Main;
 
 import Controller.Controller;
-import Model.*;
+import Model.Clock;
+import Model.Model;
 import View.View;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;

@@ -1,6 +1,8 @@
 package View;
 
+import Controller.AI;
 import Controller.Controller;
+import Controller.GameState;
 import Main.Constants;
 import Model.*;
 
@@ -9,10 +11,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import Controller.GameState;
-import Controller.AI;
 
-import static View.GraphicHelperMethods.*;
+import static View.GraphicHelperMethods.drawCenteredString;
+import static View.GraphicHelperMethods.getStringWidth;
 
 
 public class View extends JComponent {

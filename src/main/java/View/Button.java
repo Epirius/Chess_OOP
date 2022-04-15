@@ -1,7 +1,6 @@
 package View;
 
 import Controller.GameState;
-import Main.Constants;
 
 import javax.swing.*;
 import java.awt.*;

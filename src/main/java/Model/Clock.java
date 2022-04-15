@@ -1,9 +1,9 @@
 package Model;
 
 import Controller.Controller;
+import Controller.GameState;
 import Main.Constants;
 import View.View;
-import Controller.GameState;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
  * @author Felix Kaasa
  */
 public class Clock implements ActionListener, Cloneable {
-    //TODO clock does not change when undo button is clicked. fix it
 
     private boolean enabled = false;
     private int whiteClock_Seconds;

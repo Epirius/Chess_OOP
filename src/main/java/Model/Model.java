@@ -1,7 +1,7 @@
 package Model;
 
-import Controller.IMovable;
 import Controller.IAiMovable;
+import Controller.IMovable;
 import Model.Pieces.King;
 import Model.Pieces.Pawn;
 import Model.Pieces.Piece;
@@ -352,7 +352,6 @@ public class Model implements IMovable, IAiMovable, IDrawModel {
     @Override
     public void upgradePawn(Type type){
         board.upgradePawn(type);
-        //TODO the game gets blocked after pawn upgrade when playing against ai
     }
 
     private void updateCastlingLegality(Move move){

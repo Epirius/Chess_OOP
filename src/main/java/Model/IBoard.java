@@ -2,8 +2,6 @@ package Model;
 
 import Model.Pieces.Piece;
 
-import java.util.List;
-
 /**
  * @author Felix Kaasa
  */

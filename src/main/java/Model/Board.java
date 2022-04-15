@@ -1,7 +1,10 @@
 package Model;
 
 import Model.Pieces.*;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * @author Felix Kaasa
@@ -101,7 +104,6 @@ public class Board implements IBoard{
         return whiteScore - blackScore;
     }
 
-    //TODO add to interface
     public Team getTeam(){
         return currentPlayer;
     }
@@ -128,7 +130,6 @@ public class Board implements IBoard{
 
         if ((MoveHistory.numberOfMoves % 2 == 0 && currentPlayer != Team.WHITE || MoveHistory.numberOfMoves % 2 != 0 && currentPlayer != Team.BLACK) && !testing){
             throw new RuntimeException("The number of moves does not match up with the current player");
-            //TODO this breaks some test, fix it later.
         }
         if (clock == null && !testing){
             throw new RuntimeException("Clock is null");
@@ -160,7 +161,6 @@ public class Board implements IBoard{
         nextTeam();
     }
 
-    // TODO make interface for upgrading
     public void upgradePawn(Type type){
         int id = moveHistoryList.peek().move.to;
         if (this.getPiece(id).type != Type.PAWN){

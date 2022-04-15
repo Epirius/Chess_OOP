@@ -1,10 +1,6 @@
 package Main;
 
-import Controller.GameState;
-import Model.Team;
-
 import javax.imageio.ImageIO;
-import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;

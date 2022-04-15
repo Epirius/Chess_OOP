@@ -1,7 +1,5 @@
 package Model;
 
-import Model.Pieces.Piece;
-
 /**
  * @author Felix Kaasa
  */

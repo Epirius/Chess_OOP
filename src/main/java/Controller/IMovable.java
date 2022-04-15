@@ -2,8 +2,6 @@ package Controller;
 
 import Model.Move;
 import Model.Pieces.Piece;
-import Model.Team;
-import Model.Type;
 
 import java.util.List;
 
