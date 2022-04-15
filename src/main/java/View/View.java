@@ -8,6 +8,7 @@ import Model.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -253,8 +254,6 @@ public class View extends JComponent {
      * A method that draws the pieces
      */
     private void pieceLayer(Graphics g){
-        //TODO draw the move the piece before the ai finishes thinking.
-        JLayeredPane piecePane = new JLayeredPane();
         List<ViewPiece> pieces = model.getPiecesOnTheBoard();
         int boardOffset = Constants.boardOffset;
         int squareSizeWidth = (getWidth() - 2 * boardOffset) / 8;
@@ -265,25 +264,42 @@ public class View extends JComponent {
             int x = boardOffset + squareSizeWidth * coords[0];
             int y = boardOffset + squareSizeHeigth * coords[1];
 
-            int xOffset = x + Math.floorDiv(squareSizeWidth, 2) - Math.floorDiv(piece.image.getWidth(), 2);
-            int yOffset = y + Math.floorDiv(squareSizeHeigth, 2) - Math.floorDiv(piece.image.getHeight(), 2);
-            if (piece.type == Type.PAWN){
-                yOffset = y + Math.floorDiv(squareSizeHeigth, 6);
-            }
-
             if (squareSizeWidth > 95 && squareSizeHeigth > 95){
-                g.drawImage(piece.extraLargeImage, xOffset, yOffset, piecePane);
+                drawPieceToSize(g, x, y, piece.type, piece.extraLargeImage);
             } else if (squareSizeWidth > 80 && squareSizeHeigth > 80){
-                g.drawImage(piece.largeImage, xOffset, yOffset, piecePane);
+                drawPieceToSize(g, x, y, piece.type, piece.largeImage);
             } else if (squareSizeWidth > 55 && squareSizeHeigth > 55) {
-                g.drawImage(piece.image, xOffset, yOffset, piecePane);
-            } else if (squareSizeWidth > 45 && squareSizeHeigth > 45) {
-                g.drawImage(piece.smallImage, xOffset, yOffset, piecePane);
+                drawPieceToSize(g, x, y, piece.type, piece.image);
+            } else if (squareSizeWidth > 48 && squareSizeHeigth > 48) {
+                drawPieceToSize(g, x, y, piece.type, piece.smallImage);
             } else {
-                g.drawImage(piece.extraSmallImage, xOffset, yOffset, piecePane);
+                drawPieceToSize(g, x, y, piece.type, piece.extraSmallImage);
             }
 
         }
+    }
+
+    /**
+     * method to draw a piece of different size based on the window size
+     * @param g graphics
+     * @param x x coordinate for top left of the image
+     * @param y y coordinate for top left of the image
+     * @param type type of the piece to be drawn
+     * @param piece piece to be drawn
+     */
+    private void drawPieceToSize(Graphics g, int x, int y, Type type, BufferedImage piece) {
+        JLayeredPane piecePane = new JLayeredPane();
+        int boardOffset = Constants.boardOffset;
+        int squareSizeWidth = (getWidth() - 2 * boardOffset) / 8;
+        int squareSizeHeigth = (getHeight() - 2 * boardOffset) / 8;
+
+        int xOffset = x + Math.floorDiv(squareSizeWidth, 2) - Math.floorDiv(piece.getWidth(), 2);
+        int yOffset = y + Math.floorDiv(squareSizeHeigth, 2) - Math.floorDiv(piece.getHeight(), 2);
+        if (type == Type.PAWN){
+            yOffset += squareSizeHeigth * 0.1f;
+        }
+
+        g.drawImage(piece, xOffset, yOffset, piecePane);
     }
 
     /**

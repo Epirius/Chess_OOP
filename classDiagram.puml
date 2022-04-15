@@ -4,7 +4,10 @@ class View.ViewPiece {
 + Team team
 + int position
 + BufferedImage image
++ BufferedImage extraLargeImage
++ BufferedImage largeImage
 + BufferedImage smallImage
++ BufferedImage extraSmallImage
 }
 class Model.Pieces.Pawn {
 + {static} int value
@@ -126,7 +129,8 @@ class Controller.Controller {
 - void updateSelectedLegalMoves(int)
 - void createMove(int,int)
 # void checkPawnUpgrade(Move)
-# void checkIfGameOver()
+# boolean checkIfGameOver()
+# void handleGameOver()
 + List<Integer> getLegalSquares()
 + GameState getGameState()
 + void setGameState(GameState)
@@ -191,11 +195,12 @@ class View.GraphicHelperMethods {
 }
 class Controller.AI {
 - Controller controller
-+ boolean enabled
+- boolean enabled
 - Team AI_TEAM
 - IAiMovable model
 - Random random
 - int AI_SEARCH_DEPTH
+- boolean randomAI
 + void installModel(IAiMovable)
 + Team getTeam()
 + void createMove()
@@ -223,16 +228,11 @@ class Model.Move {
 + int hashCode()
 }
 class Main.Constants {
-+ {static} int squareSize
 + {static} int boardOffset
 + {static} int displayWidth
 + {static} int displayHeight
-+ {static} int upgradePawnBoxHeight
-+ {static} int upgradePawnBoxWidth
 + {static} int TIME_MINUTES
 + {static} int TIME_ADDED_EACH_MOVE_SECONDS
-+ {static} Team AI_TEAM
-+ {static} GameState DEFAULT_GAME_STATE
 + {static} BufferedImage pawnW
 + {static} BufferedImage rookW
 + {static} BufferedImage knightW
@@ -308,6 +308,7 @@ interface View.ButtonAction {
 }
 interface Controller.IAiMovable {
 ~ Piece getPiece(int)
+~ List<Piece> getAllPieces()
 ~ void doMove(Move)
 ~ void undoMove()
 ~ List<Move> getLegalMoves()
@@ -321,10 +322,13 @@ class View.View {
 - Team selectTeam
 # IDrawController controller
 # IDrawModel model
-- IDrawAi ai
+# IDrawAi ai
 - Clock clock
 - int minutesPerSide
 - int secondsPerMove
++ int upgradePawnBoxHeight
++ int upgradePawnBoxWidth
+- GameState previousGameState
 - {static} Color colorBackground
 - {static} Color colorDarkSquare
 - {static} Color colorLightSquare
@@ -335,6 +339,7 @@ class View.View {
 - List<Button> upgradeButtonsWhite
 - List<Button> upgradeButtonsBlack
 - List<Button> hudButtons
+- List<Button> endScreenButtons
 + void installController(Controller)
 + void installClock(Clock)
 + void paintComponent(Graphics)
@@ -345,6 +350,7 @@ class View.View {
 - void boardLayer(Graphics)
 - void drawShapeInSquare(Graphics,Integer,int)
 - void pieceLayer(Graphics)
+- void drawPieceToSize(Graphics,int,int,Type,BufferedImage)
 - void hudLayer(Graphics)
 - void endScreen(Graphics,String)
 - void drawDeadPieces(Graphics,JLayeredPane)
@@ -352,6 +358,8 @@ class View.View {
 + List<Button> getUpgradeButtons(Team)
 - List<Button> getCreateGameButtons()
 - List<Button> getHudButtons()
+- List<Button> getEndScreenButtons()
++ void resizeEvent()
 }
 interface Model.IBoard {
 ~ void createBoard()
@@ -367,11 +375,16 @@ abstract class View.Button {
 # int yPos
 # int width
 # int height
+# int currentXPos
+# int currentYPos
+- boolean stickToEdgeOfScreen
 # Color previousColor
 # JLayeredPane pane
 # GameState gameStateWhenCreated
 # View view
+# boolean updatePosition
 + void drawButton(Graphics,Color)
+- void updateButtonPosition()
 + int[] getEndPosition()
 + boolean isVisible()
 + boolean mouseIsOverButton(int,int)
@@ -417,7 +430,7 @@ Controller.IMovable <|.. Model.Model
 Controller.IAiMovable <|.. Model.Model
 View.IDrawModel <|.. Model.Model
 View.IDrawController <|.. Controller.Controller
-Controller.MouseAdapter <|-- Controller.Controller
+java.awt.event.MouseAdapter <|-- Controller.Controller
 Model.Pieces.Piece <|-- Model.Pieces.Queen
 View.Button <|-- View.TextButton
 Model.Pieces.Piece <|-- Model.Pieces.King
