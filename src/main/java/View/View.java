@@ -51,6 +51,7 @@ public class View extends JComponent {
         upgradeButtonsBlack = new ArrayList<>();
         hudButtons = new ArrayList<>();
         endScreenButtons = new ArrayList<>();
+
     }
 
     public void installController(Controller controller){
@@ -112,7 +113,7 @@ public class View extends JComponent {
      */
     private void createGameScreen(Graphics g) {
         g.setColor(colorBackground);
-        g.fillRect(0, 0, Constants.displayWidth, Constants.displayHeight);
+        g.fillRect(0, 0, getWidth(), getHeight());
 
         for (Button button : getCreateGameButtons()) {
             button.drawButton(g, colorButton);
@@ -123,19 +124,19 @@ public class View extends JComponent {
         Button whiteButton = createGame_buttonsList.get(0);
         Button blackButton = createGame_buttonsList.get(1);
         Button bothButton = createGame_buttonsList.get(2);
-        if (selectTeam == Team.WHITE) { g.fillRect(whiteButton.xPos, whiteButton.yPos, whiteButton.width, whiteButton.height);}
-        else if (selectTeam == Team.BLACK) { g.fillRect(blackButton.xPos, blackButton.yPos, blackButton.width, blackButton.height);}
-        else if (selectTeam == null) { g.fillRect(bothButton.xPos, bothButton.yPos, bothButton.width, bothButton.height);}
+        if (selectTeam == Team.WHITE) { g.fillRect(whiteButton.currentXPos, whiteButton.currentYPos, whiteButton.width, whiteButton.height);}
+        else if (selectTeam == Team.BLACK) { g.fillRect(blackButton.currentXPos, blackButton.currentYPos, blackButton.width, blackButton.height);}
+        else if (selectTeam == null) { g.fillRect(bothButton.currentXPos, bothButton.currentYPos, bothButton.width, bothButton.height);}
 
         g.setColor(Color.WHITE);
         g.setFont( new Font("SansSerif", Font.BOLD, 60));
-        drawCenteredString(g,"Choose a team:",0,10, getWidth(), 70);
-        g.fillRect(95,80, getStringWidth(g, g.getFont(), "Choose a team:"),2);
+        drawCenteredString(g,"Choose a team:",0,10, getWidth(), 70 + (getHeight() - Constants.displayHeight));
+        g.fillRect(95 + (getWidth() - Constants.displayWidth) / 2,80 + (getHeight() - Constants.displayHeight) / 2, getStringWidth(g, g.getFont(), "Choose a team:"),2);
         g.setFont( new Font("SansSerif", Font.BOLD, 30));
-        drawCenteredString(g, "Minutes per side: " + minutesPerSide, 0, 200, getWidth(), 70);
-        g.fillRect(183,260, getStringWidth(g, g.getFont(), "Minutes per side: " + minutesPerSide),2);
-        drawCenteredString(g, "Increment in seconds: " + secondsPerMove, 0, 350, getWidth(), 70);
-        g.fillRect(149,410, getStringWidth(g, g.getFont(), "Increment in seconds: " + secondsPerMove),2);
+        drawCenteredString(g, "Minutes per side: " + minutesPerSide, 0, 200, getWidth(), 70 + (getHeight() - Constants.displayHeight));
+        g.fillRect(183 + (getWidth() - Constants.displayWidth) / 2,260 + (getHeight() - Constants.displayHeight) / 2, getStringWidth(g, g.getFont(), "Minutes per side: " + minutesPerSide),2);
+        drawCenteredString(g, "Increment in seconds: " + secondsPerMove, 0, 350, getWidth(), 70 + (getHeight() - Constants.displayHeight));
+        g.fillRect(149 + (getWidth() - Constants.displayWidth) / 2,410 + (getHeight() - Constants.displayHeight) / 2, getStringWidth(g, g.getFont(), "Increment in seconds: " + secondsPerMove),2);
     }
 
     private void createGame(){
@@ -148,7 +149,9 @@ public class View extends JComponent {
             case null -> aiTeam= null;
         }
         Model newModel = new Model();
+        MoveHistory.numberOfMoves = 0;
         AI ai = new AI((Controller) controller, aiTeam);
+        ai.installModel(newModel);
         this.model = newModel;
         this.ai = ai;
         Clock newClock = new Clock(this, (Controller) controller);
@@ -169,9 +172,10 @@ public class View extends JComponent {
      */
     private void boardLayer(Graphics g){
         g.setColor(colorBackground);
-        g.fillRect(0,0,Constants.displayWidth, Constants.displayHeight);
-        int squareSize = Constants.squareSize;
+        g.fillRect(0,0, getWidth(), getHeight());
         int boardOffset = Constants.boardOffset;
+        int squareSizeWidth = (getWidth() - 2 * boardOffset) / 8;
+        int squareSizeHeigth = (getHeight() - 2 * boardOffset) / 8;
 
 
         // Drawing the board.
@@ -179,9 +183,9 @@ public class View extends JComponent {
             for (int height = 0; height < 8; height++) {
                 Color squareColor = ((width + height) % 2 == 0 ? colorLightSquare : colorDarkSquare);
                 g.setColor(squareColor);
-                int x =  boardOffset + squareSize * width;
-                int y =  boardOffset + squareSize * height;
-                g.fillRect(x, y, squareSize, squareSize);
+                int x =  boardOffset + squareSizeWidth * width;
+                int y =  boardOffset + squareSizeHeigth * height;
+                g.fillRect(x, y, squareSizeWidth, squareSizeHeigth);
             }
         }
 
@@ -214,26 +218,30 @@ public class View extends JComponent {
      */
     private void drawShapeInSquare(Graphics g, Integer squareID, int shape) {
         g.setColor(colorHighlightSquare);
-        int squareSize = Constants.squareSize;
         int boardOffset = Constants.boardOffset;
+        int squareSizeWidth = (getWidth() - 2 * boardOffset) / 8;
+        int squareSizeHeigth = (getHeight() - 2 * boardOffset) / 8;
+
         int[] legalSquare = inverseSquareToCoords(squareID);
-        int x = boardOffset + squareSize * legalSquare[0];
-        int y = boardOffset + squareSize * legalSquare[1];
+        int x = boardOffset + squareSizeWidth * legalSquare[0];
+        int y = boardOffset + squareSizeHeigth * legalSquare[1];
         g.setColor(colorHighlightSquare);
-        int circleSize = squareSize / 2;
+        int circleSizeWidth = squareSizeWidth / 2;
+        int circleSizeHeight = squareSizeHeigth / 2;
         if (shape == 1) {
-            g.fillRect(x, y, squareSize, squareSize);
+            g.fillRect(x, y, squareSizeWidth, squareSizeHeigth);
         } else if (shape == 2){
-            g.fillOval(x + circleSize / 2, y + circleSize / 2, circleSize, circleSize);
+            g.fillOval(x + circleSizeWidth / 2, y + circleSizeHeight / 2, circleSizeWidth, circleSizeHeight);
         } else if (shape == 3){
             List<Polygon> polygons = new ArrayList<>();
-            int polySize = squareSize / 4;
+            int polySizeWitdh = squareSizeWidth / 4;
+            int polySizeHeight = squareSizeHeigth / 4;
             g.setColor(Color.red);
 
-            polygons.add(new Polygon(new int[]{x, x, x + polySize}, new int[]{y, y + polySize, y}, 3));
-            polygons.add(new Polygon(new int[]{x + squareSize, x + squareSize, x + squareSize - polySize}, new int[]{y, y + polySize, y}, 3));
-            polygons.add(new Polygon(new int[]{x , x , x + polySize}, new int[]{y + squareSize, y - polySize + squareSize, y + squareSize}, 3));
-            polygons.add(new Polygon(new int[]{x + squareSize, x + squareSize, x + squareSize - polySize}, new int[]{y + squareSize, y - polySize + squareSize, y + squareSize}, 3));
+            polygons.add(new Polygon(new int[]{x, x, x + polySizeWitdh}, new int[]{y, y + polySizeHeight, y}, 3));
+            polygons.add(new Polygon(new int[]{x + squareSizeWidth, x + squareSizeWidth, x + squareSizeWidth - polySizeWitdh}, new int[]{y, y + polySizeHeight, y}, 3));
+            polygons.add(new Polygon(new int[]{x , x , x + polySizeWitdh}, new int[]{y + squareSizeHeigth, y - polySizeHeight + squareSizeHeigth, y + squareSizeHeigth}, 3));
+            polygons.add(new Polygon(new int[]{x + squareSizeWidth, x + squareSizeWidth, x + squareSizeWidth - polySizeWitdh}, new int[]{y + squareSizeHeigth, y - polySizeHeight + squareSizeHeigth, y + squareSizeHeigth}, 3));
 
             for (Polygon polygon : polygons) {
                 g.fillPolygon(polygon);
@@ -248,16 +256,19 @@ public class View extends JComponent {
         //TODO draw the move the piece before the ai finishes thinking.
         JLayeredPane piecePane = new JLayeredPane();
         List<ViewPiece> pieces = model.getPiecesOnTheBoard();
+        int boardOffset = Constants.boardOffset;
+        int squareSizeWidth = (getWidth() - 2 * boardOffset) / 8;
+        int squareSizeHeigth = (getHeight() - 2 * boardOffset) / 8;
 
         for (ViewPiece piece : pieces){
             int[] coords = inverseSquareToCoords(piece.position);
-            int x = Constants.boardOffset + Constants.squareSize * coords[0];
-            int y = Constants.boardOffset + Constants.squareSize * coords[1];
+            int x = boardOffset + squareSizeWidth * coords[0];
+            int y = boardOffset + squareSizeHeigth * coords[1];
 
-            int xOffset = x + Math.floorDiv(Constants.squareSize, 2) - Math.floorDiv(piece.image.getWidth(), 2);
-            int yOffset = y + Math.floorDiv(Constants.squareSize, 2) - Math.floorDiv(piece.image.getHeight(), 2);
+            int xOffset = x + Math.floorDiv(squareSizeWidth, 2) - Math.floorDiv(piece.image.getWidth(), 2);
+            int yOffset = y + Math.floorDiv(squareSizeHeigth, 2) - Math.floorDiv(piece.image.getHeight(), 2);
             if (piece.type == Type.PAWN){
-                yOffset = y + Math.floorDiv(Constants.squareSize, 6);
+                yOffset = y + Math.floorDiv(squareSizeHeigth, 6);
             }
             g.drawImage(piece.image, xOffset, yOffset, piecePane);
         }
@@ -357,8 +368,8 @@ public class View extends JComponent {
         int blackMins = blackTotal / 60;
         int xPos = getWidth() - Constants.boardOffset + 5;
 
-        g.drawString((blackMins > 0 ? blackMins + ":" : "")  + (blackTotal % 60 < 10 ? "0" : "") + blackTotal % 60, xPos, (getHeight() - Constants.squareSize) / 2 + 10);
-        g.drawString((whiteMins > 0 ? whiteMins + ":" : "")  + (whiteTotal % 60 < 10 ? "0" : "") + whiteTotal % 60, xPos, (getHeight() + Constants.squareSize) / 2);
+        g.drawString((blackMins > 0 ? blackMins + ":" : "")  + (blackTotal % 60 < 10 ? "0" : "") + blackTotal % 60, xPos, (getHeight() - 64) / 2 + 10);
+        g.drawString((whiteMins > 0 ? whiteMins + ":" : "")  + (whiteTotal % 60 < 10 ? "0" : "") + whiteTotal % 60, xPos, (getHeight() + 64) / 2);
     }
 
     /**
@@ -373,7 +384,7 @@ public class View extends JComponent {
             return buttonList;
         }
 
-        int spacing = (getWidth() - upgradePawnBoxHeight * 2) / (4 - 1) - upgradePawnBoxWidth;
+        int spacing = (Constants.displayWidth- upgradePawnBoxHeight * 2) / (4 - 1) - upgradePawnBoxWidth;
         int numButtons = 4;
 
         List<ViewPiece> upgradePossibilities = new ArrayList<>();
@@ -384,8 +395,13 @@ public class View extends JComponent {
 
         for (int i = 0; i < numButtons; i++) {
             int xPosition = spacing * (i + 1) + upgradePawnBoxHeight * i;
-            int yPosition = (getHeight() - upgradePawnBoxWidth) / 2;
+            int yPosition = (Constants.displayHeight - upgradePawnBoxWidth) / 2;
             buttonList.add(new imageButton(xPosition, yPosition, upgradePawnBoxWidth, upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
+        }
+        if (getWidth() != Constants.displayWidth || getHeight() != Constants.displayHeight){
+            for (Button button : buttonList) {
+                button.updatePosition =  true;
+            }
         }
         return buttonList;
     }
@@ -402,7 +418,7 @@ public class View extends JComponent {
 
         int yButton = 100;
         int buttonWidth = 70;
-        int center = (getWidth() - buttonWidth) / 2;
+        int center = (Constants.displayWidth - buttonWidth) / 2;
         //CHOOSE TEAM BUTTONS:
         createGame_buttonsList.add(new imageButton(center - 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookW, () -> selectTeam = Team.WHITE));
         createGame_buttonsList.add(new imageButton(center + 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookB, () -> selectTeam = Team.BLACK));
@@ -417,6 +433,11 @@ public class View extends JComponent {
         //CREATE GAME BUTTON:
         createGame_buttonsList.add(new TextButton(center - 55, 530, 150, 40, "Create game", this, () -> createGame()));
 
+        if (getWidth() != Constants.displayWidth || getHeight() != Constants.displayHeight){
+            for (Button button : createGame_buttonsList) {
+                button.updatePosition =  true;
+            }
+        }
         return createGame_buttonsList;
     }
 
@@ -433,7 +454,7 @@ public class View extends JComponent {
         int ySize = 50;
 
         // CREATING AN UNDO BUTTON.
-        hudButtons.add(new TextButton(getWidth() - xSize, getHeight() - ySize, xSize, ySize, "Undo", this, () -> {
+        hudButtons.add(new TextButton(Constants.displayWidth - xSize, Constants.displayHeight - ySize, xSize, ySize, "Undo", this, true, () -> {
             if (controller.getGameState() != GameState.ACTIVE_GAME){return;}
             boolean aiEnabled = ai.isEnabled();
             if (!aiEnabled){
@@ -449,6 +470,11 @@ public class View extends JComponent {
             }
         }));
 
+        if (getWidth() != Constants.displayWidth || getHeight() != Constants.displayHeight){
+            for (Button button : hudButtons) {
+                button.updatePosition =  true;
+            }
+        }
         return hudButtons;
     }
 
@@ -462,15 +488,31 @@ public class View extends JComponent {
             return endScreenButtons;
         }
 
-        int buttonY = (int) (getHeight() / 1.6f);
-        int buttonX = getWidth() / 2;
+        int buttonY = (int) (Constants.displayHeight / 1.6f);
+        int buttonX = Constants.displayWidth / 2;
         int buttonWidth = 120;
         int buttonHeight = 30;
 
         endScreenButtons.add(new TextButton(buttonX - 30 - buttonWidth, buttonY,buttonWidth,buttonHeight,"main menu", this, () -> controller.setGameState(GameState.MAIN_MENU)));
         endScreenButtons.add(new TextButton(buttonX + 30, buttonY,buttonWidth,buttonHeight, "Quit", this, () -> System.exit(0)));
 
+        if (getWidth() != Constants.displayWidth || getHeight() != Constants.displayHeight){
+            for (Button button : endScreenButtons) {
+                button.updatePosition =  true;
+            }
+        }
         return endScreenButtons;
     }
 
+    /**
+     * method that is called when the window is resized.
+     * this method should create new buttons with updated positions.
+     */
+    public void resizeEvent() {
+        for (List<Button> buttonList : Arrays.asList(createGame_buttonsList, upgradeButtonsWhite, upgradeButtonsBlack, hudButtons, endScreenButtons)) {
+            for (Button button : buttonList) {
+                button.updatePosition =  true;
+            }
+        }
+    }
 }

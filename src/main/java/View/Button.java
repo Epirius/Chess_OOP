@@ -1,6 +1,7 @@
 package View;
 
 import Controller.GameState;
+import Main.Constants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +15,15 @@ public abstract class Button implements MouseListener {
     protected final int yPos;
     protected final int width;
     protected final int height;
+    protected int currentXPos;
+    protected int currentYPos;
+    private boolean stickToEdgeOfScreen = false;
+
     protected Color previousColor;
     protected JLayeredPane pane;
     protected GameState gameStateWhenCreated;
     protected View view;
+    protected boolean updatePosition = false;
 
     /**
      * an Abstract class for buttons.
@@ -29,11 +35,14 @@ public abstract class Button implements MouseListener {
      * @param height height of the button
      * @param view the view (needed to the controller/model)
      */
-    public Button(int xPos, int yPos, int width, int height, View view) {
+    public Button(int xPos, int yPos, int width, int height, View view, boolean stickToEdgeOfScreen) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
         this.height = height;
+        this.currentXPos = xPos;
+        this.currentYPos = yPos;
+        this.stickToEdgeOfScreen = stickToEdgeOfScreen;
         this.pane = new JLayeredPane();
         gameStateWhenCreated = view.controller.getGameState();
         this.view = view;
@@ -43,10 +52,30 @@ public abstract class Button implements MouseListener {
 
     public void drawButton(Graphics g, Color buttonColor){
         if (!isVisible()){return;}
+        if (updatePosition){
+            updateButtonPosition();
+        }
         previousColor = g.getColor();
         g.setColor(buttonColor);
-        g.fillRect(xPos, yPos, width, height);
+        g.fillRect(currentXPos, currentYPos, width, height);
         g.setColor(previousColor);
+        updatePosition = false;
+    }
+
+    /**
+     * method to update the position of the button if the screen was resized
+     */
+    private void updateButtonPosition() {
+        int extraScreenWidth = view.getWidth() - Constants.displayWidth;
+        int extraScreenHeight = view.getHeight() - Constants.displayHeight;
+
+        if (stickToEdgeOfScreen){
+            this.currentXPos = this.xPos + extraScreenWidth;
+            this.currentYPos = this.yPos + extraScreenHeight;
+        } else {
+            this.currentXPos = this.xPos + (int) (extraScreenWidth / 2);
+            this.currentYPos = this.yPos + (int) (extraScreenHeight / 2);
+        }
     }
 
     /**
@@ -54,7 +83,7 @@ public abstract class Button implements MouseListener {
      * @return int[] with the x and y coordinates
      */
     public int[] getEndPosition(){
-        return new int[]{xPos + width, yPos + height};
+        return new int[]{currentXPos + width, currentYPos + height};
     }
 
     /**
@@ -72,7 +101,7 @@ public abstract class Button implements MouseListener {
      * @return true if mouse over the button and the button is visible
      */
     public boolean mouseIsOverButton(int xMouse, int yMouse){
-        return (isVisible() && xMouse > xPos && xMouse < xPos + width && yMouse > yPos && yMouse < yPos + height);
+        return (isVisible() && xMouse > currentXPos && xMouse < currentXPos + width && yMouse > currentYPos && yMouse < currentYPos + height);
     }
 
 }

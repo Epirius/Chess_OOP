@@ -7,6 +7,8 @@ import View.View;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 
 
@@ -32,8 +34,29 @@ public class Main {
         frame.getContentPane().setPreferredSize(new Dimension(Constants.displayWidth, Constants.displayHeight));
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frame.setResizable(false); //TODO MAYBE ALLOW RESIZE
+        frame.setResizable(true);
         frame.setVisible(true);
+        frame.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent componentEvent) {
+                view.resizeEvent();
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent componentEvent) {
+
+            }
+
+            @Override
+            public void componentShown(ComponentEvent componentEvent) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent componentEvent) {
+
+            }
+        });
 
         BufferedImage icon = Constants.knightB;
         frame.setIconImage(icon);

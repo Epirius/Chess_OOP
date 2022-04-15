@@ -7,10 +7,9 @@ import java.io.IOException;
 
 public final class Constants {
 
-    public static final int squareSize = 64;
     public static final int boardOffset = 64;
-    public static final int displayWidth = squareSize * 8 + boardOffset * 2;
-    public static final int displayHeight = squareSize * 8 + boardOffset * 2;
+    public static final int displayWidth = 64 * 8 + boardOffset * 2;
+    public static final int displayHeight = 64 * 8 + boardOffset * 2;
     public static int TIME_MINUTES = 3;
     public static int TIME_ADDED_EACH_MOVE_SECONDS = 2;
 

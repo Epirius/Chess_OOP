@@ -128,9 +128,11 @@ public class Board implements IBoard{
             throw new RuntimeException("tried to move a piece from the opposite team");
         }
 
+
         if ((MoveHistory.numberOfMoves % 2 == 0 && currentPlayer != Team.WHITE || MoveHistory.numberOfMoves % 2 != 0 && currentPlayer != Team.BLACK) && !testing){
             throw new RuntimeException("The number of moves does not match up with the current player");
         }
+
         if (clock == null && !testing){
             throw new RuntimeException("Clock is null");
         }

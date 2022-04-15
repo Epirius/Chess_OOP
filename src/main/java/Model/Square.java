@@ -18,14 +18,6 @@ public class Square<T> {
         }
     }
 
-    /*
-    public Square(int id){
-        this.Id = id;
-        numberOfSquares++;
-    }
-
-     */
-
     /**
      * get the id number of the square
      * @return int id

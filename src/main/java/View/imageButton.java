@@ -24,7 +24,7 @@ public class imageButton extends Button{
      * @param action a lambda function that will be executed when the button is clicked.
      */
     public imageButton(int xPos, int yPos, int width, int height, View view, BufferedImage image, ButtonAction action){
-        super(xPos, yPos, width, height, view);
+        super(xPos, yPos, width, height, view, false);
         this.image = image;
         this.action = action;
         this.type = null;
@@ -41,7 +41,7 @@ public class imageButton extends Button{
      * @param type the type of the piece that the pawn will upgrade to.
      */
     public imageButton(int xPos, int yPos, int width, int height, View view, BufferedImage image, Type type){
-        super(xPos, yPos, width, height, view);
+        super(xPos, yPos, width, height, view, false);
         this.image = image;
         this.type = type;
         this.action = null;
@@ -50,8 +50,9 @@ public class imageButton extends Button{
 
     public void drawButton(Graphics g, Color buttonColor){
         super.drawButton(g, buttonColor);
-        int xImagePos = xPos + (width - image.getWidth()) / 2;
-        int yImagePos = yPos + (height - image.getHeight()) / 2;
+        if (!isVisible()){return;}
+        int xImagePos = currentXPos + (width - image.getWidth()) / 2;
+        int yImagePos = currentYPos + (height - image.getHeight()) / 2;
         g.drawImage(image, xImagePos, yImagePos, pane);
     }
 

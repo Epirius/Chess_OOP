@@ -20,7 +20,7 @@ public class Controller extends MouseAdapter implements IDrawController {
     private Integer[] clickHolder = new Integer[2];
     private List<Move> selectedLegalMoves = new ArrayList<>();
     private Model model;
-    private GameState gameState = GameState.MAIN_MENU;
+    private GameState gameState = GameState.MAIN_MENU; //TODO SET TO MAIN MENU
     private AI ai;
     private View view;
 
@@ -56,8 +56,11 @@ public class Controller extends MouseAdapter implements IDrawController {
             int rawY = e.getY();
 
             //checking if the x and y coordinates of the mouse is over the squares of the board.
-            boolean xInBounds = rawX > Constants.boardOffset && rawX < Constants.boardOffset + Constants.squareSize * 8;
-            boolean yInBounds = rawY > Constants.boardOffset && rawY < Constants.boardOffset + Constants.squareSize * 8;
+            int boardOffset = Constants.boardOffset;
+            int squareSizeWidth = (view.getWidth() - 2 * boardOffset) / 8;
+            int squareSizeHeigth = (view.getHeight() - 2 * boardOffset) / 8;
+            boolean xInBounds = rawX > boardOffset && rawX < boardOffset + squareSizeWidth * 8;
+            boolean yInBounds = rawY > boardOffset && rawY < boardOffset + squareSizeHeigth * 8;
             if (!xInBounds || !yInBounds) {
                 return;
             }
@@ -123,14 +126,16 @@ public class Controller extends MouseAdapter implements IDrawController {
      * @return int ID of the square the mouse is over.
      */
     private int rawCoordsToSquare(int rawX, int rawY) {
-        boolean xInBounds = rawX > Constants.boardOffset && rawX < Constants.boardOffset + Constants.squareSize * 8;
-        boolean yInBounds = rawY > Constants.boardOffset && rawY < Constants.boardOffset + Constants.squareSize * 8;
+        int boardOffset = Constants.boardOffset;
+        int squareSizeWidth = (view.getWidth() - 2 * boardOffset) / 8;
+        int squareSizeHeigth = (view.getHeight() - 2 * boardOffset) / 8;
+
+        boolean xInBounds = rawX > boardOffset && rawX < boardOffset + squareSizeWidth * 8;
+        boolean yInBounds = rawY > boardOffset && rawY < boardOffset + squareSizeHeigth * 8;
         if (!xInBounds || !yInBounds){throw new IndexOutOfBoundsException();}
 
-        int offset = Constants.boardOffset;
-        int squareSize = Constants.squareSize;
-        int x = Math.floorDiv((rawX - offset), squareSize);
-        int y = Math.floorDiv((rawY - offset), squareSize);
+        int x = Math.floorDiv((rawX - boardOffset), squareSizeWidth);
+        int y = Math.floorDiv((rawY - boardOffset), squareSizeHeigth);
         int square = ((Math.abs(y - 7) + 1) * 8) - Math.abs(x - 7) - 1;
         return square;
     }

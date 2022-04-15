@@ -23,17 +23,35 @@ public class TextButton extends Button{
      * @param action a lambda function that will be executed when the button is clicked.
      */
     public TextButton(int xPos, int yPos, int width, int height, String text, View view, ButtonAction action) {
-        super(xPos, yPos, width, height, view);
+        super(xPos, yPos, width, height, view, false);
+        this.action = action;
+        this.text = text;
+    }
+
+    /**
+     * method used when you want the text button to stay still relative to the right/bottom screen edge when resizing
+     * @param xPos start position of the button.
+     * @param yPos start position of the button.
+     * @param width width of the button
+     * @param height height of the button
+     * @param text text on the button
+     * @param view the view (needed to get the gameState)
+     * @param stickToEdgeOfScreen True if you want the button to stay still relative to the screen edge when resizing the screen
+     * @param action a lambda function that will be executed when the button is clicked.
+     */
+    public TextButton(int xPos, int yPos, int width, int height, String text, View view, boolean stickToEdgeOfScreen, ButtonAction action) {
+        super(xPos, yPos, width, height, view, stickToEdgeOfScreen);
         this.action = action;
         this.text = text;
     }
 
     public void drawButton(Graphics g, Color buttonColor) {
         super.drawButton(g, buttonColor);
+        if (!isVisible()){return;}
         Font font = new Font("SansSerif", Font.BOLD, 20);
         g.setFont(font);
         g.setColor(Color.WHITE);
-        drawCenteredString(g, text, xPos, yPos, width, height);
+        drawCenteredString(g, text, currentXPos, currentYPos, width, height);
         g.setColor(previousColor);
     }
 
