@@ -61,7 +61,7 @@ public class View extends JComponent {
 
     public void installClock(Clock clock){
         this.clock = clock;
-    }
+    } //TODO DELETE
 
 
     @Override
@@ -149,12 +149,17 @@ public class View extends JComponent {
             case BLACK -> aiTeam= Team.WHITE;
             case null -> aiTeam= null;
         }
-        Model newModel = new Model();
+        endScreenButtons.clear();
         MoveHistory.numberOfMoves = 0;
+        Model newModel = new Model();
+        this.model = newModel;
         AI ai = new AI((Controller) controller, aiTeam);
         ai.installModel(newModel);
-        this.model = newModel;
         this.ai = ai;
+        if (clock != null) {
+            this.clock.disable();
+            this.clock = null;
+        }
         Clock newClock = new Clock(this, (Controller) controller);
         this.clock = newClock;
         newModel.installClock(newClock);

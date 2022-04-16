@@ -118,6 +118,7 @@ public class Clock implements ActionListener, Cloneable {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        if (controller.getGameState() == GameState.CREATE_GAME) {disable();}
         if (!enabled){return;}
         if (controller.getGameState() != GameState.ACTIVE_GAME) {return;}
         if (currentPlayer == Team.WHITE){
@@ -147,5 +148,13 @@ public class Clock implements ActionListener, Cloneable {
         } catch (CloneNotSupportedException e) {
             throw new AssertionError();
         }
+    }
+
+    /**
+     * method to disable the clock
+     */
+    public void disable() {
+        this.timer.stop();
+        this.enabled = false;
     }
 }

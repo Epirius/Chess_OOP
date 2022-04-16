@@ -19,15 +19,9 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Model model = new Model();
         View view = new View();
         Controller controller = new Controller(view);
-        Clock clock = new Clock(view, controller);
         view.installController(controller);
-        view.installClock(clock);
-        model.installClock(clock);
-
-
 
         JFrame frame = new JFrame("Chess - Felix");
         frame.setContentPane(view);
@@ -36,6 +30,9 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);
         frame.setVisible(true);
+        BufferedImage icon = Constants.knightB;
+        frame.setIconImage(icon);
+
         frame.addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent componentEvent) {
@@ -57,8 +54,5 @@ public class Main {
 
             }
         });
-
-        BufferedImage icon = Constants.knightB;
-        frame.setIconImage(icon);
     }
 }
