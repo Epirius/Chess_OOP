@@ -32,7 +32,7 @@ public class MoveHistory {
         this.blackPieces = copyPieceList(board.blackPieces);
         this.deadPieces = copyPieceList(board.deadPieces);
 
-        if (clock != null) {
+        if (clock != null && !move.isMinimaxTestMove) {
             this.clock = clock.clone();
             this.clock.setEnabled(false);
         } else {

@@ -43,9 +43,6 @@ public class View extends JComponent {
     private List<Button> hudButtons;
     private List<Button> endScreenButtons;
 
-
-    //TODO MAKE VIEW SCALE WITH WINDOW SIZE
-
     public View() {
         createGame_buttonsList = new ArrayList<>();
         upgradeButtonsWhite = new ArrayList<>();
@@ -58,11 +55,6 @@ public class View extends JComponent {
     public void installController(Controller controller){
         this.controller = controller;
     }
-
-    public void installClock(Clock clock){
-        this.clock = clock;
-    } //TODO DELETE
-
 
     @Override
     public void paintComponent(Graphics g) {
@@ -401,8 +393,12 @@ public class View extends JComponent {
         int blackMins = blackTotal / 60;
         int xPos = getWidth() - Constants.boardOffset + 5;
 
-        g.drawString((blackMins > 0 ? blackMins + ":" : "")  + (blackTotal % 60 < 10 ? "0" : "") + blackTotal % 60, xPos, (getHeight() - 64) / 2 + 10);
-        g.drawString((whiteMins > 0 ? whiteMins + ":" : "")  + (whiteTotal % 60 < 10 ? "0" : "") + whiteTotal % 60, xPos, (getHeight() + 64) / 2);
+        if (!ai.isEnabled() || ai.getTeam() == Team.WHITE) {
+            g.drawString((blackMins > 0 ? blackMins + ":" : "") + (blackTotal % 60 < 10 ? "0" : "") + blackTotal % 60, xPos, (getHeight() - 64) / 2 + 10);
+        }
+        if (!ai.isEnabled() || ai.getTeam() == Team.BLACK) {
+            g.drawString((whiteMins > 0 ? whiteMins + ":" : "") + (whiteTotal % 60 < 10 ? "0" : "") + whiteTotal % 60, xPos, (getHeight() + 64) / 2);
+        }
     }
 
     /**
