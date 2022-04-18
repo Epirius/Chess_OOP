@@ -10,7 +10,7 @@ public final class Constants {
     public static final int boardOffset = 64;
     public static final int displayWidth = 64 * 8 + boardOffset * 2;
     public static final int displayHeight = 64 * 8 + boardOffset * 2;
-    public static int TIME_MINUTES = 3;
+    public static int TIME_MINUTES = 3; //TODO make this a class variable in view, and pass it into the clock when it is created. allow 0 min = disabled clock.
     public static int TIME_ADDED_EACH_MOVE_SECONDS = 2;
 
 
