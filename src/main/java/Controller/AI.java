@@ -5,6 +5,9 @@ import Model.Team;
 import Model.Type;
 import View.IDrawAi;
 
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -12,20 +15,23 @@ import java.util.Random;
 /**
  * @author Felix Kaasa
  */
-public class AI implements IDrawAi {
+public class AI implements IDrawAi, ActionListener {
     private final Controller controller;
     private boolean enabled;
     private final Team AI_TEAM;
     private IAiMovable model;
     private final Random random = new Random();
-    private int AI_SEARCH_DEPTH = 3;
+    private int AI_SEARCH_DEPTH = 4; //TODO CHANGE TO 3
     private final boolean randomAI = false;
+    private Timer timer;
 
 
     public AI(Controller controller, Team team){
         this.controller = controller;
         this.AI_TEAM = team;
         this.enabled = (this.AI_TEAM != null);
+        this.timer = new Timer(500, this);
+        timer.start();
     }
 
     public void installModel(IAiMovable model){ this.model = model;}
@@ -41,8 +47,8 @@ public class AI implements IDrawAi {
         }
 
         List<Move> moves = model.getLegalMoves();
-        //aiMove = moves.get(random.nextInt(moves.size()));
         Move aiMove = getBestMove(moves, model);
+        aiMove.isMinimaxTestMove = false;
         model.doMove(aiMove);
         controller.checkPawnUpgrade(aiMove);
         if (controller.checkIfGameOver()){
@@ -79,7 +85,7 @@ public class AI implements IDrawAi {
         List<Move> possibleBestMoves = new ArrayList<>();
         possibleMoves = preSortMovesList(possibleMoves);
         for (Move move : possibleMoves){
-
+            move.isMinimaxTestMove = true;
             model.doMove(move);
             int value = minimax(depth, model, Integer.MIN_VALUE, Integer.MAX_VALUE, AI_TEAM != Team.WHITE);
             model.undoMove();
@@ -140,6 +146,7 @@ public class AI implements IDrawAi {
         if (maximizingPlayer){
             int value = Integer.MIN_VALUE;
             for (Move move : preSortMovesList(model.getLegalMoves())){
+                move.isMinimaxTestMove = true;
                 model.doMove(move);
                 value = Math.max(value, minimax(depth - 1, model, alpha, beta, false));
                 model.undoMove();
@@ -150,6 +157,7 @@ public class AI implements IDrawAi {
         } else {
             int value = Integer.MAX_VALUE;
             for (Move move : preSortMovesList(model.getLegalMoves())){
+                move.isMinimaxTestMove = true;
                 model.doMove(move);
                 value = Math.min(value, minimax(depth - 1, model, alpha, beta, true));
                 model.undoMove();
@@ -190,5 +198,15 @@ public class AI implements IDrawAi {
         }
 
         return pieceValue + addedValue * teamMultiplier;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        if (!isEnabled()){ return;}
+        if (!isAiTurn()){ return;}
+
+        createMove();
+        timer.setDelay(200);
+
     }
 }

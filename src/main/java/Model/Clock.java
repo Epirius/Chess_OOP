@@ -33,7 +33,7 @@ public class Clock implements ActionListener, Cloneable {
 
     /**
      * this is only to be used for testing
-     * @param TESTING set to true if the clock should be used for testing. (this clock will not work, but for testing it may not need to work)
+     * @param TESTING set to true if the clock should be used for testing. (this clock will not work, but for testing it does not need to work)
      */
     public Clock(boolean TESTING) {
         whiteClock_Seconds = Constants.TIME_MINUTES * 60;
@@ -136,8 +136,8 @@ public class Clock implements ActionListener, Cloneable {
                 controller.setGameState(GameState.TIME_OUT);
             }
         }
-        view.repaint();
         timer.setDelay(1000);
+        view.repaint();
     }
 
     @Override

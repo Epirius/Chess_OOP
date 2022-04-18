@@ -328,7 +328,7 @@ public class Model implements IMovable, IAiMovable, IDrawModel {
 
         updateCastlingLegality(move);
         board.doMove(move);
-        if (this.clock != null) {
+        if (this.clock != null && !move.isMinimaxTestMove) {
             clock.start();
             clock.nextPlayer();
         }

@@ -13,6 +13,7 @@ public class Move {
     public  Move castleRookMove;
     boolean enPassant = false;
     public int enPassantPosition;
+    public boolean isMinimaxTestMove = false;
 
 
 

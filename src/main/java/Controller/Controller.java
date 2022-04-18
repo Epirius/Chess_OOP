@@ -65,13 +65,9 @@ public class Controller extends MouseAdapter implements IDrawController {
                 return;
             }
 
-            //converting the x and y coordinates of the mouse to an int of the square it is over.
             if (gameState == GameState.ACTIVE_GAME) {
                 int square = rawCoordsToSquare(rawX, rawY);
                 handleClicks(square);
-            }
-            if (gameState == GameState.ACTIVE_GAME && ai.isAiTurn()) {
-                ai.createMove();
             }
         }
     }
@@ -83,8 +79,6 @@ public class Controller extends MouseAdapter implements IDrawController {
      */
     private void handleClicks(int clickedSquare){
         if (clickHolder[0] == null){
-
-            // reset clickHandler
             clickHolder[1] = null;
 
             //if the first click is on a friendly piece.
