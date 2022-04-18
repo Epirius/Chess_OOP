@@ -21,7 +21,7 @@ public class AI implements IDrawAi, ActionListener {
     private final Team AI_TEAM;
     private IAiMovable model;
     private final Random random = new Random();
-    private int AI_SEARCH_DEPTH = 4; //TODO CHANGE TO 3
+    private int AI_SEARCH_DEPTH = 3; //TODO CHANGE TO 3
     private final boolean randomAI = false;
     private Timer timer;
 

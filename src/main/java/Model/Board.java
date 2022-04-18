@@ -213,24 +213,22 @@ public class Board implements IBoard{
      * @param moveToLoadIn the MoveHistory that is to be loaded.
      */
     public void loadBoardFromMoveHistory(MoveHistory moveToLoadIn){
-        // Clearing the board of all pieces
         for (Piece piece : whitePieces){ getSquare(piece.getPosition()).removePiece();}
         for (Piece piece : blackPieces){ getSquare(piece.getPosition()).removePiece();}
 
-        // Setting the new pieces to the board
         for (Piece piece : moveToLoadIn.whitePieces){ getSquare(piece.getPosition()).setPiece(piece);}
         for (Piece piece : moveToLoadIn.blackPieces){ getSquare(piece.getPosition()).setPiece(piece);}
 
-        // changing the lists in board to the lists from the MoveHistory
         this.whitePieces = moveToLoadIn.whitePieces;
         this.blackPieces = moveToLoadIn.blackPieces;
         this.deadPieces = moveToLoadIn.deadPieces;
         this.currentPlayer = moveToLoadIn.currentPlayer;
 
-        // setting the time of the clock to the time when the move was made
-        this.clock.setTime(Team.WHITE, moveToLoadIn.clock.getTime(Team.WHITE));
-        this.clock.setTime(Team.BLACK, moveToLoadIn.clock.getTime(Team.BLACK));
-        this.clock.currentPlayer = moveToLoadIn.clock.currentPlayer;
+        if (!moveToLoadIn.move.isMinimaxTestMove) {
+            this.clock.setTime(Team.WHITE, moveToLoadIn.clock.getTime(Team.WHITE));
+            this.clock.setTime(Team.BLACK, moveToLoadIn.clock.getTime(Team.BLACK));
+            this.clock.currentPlayer = moveToLoadIn.clock.currentPlayer;
+        }
 
         MoveHistory.numberOfMoves = moveToLoadIn.moveID - 1;
     }
