@@ -69,7 +69,6 @@ public class imageButton extends Button{
 
         if (e.getButton() == MouseEvent.BUTTON1) {
             if (type != null) {
-                // if the upgradePawn constructor was used
                 view.model.upgradePawn(type);
                 view.controller.setGameState(GameState.ACTIVE_GAME);
                 view.repaint();

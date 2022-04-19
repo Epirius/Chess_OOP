@@ -21,7 +21,7 @@ public class AI implements IDrawAi, ActionListener {
     private final Team AI_TEAM;
     private IAiMovable model;
     private final Random random = new Random();
-    private int AI_SEARCH_DEPTH = 3; //TODO CHANGE TO 3
+    private int AI_SEARCH_DEPTH = 3;
     private final boolean randomAI = false;
     private Timer timer;
 
@@ -50,7 +50,9 @@ public class AI implements IDrawAi, ActionListener {
         Move aiMove = getBestMove(moves, model);
         aiMove.isMinimaxTestMove = false;
         model.doMove(aiMove);
-        controller.checkPawnUpgrade(aiMove);
+        if (controller.checkPawnUpgrade(aiMove)) {
+            controller.setGameState(GameState.UPGRADE_PAWN);
+        }
         if (controller.checkIfGameOver()){
             controller.handleGameOver();
         }
@@ -78,7 +80,7 @@ public class AI implements IDrawAi, ActionListener {
         }
 
         if (model.getAllPieces().size() < 6){
-            AI_SEARCH_DEPTH = 4;
+            AI_SEARCH_DEPTH = 3;
         }
         int depth = AI_SEARCH_DEPTH;
         Integer bestMoveIndex = null;
@@ -204,6 +206,11 @@ public class AI implements IDrawAi, ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         if (!isEnabled()){ return;}
         if (!isAiTurn()){ return;}
+        if (controller.checkPawnUpgrade(model.getLastMove())){
+            if (model.getPiece(model.getLastMove().to).type == Type.PAWN){
+                return;
+            }
+        }
 
         createMove();
         timer.setDelay(200);

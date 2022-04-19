@@ -159,7 +159,9 @@ public class Controller extends MouseAdapter implements IDrawController {
         for (Move legalMove : model.getLegalMoves()){
             if (legalMove.equals(new Move(from, to))){
                 model.doMove(legalMove);
-                checkPawnUpgrade(legalMove);
+                if (checkPawnUpgrade(legalMove)){
+                    this.gameState = GameState.UPGRADE_PAWN;
+                }
                 if (checkIfGameOver()){
                     handleGameOver();
                 }
@@ -170,13 +172,15 @@ public class Controller extends MouseAdapter implements IDrawController {
     }
 
     /**
-     * method to check if a pawn is moving to the last line. if so it will change gameState
+     * method to check if a pawn is moving to the last line.
      * @param move the move that is to be made
+     * @return true if pawn is at the last line, else false
      */
-    protected void checkPawnUpgrade(Move move){
+    protected boolean checkPawnUpgrade(Move move){
         if (model.getPiece(move.to).type.equals(Type.PAWN) && ((move.to >= 56 && move.to < 64) || (move.to <= 7 && move.to >= 0))) {
-            this.gameState = GameState.UPGRADE_PAWN;
+            return true;
         }
+        return false;
     }
 
     /**

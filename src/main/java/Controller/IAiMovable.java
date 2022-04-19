@@ -64,4 +64,10 @@ public interface IAiMovable {
      * @return Team.WHITE or Team.BLACK.
      */
     Team getTeam();
+
+    /**
+     * a method to get the last move from the moveHistoryList
+     * @return Move
+     */
+    Move getLastMove();
 }
