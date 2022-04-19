@@ -29,9 +29,9 @@ Chess by Felix Kaasa
 - display all possible moves for a selected piece.
 - text and image buttons that can execute arbitrary lambda functions when clicked.
 
-## License [<img src="https://img.shields.io/badge/license-MIT-green"/>](https://choosealicense.com/licenses/mit/)
-
-- This project is published under an MIT license 
+## License 
+- [<img src="https://img.shields.io/badge/license-MIT-green"/>](https://choosealicense.com/licenses/mit/)
+ This project is published under an MIT license 
 
 ## Atributes
 - [![CC-BY-4.0](https://licensebuttons.net/l/by-nc/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/) I use GraphicHelperMethods.java which is code i imported from semsteroppgave 1.
