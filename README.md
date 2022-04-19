@@ -4,6 +4,7 @@ The chess pieces are public domain CC0 (https://opengameart.org/content/chess-pi
 I use GraphicHelperMethods.java which is code i imported from semsteroppgave 1.
 
 see "Class Diagram.png" for an overview of the program.
+see this video for a short example of the program running: https://streamable.com/zm6jyp
 
 to run:
 - git pull the project.
@@ -14,11 +15,11 @@ to run:
 
 this program is an implementation of chess with:
 - possibility of playing local multiplayer or against ai.
+- choose which side you want to play as against the ai.
 - an AI that uses minimax with alpha beta pruning.
 - possibility of resizing the screen.
 - possibility of creating a new game after the old one is over.
 - possibility of undoing moves.
-- choose which side you want to play as agains ai.
 - choose how many minutes the clock will start with, and number of seconds that will be added to the clock after a move.
 - display all possible moves for a selected piece.
 - text and image buttons that can execute arbitrary lambda functions when clicked.

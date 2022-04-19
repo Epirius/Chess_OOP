@@ -23,6 +23,7 @@ public class AI implements IDrawAi, ActionListener {
     private final Random random = new Random();
     private int AI_SEARCH_DEPTH = 3;
     private final boolean randomAI = false;
+    private boolean isCreatingMove = false;
     private Timer timer;
 
 
@@ -56,7 +57,7 @@ public class AI implements IDrawAi, ActionListener {
         if (controller.checkIfGameOver()){
             controller.handleGameOver();
         }
-
+        isCreatingMove = false;
     }
 
     @Override
@@ -206,14 +207,15 @@ public class AI implements IDrawAi, ActionListener {
     public void actionPerformed(ActionEvent actionEvent) {
         if (!isEnabled()){ return;}
         if (!isAiTurn()){ return;}
+        if (isCreatingMove){ return;}
         if (controller.checkPawnUpgrade(model.getLastMove())){
             if (model.getPiece(model.getLastMove().to).type == Type.PAWN){
                 return;
             }
         }
 
+        isCreatingMove = true;
         createMove();
         timer.setDelay(200);
-
     }
 }
