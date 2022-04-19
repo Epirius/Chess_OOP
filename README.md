@@ -3,8 +3,8 @@
 The chess pieces are public domain CC0 (https://opengameart.org/content/chess-pieces-and-a-board) that i modified with a white outline.
 I use GraphicHelperMethods.java which is code i imported from semsteroppgave 1.
 
-see "Class Diagram.png" for an overview of the program.
-see this video for a short example of the program running: https://streamable.com/zm6jyp
+- see "Class Diagram.png" for an overview of the program.
+- see this video for a short example of the program running: https://streamable.com/zm6jyp
 
 to run:
 - git pull the project.
