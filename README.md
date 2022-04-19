@@ -33,6 +33,6 @@ Chess by Felix Kaasa
 - [<img src="https://img.shields.io/badge/license-MIT-green"/>](https://choosealicense.com/licenses/mit/)
  This project is published under an MIT license 
 
-## Atributes
+## Attributes
 - [![CC-BY-4.0](https://licensebuttons.net/l/by-nc/4.0/88x31.png)](https://creativecommons.org/licenses/by/4.0/) I use GraphicHelperMethods.java which is code i imported from semsteroppgave 1.
 - [![CC0](https://i.creativecommons.org/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/) [The chess pieces](https://opengameart.org/content/chess-pieces-and-a-board) are public domain CC0  that i modified with a white outline.
