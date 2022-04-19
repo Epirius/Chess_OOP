@@ -24,8 +24,8 @@ public class View extends JComponent {
     protected IDrawModel model;
     protected IDrawAi ai;
     private Clock clock;
-    private int minutesPerSide = Constants.TIME_MINUTES;
-    private int secondsPerMove = Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+    private int minutesPerSide = 3;
+    private int secondsPerMove = 2;
     public final int upgradePawnBoxHeight = 100;
     public final int upgradePawnBoxWidth = 100;
     private GameState previousGameState;
@@ -123,18 +123,16 @@ public class View extends JComponent {
 
         g.setColor(Color.WHITE);
         g.setFont( new Font("SansSerif", Font.BOLD, 60));
-        drawCenteredString(g,"Choose a team:",0,10, getWidth(), 70 + (getHeight() - Constants.displayHeight));
-        g.fillRect(95 + (getWidth() - Constants.displayWidth) / 2,80 + (getHeight() - Constants.displayHeight) / 2, getStringWidth(g, g.getFont(), "Choose a team:"),2);
+        drawCenteredString(g,"Choose a team:",0,10, getWidth(), 70 + (getHeight() - Constants.defaultDisplayHeight));
+        g.fillRect(95 + (getWidth() - Constants.defaultDisplayWidth) / 2,80 + (getHeight() - Constants.defaultDisplayHeight) / 2, getStringWidth(g, g.getFont(), "Choose a team:"),2);
         g.setFont( new Font("SansSerif", Font.BOLD, 30));
-        drawCenteredString(g, "Minutes per side: " + minutesPerSide, 0, 200, getWidth(), 70 + (getHeight() - Constants.displayHeight));
-        g.fillRect(183 + (getWidth() - Constants.displayWidth) / 2,260 + (getHeight() - Constants.displayHeight) / 2, getStringWidth(g, g.getFont(), "Minutes per side: " + minutesPerSide),2);
-        drawCenteredString(g, "Increment in seconds: " + secondsPerMove, 0, 350, getWidth(), 70 + (getHeight() - Constants.displayHeight));
-        g.fillRect(149 + (getWidth() - Constants.displayWidth) / 2,410 + (getHeight() - Constants.displayHeight) / 2, getStringWidth(g, g.getFont(), "Increment in seconds: " + secondsPerMove),2);
+        drawCenteredString(g, "Minutes per side: " + minutesPerSide, 0, 200, getWidth(), 70 + (getHeight() - Constants.defaultDisplayHeight));
+        g.fillRect(183 + (getWidth() - Constants.defaultDisplayWidth) / 2,260 + (getHeight() - Constants.defaultDisplayHeight) / 2, getStringWidth(g, g.getFont(), "Minutes per side: " + minutesPerSide),2);
+        drawCenteredString(g, "Increment in seconds: " + secondsPerMove, 0, 350, getWidth(), 70 + (getHeight() - Constants.defaultDisplayHeight));
+        g.fillRect(149 + (getWidth() - Constants.defaultDisplayWidth) / 2,410 + (getHeight() - Constants.defaultDisplayHeight) / 2, getStringWidth(g, g.getFont(), "Increment in seconds: " + secondsPerMove),2);
     }
 
     private void createGame(){
-        Constants.TIME_ADDED_EACH_MOVE_SECONDS = secondsPerMove;
-        Constants.TIME_MINUTES = minutesPerSide;
         Team aiTeam = null;
         switch (selectTeam){
             case WHITE -> aiTeam = Team.BLACK;
@@ -152,7 +150,7 @@ public class View extends JComponent {
             this.clock.disable();
             this.clock = null;
         }
-        Clock newClock = new Clock(this, (Controller) controller);
+        Clock newClock = new Clock(this, (Controller) controller, minutesPerSide, secondsPerMove);
         this.clock = newClock;
         newModel.installClock(newClock);
         controller.installModel(newModel);
@@ -413,7 +411,7 @@ public class View extends JComponent {
             return buttonList;
         }
 
-        int spacing = (Constants.displayWidth- upgradePawnBoxHeight * 2) / (4 - 1) - upgradePawnBoxWidth;
+        int spacing = (Constants.defaultDisplayWidth - upgradePawnBoxHeight * 2) / (4 - 1) - upgradePawnBoxWidth;
         int numButtons = 4;
 
         List<ViewPiece> upgradePossibilities = new ArrayList<>();
@@ -424,10 +422,10 @@ public class View extends JComponent {
 
         for (int i = 0; i < numButtons; i++) {
             int xPosition = spacing * (i + 1) + upgradePawnBoxHeight * i;
-            int yPosition = (Constants.displayHeight - upgradePawnBoxWidth) / 2;
+            int yPosition = (Constants.defaultDisplayHeight - upgradePawnBoxWidth) / 2;
             buttonList.add(new imageButton(xPosition, yPosition, upgradePawnBoxWidth, upgradePawnBoxHeight, this, upgradePossibilities.get(i).image, upgradePossibilities.get(i).type));
         }
-        if (getWidth() != Constants.displayWidth || getHeight() != Constants.displayHeight){
+        if (getWidth() != Constants.defaultDisplayWidth || getHeight() != Constants.defaultDisplayHeight){
             for (Button button : buttonList) {
                 button.updatePosition =  true;
             }
@@ -447,7 +445,7 @@ public class View extends JComponent {
 
         int yButton = 100;
         int buttonWidth = 70;
-        int center = (Constants.displayWidth - buttonWidth) / 2;
+        int center = (Constants.defaultDisplayWidth - buttonWidth) / 2;
         //CHOOSE TEAM BUTTONS:
         createGame_buttonsList.add(new imageButton(center - 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookW, () -> selectTeam = Team.WHITE));
         createGame_buttonsList.add(new imageButton(center + 2 * buttonWidth, yButton, buttonWidth, 70, this, Constants.rookB, () -> selectTeam = Team.BLACK));
@@ -462,7 +460,7 @@ public class View extends JComponent {
         //CREATE GAME BUTTON:
         createGame_buttonsList.add(new TextButton(center - 55, 530, 150, 40, "Create game", this, () -> createGame()));
 
-        if (getWidth() != Constants.displayWidth || getHeight() != Constants.displayHeight){
+        if (getWidth() != Constants.defaultDisplayWidth || getHeight() != Constants.defaultDisplayHeight){
             for (Button button : createGame_buttonsList) {
                 button.updatePosition =  true;
             }
@@ -483,7 +481,7 @@ public class View extends JComponent {
         int ySize = 50;
 
         // CREATING AN UNDO BUTTON.
-        hudButtons.add(new TextButton(Constants.displayWidth - xSize, Constants.displayHeight - ySize, xSize, ySize, "Undo", this, true, () -> {
+        hudButtons.add(new TextButton(Constants.defaultDisplayWidth - xSize, Constants.defaultDisplayHeight - ySize, xSize, ySize, "Undo", this, true, () -> {
             if (controller.getGameState() != GameState.ACTIVE_GAME){return;}
             boolean aiEnabled = ai.isEnabled();
             if (!aiEnabled){
@@ -499,7 +497,7 @@ public class View extends JComponent {
             }
         }));
 
-        if (getWidth() != Constants.displayWidth || getHeight() != Constants.displayHeight){
+        if (getWidth() != Constants.defaultDisplayWidth || getHeight() != Constants.defaultDisplayHeight){
             for (Button button : hudButtons) {
                 button.updatePosition =  true;
             }
@@ -517,15 +515,15 @@ public class View extends JComponent {
             return endScreenButtons;
         }
 
-        int buttonY = (int) (Constants.displayHeight / 1.6f);
-        int buttonX = Constants.displayWidth / 2;
+        int buttonY = (int) (Constants.defaultDisplayHeight / 1.6f);
+        int buttonX = Constants.defaultDisplayWidth / 2;
         int buttonWidth = 120;
         int buttonHeight = 30;
 
         endScreenButtons.add(new TextButton(buttonX - 30 - buttonWidth, buttonY,buttonWidth,buttonHeight,"main menu", this, () -> controller.setGameState(GameState.MAIN_MENU)));
         endScreenButtons.add(new TextButton(buttonX + 30, buttonY,buttonWidth,buttonHeight, "Quit", this, () -> System.exit(0)));
 
-        if (getWidth() != Constants.displayWidth || getHeight() != Constants.displayHeight){
+        if (getWidth() != Constants.defaultDisplayWidth || getHeight() != Constants.defaultDisplayHeight){
             for (Button button : endScreenButtons) {
                 button.updatePosition =  true;
             }

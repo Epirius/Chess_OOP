@@ -66,8 +66,8 @@ public abstract class Button implements MouseListener {
      * method to update the position of the button if the screen was resized
      */
     private void updateButtonPosition() {
-        int extraScreenWidth = view.getWidth() - Constants.displayWidth;
-        int extraScreenHeight = view.getHeight() - Constants.displayHeight;
+        int extraScreenWidth = view.getWidth() - Constants.defaultDisplayWidth;
+        int extraScreenHeight = view.getHeight() - Constants.defaultDisplayHeight;
 
         if (stickToEdgeOfScreen){
             this.currentXPos = this.xPos + extraScreenWidth;

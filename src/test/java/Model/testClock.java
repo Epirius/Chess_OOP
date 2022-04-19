@@ -13,7 +13,7 @@ public class testClock {
     @Test
     public void testClockSwitchPlayer(){
         View view = new View();
-        Clock clock = new Clock(view, new Controller(view));
+        Clock clock = new Clock(view, new Controller(view), 3, 2);
         Assertions.assertEquals(Team.WHITE, clock.getCurrentPlayer());
         clock.nextPlayer();
         Assertions.assertEquals(Team.BLACK, clock.getCurrentPlayer());

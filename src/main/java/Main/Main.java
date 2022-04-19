@@ -1,8 +1,6 @@
 package Main;
 
 import Controller.Controller;
-import Model.Clock;
-import Model.Model;
 import View.View;
 
 import javax.swing.*;
@@ -25,7 +23,7 @@ public class Main {
 
         JFrame frame = new JFrame("Chess - Felix");
         frame.setContentPane(view);
-        frame.getContentPane().setPreferredSize(new Dimension(Constants.displayWidth, Constants.displayHeight));
+        frame.getContentPane().setPreferredSize(new Dimension(Constants.defaultDisplayWidth, Constants.defaultDisplayHeight));
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true);

@@ -8,25 +8,23 @@ import java.io.IOException;
 public final class Constants {
 
     public static final int boardOffset = 64;
-    public static final int displayWidth = 64 * 8 + boardOffset * 2;
-    public static final int displayHeight = 64 * 8 + boardOffset * 2;
-    public static int TIME_MINUTES = 3; //TODO make this a class variable in view, and pass it into the clock when it is created. allow 0 min = disabled clock.
-    public static int TIME_ADDED_EACH_MOVE_SECONDS = 2;
+    public static final int defaultDisplayWidth = 64 * 8 + boardOffset * 2;
+    public static final int defaultDisplayHeight = 64 * 8 + boardOffset * 2;
 
 
-    public static  BufferedImage pawnW;
-    public static  BufferedImage rookW;
-    public static  BufferedImage knightW;
-    public static  BufferedImage bishopW;
-    public static  BufferedImage queenW;
-    public static  BufferedImage kingW;
-    public static  BufferedImage pawnB;
-    public static  BufferedImage rookB;
-    public static  BufferedImage knightB;
-    public static  BufferedImage bishopB;
-    public static  BufferedImage queenB;
-    public static  BufferedImage kingB;
-    public static  BufferedImage rookWB;
+    public static BufferedImage pawnW;
+    public static BufferedImage rookW;
+    public static BufferedImage knightW;
+    public static BufferedImage bishopW;
+    public static BufferedImage queenW;
+    public static BufferedImage kingW;
+    public static BufferedImage pawnB;
+    public static BufferedImage rookB;
+    public static BufferedImage knightB;
+    public static BufferedImage bishopB;
+    public static BufferedImage queenB;
+    public static BufferedImage kingB;
+    public static BufferedImage rookWB;
 
     static {
         try {

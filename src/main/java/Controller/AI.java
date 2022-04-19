@@ -128,7 +128,7 @@ public class AI implements IDrawAi, ActionListener {
         return possibleMoves;
     }
 
-    //TODO for minimax alog: the algo has to know about pawn upgrading, and check each of the 4 upgrade paths as another branch.
+
     /**
      * method to find the best move
      * @param depth how much further should the algorithm search
@@ -196,7 +196,7 @@ public class AI implements IDrawAi, ActionListener {
         }
 
         if (numberOfTurns > 8 && numberOfTurns < 14) {
-            // TODO add extra points to addedValue for positioning and castling etc..
+            // TODO add extra points to addedValue for positioning and castling etc, to improve the ai
         }
 
         return pieceValue + addedValue * teamMultiplier;

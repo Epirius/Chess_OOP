@@ -17,14 +17,18 @@ public class Clock implements ActionListener, Cloneable {
     private boolean enabled = false;
     private int whiteClock_Seconds;
     private int blackClock_Seconds;
+    private int minutesPerSide;
+    private int secondsPerMove;
     Team currentPlayer;
     private Timer timer;
     private View view;
     private Controller controller;
 
-    public Clock(View view, Controller controller){
-        whiteClock_Seconds = Constants.TIME_MINUTES * 60;
-        blackClock_Seconds = Constants.TIME_MINUTES * 60;
+    public Clock(View view, Controller controller, int minutesPerSide, int secondsPerMove){
+        whiteClock_Seconds = minutesPerSide * 60;
+        blackClock_Seconds = minutesPerSide * 60;
+        this.minutesPerSide = minutesPerSide;
+        this.secondsPerMove = secondsPerMove;
         this.currentPlayer = Team.WHITE;
         timer = new Timer(1000, this);
         this.view = view;
@@ -36,8 +40,8 @@ public class Clock implements ActionListener, Cloneable {
      * @param TESTING set to true if the clock should be used for testing. (this clock will not work, but for testing it does not need to work)
      */
     public Clock(boolean TESTING) {
-        whiteClock_Seconds = Constants.TIME_MINUTES * 60;
-        blackClock_Seconds = Constants.TIME_MINUTES * 60;
+        whiteClock_Seconds = 3 * 60;
+        blackClock_Seconds = 3 * 60;
         this.currentPlayer = Team.WHITE;
         timer = new Timer(1000, this);
         this.view = new View();
@@ -58,11 +62,11 @@ public class Clock implements ActionListener, Cloneable {
      */
     public void nextPlayer(){
         if (currentPlayer == Team.WHITE){
-            whiteClock_Seconds += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
-            if (whiteClock_Seconds > Constants.TIME_MINUTES * 60){ whiteClock_Seconds = Constants.TIME_MINUTES * 60;}
+            whiteClock_Seconds += secondsPerMove;
+            if (whiteClock_Seconds > minutesPerSide * 60){ whiteClock_Seconds = minutesPerSide * 60;}
         } else {
-            blackClock_Seconds += Constants.TIME_ADDED_EACH_MOVE_SECONDS;
-            if (blackClock_Seconds > Constants.TIME_MINUTES * 60){ blackClock_Seconds = Constants.TIME_MINUTES * 60;}
+            blackClock_Seconds += secondsPerMove;
+            if (blackClock_Seconds > minutesPerSide * 60){ blackClock_Seconds = minutesPerSide * 60;}
         }
 
         currentPlayer = (currentPlayer == Team.WHITE ? Team.BLACK : Team.WHITE);
@@ -76,9 +80,9 @@ public class Clock implements ActionListener, Cloneable {
         timer.start();
         enabled = true;
         if (currentPlayer == Team.WHITE) {
-            whiteClock_Seconds -= Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+            whiteClock_Seconds -= secondsPerMove;
         } else {
-            blackClock_Seconds -= Constants.TIME_ADDED_EACH_MOVE_SECONDS;
+            blackClock_Seconds -= secondsPerMove;
         }
     }
 
