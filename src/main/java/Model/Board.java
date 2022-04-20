@@ -197,7 +197,6 @@ public class Board implements IBoard{
      * @param numMoves number of moves back in time to undo (default should be 1)
      */
     public void undoMove(int numMoves){
-        //TODO if i undo after castling, i can no longer castle.
         if (numMoves < 1){ throw new RuntimeException("tried to undo less then 1 move");}
         if (moveHistoryList.size() < numMoves){ return;}
         MoveHistory lastMove = null;

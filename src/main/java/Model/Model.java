@@ -173,7 +173,6 @@ public class Model implements IMovable, IAiMovable, IDrawModel {
                 PinnedPiece pinnedPiece = pinnedPieces.get(pinnedPieces.indexOf(new PinnedPiece(move.from, 0)));
                 if (pinnedPiece.pinnedFrom != move.to){
                     illegalMoves.add(move);
-                    //TODO this may be an illegal move if multiple pieces are pinning this piece.
                 }
             }
 
