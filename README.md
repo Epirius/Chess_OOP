@@ -5,7 +5,7 @@ Chess by Felix Kaasa
 
 - see "Class Diagram.png" for an overview of the program.
 - see this video for a short example of the program running: https://streamable.com/zm6jyp
-- see numbers.png for id nummer to all squares on the chess board (for development)
+- this project is made up of 4650 total lines, of which 3110 are lines of code.
 #
 
  ## Installing
