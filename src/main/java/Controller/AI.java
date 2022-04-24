@@ -43,6 +43,9 @@ public class AI implements IDrawAi, ActionListener {
     @Override
     public void createMove() {
         if (!enabled){return;}
+        if (controller.getGameState() != GameState.ACTIVE_GAME && controller.getGameState() != GameState.UPGRADE_PAWN){
+            return;
+        }
         if (model.getTeam() != AI_TEAM){
             throw new IllegalStateException("The AI is trying to create a move but it is not the AI's turn!");
         }
