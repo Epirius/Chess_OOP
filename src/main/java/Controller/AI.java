@@ -25,6 +25,7 @@ public class AI implements IDrawAi, ActionListener {
     private final boolean randomAI = false;
     private boolean isCreatingMove = false;
     private Timer timer;
+    private boolean testing = false;
 
 
     public AI(Controller controller, Team team){
@@ -33,6 +34,10 @@ public class AI implements IDrawAi, ActionListener {
         this.enabled = (this.AI_TEAM != null);
         this.timer = new Timer(500, this);
         timer.start();
+    }
+
+    public void testingMode(){
+        this.testing = true;
     }
 
     public void installModel(IAiMovable model){ this.model = model;}
@@ -208,6 +213,7 @@ public class AI implements IDrawAi, ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        if (testing){ return;}
         if (!isEnabled()){ return;}
         if (!isAiTurn()){ return;}
         if (isCreatingMove){ return;}
