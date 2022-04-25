@@ -72,6 +72,14 @@ public class Controller extends MouseAdapter implements IDrawController {
         }
     }
 
+    /**
+     * method for testing only
+     * @param clickedSquare square that we simulate clicking
+     */
+    public void testHandleClicks(int clickedSquare){
+        handleClicks(clickedSquare);
+    }
+
 
     /**
      * A method that handles the clicks and convert them into actions.
