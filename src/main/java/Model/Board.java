@@ -223,7 +223,7 @@ public class Board implements IBoard{
         this.deadPieces = moveToLoadIn.deadPieces;
         this.currentPlayer = moveToLoadIn.currentPlayer;
 
-        if (!moveToLoadIn.move.isMinimaxTestMove) {
+        if (!moveToLoadIn.move.isMinimaxTestMove && !this.testing) {
             this.clock.setTime(Team.WHITE, moveToLoadIn.clock.getTime(Team.WHITE));
             this.clock.setTime(Team.BLACK, moveToLoadIn.clock.getTime(Team.BLACK));
             this.clock.currentPlayer = moveToLoadIn.clock.currentPlayer;
