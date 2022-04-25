@@ -79,14 +79,6 @@ public abstract class Button implements MouseListener {
     }
 
     /**
-     * method to get the end corner coordinates for the button
-     * @return int[] with the x and y coordinates
-     */
-    public int[] getEndPosition(){
-        return new int[]{currentXPos + width, currentYPos + height};
-    }
-
-    /**
      * method that checks if the gamestate is currently the same as when the button was created.
      * @return boolean
      */
