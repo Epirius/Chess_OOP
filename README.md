@@ -9,9 +9,12 @@ Chess by Felix Kaasa
 #
 
  ## Installing
- - in a terminal, CD into the folder where the project is to be downloaded.
- - git pull the project.
- - cd into the downloaded project folder
+open a terminal and cd into a folder where you want to download the project, and run the commands:
+
+    git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
+    cd chess_oop
+    
+    
  
  ## Running the program
  - run the Main method in /src/main/java/Main/Main.java
