@@ -28,19 +28,20 @@ public final class Constants {
 
     static {
         try {
-            pawnW = ImageIO.read(new File("./images/pawnW.png"));
-            rookW = ImageIO.read(new File("./images/rookW.png"));
-            knightW = ImageIO.read(new File("./images/knightW.png"));
-            bishopW = ImageIO.read(new File("./images/bishopW.png"));
-            queenW = ImageIO.read(new File("./images/queenW.png"));
-            kingW = ImageIO.read(new File("./images/kingW.png"));
-            pawnB = ImageIO.read(new File("./images/pawnB.png"));
-            rookB = ImageIO.read(new File("./images/rookB.png"));
-            knightB = ImageIO.read(new File("./images/knightB.png"));
-            bishopB = ImageIO.read(new File("./images/bishopB.png"));
-            queenB = ImageIO.read(new File("./images/queenB.png"));
-            kingB = ImageIO.read(new File("./images/kingB.png"));
-            rookWB = ImageIO.read(new File("./images/rookWB.png"));
+            //src/main/resources/images/bishopB.png
+            pawnW = ImageIO.read(new File("./src/main/resources/images/pawnW.png"));
+            rookW = ImageIO.read(new File("./src/main/resources/images/rookW.png"));
+            knightW = ImageIO.read(new File("./src/main/resources/images/knightW.png"));
+            bishopW = ImageIO.read(new File("./src/main/resources/images/bishopW.png"));
+            queenW = ImageIO.read(new File("./src/main/resources/images/queenW.png"));
+            kingW = ImageIO.read(new File("./src/main/resources/images/kingW.png"));
+            pawnB = ImageIO.read(new File("./src/main/resources/images/pawnB.png"));
+            rookB = ImageIO.read(new File("./src/main/resources/images/rookB.png"));
+            knightB = ImageIO.read(new File("./src/main/resources/images/knightB.png"));
+            bishopB = ImageIO.read(new File("./src/main/resources/images/bishopB.png"));
+            queenB = ImageIO.read(new File("./src/main/resources/images/queenB.png"));
+            kingB = ImageIO.read(new File("./src/main/resources/images/kingB.png"));
+            rookWB = ImageIO.read(new File("./src/main/resources/images/rookWB.png"));
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The piece images were not loaded in properly.");
