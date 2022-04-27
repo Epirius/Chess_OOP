@@ -1,6 +1,6 @@
 # Chess_OOP
 
-<img src="/src/resources/kingB.png" align="left" width="128px" height="128px"/>
+<img src="/src/resources/knightB.png" align="left" width="128px" height="128px"/>
 Chess by Felix Kaasa
 
 - see "Class Diagram.png" for an overview of the program.
