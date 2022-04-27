@@ -132,10 +132,10 @@ public class View extends JComponent {
 
     private void createGame(){
         Team aiTeam = null;
-        switch (selectTeam){
-            case WHITE -> aiTeam = Team.BLACK;
-            case BLACK -> aiTeam= Team.WHITE;
-            default -> aiTeam= null;
+        if (selectTeam == Team.WHITE){
+            aiTeam = Team.BLACK;
+        } else if (selectTeam == Team.BLACK){
+            aiTeam= Team.WHITE;
         }
         endScreenButtons.clear();
         MoveHistory.numberOfMoves = 0;
