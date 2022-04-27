@@ -14,7 +14,7 @@ make sure your computer has java 17 runtime (or later) installed ([guide](https:
 there are two options when it comes to installing the program. you can download a compiled jar file, or you can download the source code and compile it yourself.
 
  - Option 1:
-   - download the jar file from [this link](https://git.app.uib.no/Felix.Kaasa/chess_oop/-/blob/998fc004c196130c7ba2a75e02455c25fdad6ed8/oblig2.jar)
+   - download the jar file from [this link](https://git.app.uib.no/Felix.Kaasa/chess_oop/-/blob/766fe9635f1bb9cc26da2330b339920c093ea887/oblig2.jar)
    - open a terminal and cd to the location of the file. (on Windows you can click on the file path in the explorer then type cmd and press enter)
    - on linux computers: right-click on the file, click properties, click on the permissions tab, and make sure "is executable" is selected.
    - then enter the command:
