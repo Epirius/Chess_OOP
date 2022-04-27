@@ -9,7 +9,8 @@ Chess by Felix Kaasa
 #
 
  ## Installing and running the program
-make sure your computer has java 17 runtime (or later) installed ([guide](https://docs.oracle.com/en/java/javase/17/install/overview-jdk-installation.html#GUID-8677A77F-231A-40F7-98B9-1FD0B48C346A))
+make sure your computer has java 17 runtime (or later) installed ([guide](https://docs.oracle.com/en/java/javase/17/install/overview-jdk-installation.html#GUID-8677A77F-231A-40F7-98B9-1FD0B48C346A)).
+
 there are two options when it comes to installing the program. you can download a compiled jar file, or you can download the source code and compile it yourself.
 
  - Option 1:
@@ -22,10 +23,10 @@ there are two options when it comes to installing the program. you can download 
 
  - Option 2:
    - open a terminal and cd into a folder where you want to download the project, and run the commands:
-     ```
-     git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
-     cd chess_oop
-     ```
+   ```
+   git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
+   cd chess_oop
+   ```
 
  - then in an ide run the Main method in /src/main/java/Main/Main.java
 
