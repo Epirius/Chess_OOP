@@ -16,14 +16,16 @@ there are two options when it comes to installing the program. you can download 
    - download the jar file from [this link](https://git.app.uib.no/Felix.Kaasa/chess_oop/-/blob/998fc004c196130c7ba2a75e02455c25fdad6ed8/oblig2.jar)
    - open a terminal and cd to the location of the file. (on windows you can click on the file path in the explorer then type cmd and press enter)
    - then enter the command:
- 
-      java -jar oblig2.jar
+   ```
+   java -jar oblig2.jar
+   ```
 
  - Option 2:
    - open a terminal and cd into a folder where you want to download the project, and run the commands:
-
-      git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
-      cd chess_oop
+     ```
+     git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
+     cd chess_oop
+     ```
 
  - then in an ide run the Main method in /src/main/java/Main/Main.java
 
