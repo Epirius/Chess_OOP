@@ -8,17 +8,24 @@ Chess by Felix Kaasa
 - this project is made up of 4650 total lines, of which 3110 are lines of code.
 #
 
- ## Installing
-open a terminal and cd into a folder where you want to download the project, and run the commands:
+ ## Installing and running the program
+make sure your computer has java 17 runtime (or later) installed ([guide](https://docs.oracle.com/en/java/javase/17/install/overview-jdk-installation.html#GUID-8677A77F-231A-40F7-98B9-1FD0B48C346A))
+there are two options when it comes to installing the program. you can download a compiled jar file, or you can download the source code and compile it yourself.
 
-    git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
-    cd chess_oop
-    
-    
+ - Option 1:
+   - download the jar file from [this link](https://git.app.uib.no/Felix.Kaasa/chess_oop/-/blob/998fc004c196130c7ba2a75e02455c25fdad6ed8/oblig2.jar)
+   - open a terminal and cd to the location of the file. (on windows you can click on the file path in the explorer then type cmd and press enter)
+   - then enter the command:
  
- ## Running the program
- - run the Main method in /src/main/java/Main/Main.java
+      java -jar oblig2.jar
 
+ - Option 2:
+   - open a terminal and cd into a folder where you want to download the project, and run the commands:
+
+      git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
+      cd chess_oop
+
+ - then in an ide run the Main method in /src/main/java/Main/Main.java
 
  ## About this project
  this program is an implementation of chess with:
