@@ -135,7 +135,7 @@ public class View extends JComponent {
         switch (selectTeam){
             case WHITE -> aiTeam = Team.BLACK;
             case BLACK -> aiTeam= Team.WHITE;
-            case null -> aiTeam= null;
+            default -> aiTeam= null;
         }
         endScreenButtons.clear();
         MoveHistory.numberOfMoves = 0;

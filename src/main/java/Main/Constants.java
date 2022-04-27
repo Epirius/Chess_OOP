@@ -1,9 +1,11 @@
 package Main;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public final class Constants {
 
@@ -27,21 +29,21 @@ public final class Constants {
     public static BufferedImage rookWB;
 
     static {
+        ClassLoader classLoader = ClassLoader.getSystemClassLoader();
         try {
-            //src/main/resources/images/bishopB.png
-            pawnW = ImageIO.read(new File("./src/main/resources/images/pawnW.png"));
-            rookW = ImageIO.read(new File("./src/main/resources/images/rookW.png"));
-            knightW = ImageIO.read(new File("./src/main/resources/images/knightW.png"));
-            bishopW = ImageIO.read(new File("./src/main/resources/images/bishopW.png"));
-            queenW = ImageIO.read(new File("./src/main/resources/images/queenW.png"));
-            kingW = ImageIO.read(new File("./src/main/resources/images/kingW.png"));
-            pawnB = ImageIO.read(new File("./src/main/resources/images/pawnB.png"));
-            rookB = ImageIO.read(new File("./src/main/resources/images/rookB.png"));
-            knightB = ImageIO.read(new File("./src/main/resources/images/knightB.png"));
-            bishopB = ImageIO.read(new File("./src/main/resources/images/bishopB.png"));
-            queenB = ImageIO.read(new File("./src/main/resources/images/queenB.png"));
-            kingB = ImageIO.read(new File("./src/main/resources/images/kingB.png"));
-            rookWB = ImageIO.read(new File("./src/main/resources/images/rookWB.png"));
+            pawnW = ImageIO.read(Objects.requireNonNull(classLoader.getResource("pawnW.png")));
+            rookW = ImageIO.read(Objects.requireNonNull(classLoader.getResource("rookW.png")));
+            knightW = ImageIO.read(Objects.requireNonNull(classLoader.getResource("knightW.png")));
+            bishopW = ImageIO.read(Objects.requireNonNull(classLoader.getResource("bishopW.png")));
+            queenW = ImageIO.read(Objects.requireNonNull(classLoader.getResource("queenW.png")));
+            kingW = ImageIO.read(Objects.requireNonNull(classLoader.getResource("kingW.png")));
+            pawnB = ImageIO.read(Objects.requireNonNull(classLoader.getResource("pawnB.png")));
+            rookB = ImageIO.read(Objects.requireNonNull(classLoader.getResource("rookB.png")));
+            knightB = ImageIO.read(Objects.requireNonNull(classLoader.getResource("knightB.png")));
+            bishopB = ImageIO.read(Objects.requireNonNull(classLoader.getResource("bishopB.png")));
+            queenB = ImageIO.read(Objects.requireNonNull(classLoader.getResource("queenB.png")));
+            kingB = ImageIO.read(Objects.requireNonNull(classLoader.getResource("kingB.png")));
+            rookWB = ImageIO.read(Objects.requireNonNull(classLoader.getResource("rookWB.png")));
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("The piece images were not loaded in properly.");
