@@ -15,7 +15,8 @@ there are two options when it comes to installing the program. you can download 
 
  - Option 1:
    - download the jar file from [this link](https://git.app.uib.no/Felix.Kaasa/chess_oop/-/blob/998fc004c196130c7ba2a75e02455c25fdad6ed8/oblig2.jar)
-   - open a terminal and cd to the location of the file. (on windows you can click on the file path in the explorer then type cmd and press enter)
+   - open a terminal and cd to the location of the file. (on Windows you can click on the file path in the explorer then type cmd and press enter)
+   - on linux computers: right-click on the file, click properties, click on the permissions tab, and make sure "is executable" is selected.
    - then enter the command:
    ```
    java -jar oblig2.jar
@@ -28,7 +29,7 @@ there are two options when it comes to installing the program. you can download 
    cd chess_oop
    ```
 
- - then in an ide run the Main method in /src/main/java/Main/Main.java
+ - then in an ide (for example intellij) run the Main method in /src/main/java/Main/Main.java
 
  ## About this project
  this program is an implementation of chess with:
