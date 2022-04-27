@@ -18,6 +18,8 @@ class Model.Clock {
 - boolean enabled
 - int whiteClock_Seconds
 - int blackClock_Seconds
+- int minutesPerSide
+- int secondsPerMove
 ~ Team currentPlayer
 - Timer timer
 - View view
@@ -31,6 +33,7 @@ class Model.Clock {
 + void setTime(Team,int)
 + void actionPerformed(ActionEvent)
 + Clock clone()
++ void disable()
 }
 enum Model.Team {
 +  WHITE
@@ -124,11 +127,12 @@ class Controller.Controller {
 + void installModel(Model)
 + void installAI(AI)
 + void mousePressed(MouseEvent)
++ void testHandleClicks(int)
 - void handleClicks(int)
 - int rawCoordsToSquare(int,int)
 - void updateSelectedLegalMoves(int)
 - void createMove(int,int)
-# void checkPawnUpgrade(Move)
+# boolean checkPawnUpgrade(Move)
 # boolean checkIfGameOver()
 # void handleGameOver()
 + List<Integer> getLegalSquares()
@@ -201,6 +205,10 @@ class Controller.AI {
 - Random random
 - int AI_SEARCH_DEPTH
 - boolean randomAI
+- boolean isCreatingMove
+- Timer timer
+- boolean testing
++ void testingMode()
 + void installModel(IAiMovable)
 + Team getTeam()
 + void createMove()
@@ -212,6 +220,7 @@ class Controller.AI {
 - int minimax(int,IAiMovable,int,int,boolean)
 - boolean isNodeTerminal(IAiMovable)
 - int evaluatePosition(IAiMovable)
++ void actionPerformed(ActionEvent)
 }
 class Model.Move {
 + int from
@@ -220,6 +229,7 @@ class Model.Move {
 + Move castleRookMove
 ~ boolean enPassant
 + int enPassantPosition
++ boolean isMinimaxTestMove
 + boolean isMoveCastle()
 + boolean isEnPassant()
 + int[] getMove()
@@ -229,10 +239,8 @@ class Model.Move {
 }
 class Main.Constants {
 + {static} int boardOffset
-+ {static} int displayWidth
-+ {static} int displayHeight
-+ {static} int TIME_MINUTES
-+ {static} int TIME_ADDED_EACH_MOVE_SECONDS
++ {static} int defaultDisplayWidth
++ {static} int defaultDisplayHeight
 + {static} BufferedImage pawnW
 + {static} BufferedImage rookW
 + {static} BufferedImage knightW
@@ -316,6 +324,7 @@ interface Controller.IAiMovable {
 ~ int getCurrentTurn()
 ~ void upgradePawn(Type)
 ~ Team getTeam()
+~ Move getLastMove()
 }
 class View.View {
 ~ List<Integer> legalSquares
@@ -341,7 +350,6 @@ class View.View {
 - List<Button> hudButtons
 - List<Button> endScreenButtons
 + void installController(Controller)
-+ void installClock(Clock)
 + void paintComponent(Graphics)
 - int[] inverseSquareToCoords(int)
 - void mainMenu(Graphics)
@@ -385,7 +393,6 @@ abstract class View.Button {
 # boolean updatePosition
 + void drawButton(Graphics,Color)
 - void updateButtonPosition()
-+ int[] getEndPosition()
 + boolean isVisible()
 + boolean mouseIsOverButton(int,int)
 }
@@ -436,6 +443,7 @@ View.Button <|-- View.TextButton
 Model.Pieces.Piece <|-- Model.Pieces.King
 Model.Pieces.Piece <|-- Model.Pieces.Bishop
 View.IDrawAi <|.. Controller.AI
+java.awt.event.ActionListener <|.. Controller.AI
 Model.IBoard <|.. Model.Board
 View.JComponent <|-- View.View
 java.awt.event.MouseListener <|.. View.Button
