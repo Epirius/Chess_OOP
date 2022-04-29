@@ -3,9 +3,6 @@ package View;
 import java.awt.*;
 
 public class GraphicHelperMethods {
-    /*
-     * THIS FILE WAS TAKEN FROM SEMESTEROPPGAVE 1, I DID NOT WRITE ANY OF THIS FILE MYSELF.
-     */
 
     /**
      * Find the width of string s in the given font if painted on canvas
