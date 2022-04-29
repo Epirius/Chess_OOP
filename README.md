@@ -15,8 +15,8 @@ there are two options when it comes to installing the program. you can download 
 
  - Option 1:
    - download the jar file from [this link](https://git.app.uib.no/Felix.Kaasa/chess_oop/-/blob/766fe9635f1bb9cc26da2330b339920c093ea887/oblig2.jar)
-   - open a terminal and cd to the location of the file. (on Windows you can click on the file path in the explorer then type cmd and press enter)
    - on linux computers: right-click on the file, click properties, click on the permissions tab, and make sure "is executable" is selected.
+   - open a terminal and cd to the location of the file. (on Windows you can click on the file path in the explorer then type cmd and press enter)
    - then enter the command:
    ```
    java -jar oblig2.jar
