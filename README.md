@@ -28,8 +28,7 @@ there are two options when it comes to installing the program. you can download 
    git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
    cd chess_oop
    ```
-
- - then in an ide (for example intellij) run the Main method in /src/main/java/Main/Main.java
+   - then in an ide (for example intellij) run the Main method in /src/main/java/Main/Main.java
 
  ## About this project
  this program is an implementation of chess with:
