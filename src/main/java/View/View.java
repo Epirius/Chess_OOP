@@ -94,7 +94,7 @@ public class View extends JComponent {
      * @param g graphics
      */
     private void mainMenu(Graphics g){
-        // TODO create a splash screen here
+        // TODO create a splash screen here (currently using createGameScreen as the spalsh screen)
         controller.setGameState(GameState.CREATE_GAME);
     }
 

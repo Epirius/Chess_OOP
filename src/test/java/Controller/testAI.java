@@ -47,7 +47,6 @@ public class testAI {
         model.doMove(new Move(59,38));
         ai.createMove();
         Assertions.assertEquals(new Move(29,38), model.getLastMove());
-        System.out.println(model.getLastMove()); //TODO get the last move to be ai move to capture the queen
 
     }
 
