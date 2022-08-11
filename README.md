@@ -11,24 +11,14 @@ Chess by Felix Kaasa
  ## Installing and running the program
 make sure your computer has java 17 runtime (or later) installed ([guide](https://docs.oracle.com/en/java/javase/17/install/overview-jdk-installation.html#GUID-8677A77F-231A-40F7-98B9-1FD0B48C346A)).
 
-there are two options when it comes to installing the program. you can download a compiled jar file, or you can download the source code and compile it yourself.
-
- - Option 1:
-   - download the jar file from [this link](https://git.app.uib.no/Felix.Kaasa/chess_oop/-/blob/766fe9635f1bb9cc26da2330b339920c093ea887/oblig2.jar)
+installation instructions:
+   - download the latest jar file from [the releases page](https://github.com/Epirius/Chess_OOP/releases/tag/1.0)
    - on linux computers: right-click on the file, click properties, click on the permissions tab, and make sure "is executable" is selected.
    - open a terminal and cd to the location of the file. (on Windows you can click on the file path in the explorer then type cmd and press enter)
    - then enter the command:
    ```
-   java -jar oblig2.jar
+   java -jar Chess.jar
    ```
-
- - Option 2:
-   - open a terminal and cd into a folder where you want to download the project, and run the commands:
-   ```
-   git clone https://git.app.uib.no/Felix.Kaasa/chess_oop.git
-   cd chess_oop
-   ```
-   - then in an ide (for example intellij) run the Main method in /src/main/java/Main/Main.java
 
  ## About this project
  this program is an implementation of chess with:
